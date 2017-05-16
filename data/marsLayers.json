@@ -1,0 +1,15 @@
+[
+  {
+    "category": "Other",
+    "type": "GeoJSON",
+    "name": "Crater",
+    "data": {
+      "type": "crater",
+      "url" : "../data/mars_resolver.json"
+    },
+    "visible": true,
+    "opacity": 100,
+    "pickable": false,
+    "color": "white"
+  }
+]

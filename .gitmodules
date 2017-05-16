@@ -1,0 +1,3 @@
+[submodule "external/Mizar"]
+	path = external/Mizar
+	url = https://github.com/MizarWeb/Mizar.git
