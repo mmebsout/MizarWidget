@@ -537,7 +537,7 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
             init: function (options) {
                 // Set some globals
                 mizarWidgetAPI = options.mizar;
-                globe = mizarWidgetAPI.getScene();
+                globe = mizarWidgetAPI.getContext().globe;
                 navigation = mizarWidgetAPI.getNavigation();
                 isMobile = options.configuration.isMobile;
                 configuration = options.configuration;

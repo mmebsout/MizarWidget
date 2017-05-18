@@ -22,8 +22,8 @@
  * Tool designed to select areas on planet
  */
 
-define(["jquery", "underscore-min", "./ExportToolCore", "./PickingManager", "loadmask"],
-    function ($, _, ExportToolCore, PickingManager) {
+define(["jquery", "underscore-min", "./PickingManager", "loadmask"],
+    function ($, _, PickingManager) {
 
 
         /**
@@ -48,15 +48,15 @@ define(["jquery", "underscore-min", "./ExportToolCore", "./PickingManager", "loa
             '<input id="<%=layer.layerId%>" type="checkbox" class="ui-checkbox"/>' +
             ' <label title="<%=layerDescription%>" ><%=layer.name%></label></div>');
 
-        var self, navigation, selectionTool, layers, availableLayers, mizarWidgetAPI;
+        var self, navigation, selectionTool, layers, availableLayers, mizarWidgetAPI, exportToolCore;
 
         var ExportTool = function (options) {
             // Required options
             mizarWidgetAPI = options.mizar;
             navigation = mizarWidgetAPI.getNavigation();
             self = this;
-
-            ExportToolCore.init(mizarWidgetAPI, options);
+            exportToolCore = mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.ExportTool);
+            exportToolCore.init(mizarWidgetAPI.getMizarAPI(), options);
 
             this.activated = false;
             this.renderContext = mizarWidgetAPI.getRenderContext();
@@ -94,7 +94,7 @@ define(["jquery", "underscore-min", "./ExportToolCore", "./PickingManager", "loa
 
             $('#GlobWebCanvas').css('cursor', 'crosshair');
 
-            mizarWidgetAPI.getMizarAPI().getContextManager().getActivatedContext().hideComponents(["exportContainer"]);
+            mizarWidgetAPI.getContext().hideComponents(["exportContainer"]);
 
             $('#rightTopPopup').append('<p class="zoneToExport">Draw a zone to export</p>');
             $('#rightTopPopup').dialog({
@@ -118,7 +118,7 @@ define(["jquery", "underscore-min", "./ExportToolCore", "./PickingManager", "loa
                 activated: true,
                 onselect: function (coordinates) {
                     $('.cutOutService').slideDown();
-                    availableLayers = ExportToolCore.filterServicesAvailableOnLayers();
+                    availableLayers = exportToolCore.filterServicesAvailableOnLayers();
                     self.displayAvailableServices();
 
                     self.coordinates = coordinates;
@@ -126,7 +126,7 @@ define(["jquery", "underscore-min", "./ExportToolCore", "./PickingManager", "loa
                     // Activate picking events
                     $(self.renderContext.canvas).css('cursor', 'default');
                     $('#GlobWebCanvas').css('cursor', 'default');
-                    $('#exportToolBtn').on('click', self.coordinates, ExportToolCore.exportSelection);
+                    $('#exportToolBtn').on('click', self.coordinates, exportToolCore.exportSelection);
 
                     PickingManager.activate();
                     navigation.start();
@@ -141,7 +141,7 @@ define(["jquery", "underscore-min", "./ExportToolCore", "./PickingManager", "loa
             $(this.renderContext.canvas).css('cursor', 'default');
             $('#GlobWebCanvas').css('cursor', 'default');
 
-            mizarWidgetAPI.getMizarAPI().getContextManager().getActivatedContext().showComponents();
+            mizarWidgetAPI.getContext().showComponents();
 
             $('#rightTopPopup').empty().dialog('close');
 

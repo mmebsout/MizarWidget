@@ -35,7 +35,10 @@ define(["jquery", "underscore-min", "jquery.ui"],
                 return;
             }
 
-            mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).init(options);
+            var measureToolSkyOptions = $.extend({}, options);
+            measureToolSkyOptions['mizar'] = mizarWidgetAPI.getMizarAPI();
+
+            mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).init(measureToolSkyOptions);
 
             this.renderContext = mizarWidgetAPI.getRenderContext();
 

@@ -143,17 +143,17 @@ define(["jquery", "underscore-min",
          * Loads No standard data providers
          */
         var loadNoStandardSkyProviders = function () {
-            var planetProvider = mizarAPI.ProviderFactory.create(mizarAPI.PROVIDER.Planet);
-            var starProvider = mizarAPI.ProviderFactory.create(mizarAPI.PROVIDER.Star);
-            var constellationProvider = mizarAPI.ProviderFactory.create(mizarAPI.PROVIDER.Constellation);
-            mizarAPI.getLayerManager().registerNoStandardDataProvider("planets", planetProvider.loadFiles);
-            mizarAPI.getLayerManager().registerNoStandardDataProvider("constellation", constellationProvider.loadFiles);
-            mizarAPI.getLayerManager().registerNoStandardDataProvider("star", starProvider.loadFiles);
+            var planetProvider = mizarAPI.ProviderFactory.create(Mizar.PROVIDER.Planet);
+            var starProvider = mizarAPI.ProviderFactory.create(Mizar.PROVIDER.Star);
+            var constellationProvider = mizarAPI.ProviderFactory.create(Mizar.PROVIDER.Constellation);
+            mizarAPI.registerNoStandardDataProvider("planets", planetProvider.loadFiles);
+            mizarAPI.registerNoStandardDataProvider("constellation", constellationProvider.loadFiles);
+            mizarAPI.registerNoStandardDataProvider("star", starProvider.loadFiles);
         };
 
         var loadNoStandardPlanetProviders = function () {
-            var craterProvider = mizarAPI.ProviderFactory.create(Constants.PROVIDER.Crater);
-            mizarAPI.getLayerManager().registerNoStandardDataProvider("crater", craterProvider.loadFiles);
+            var craterProvider = mizarAPI.ProviderFactory.create(Mizar.PROVIDER.Crater);
+            mizarAPI.registerNoStandardDataProvider("crater", craterProvider.loadFiles);
         };
 
         /**
@@ -222,7 +222,7 @@ define(["jquery", "underscore-min",
                         console.error(e.message);
                         //return false;
                     }
-                    var planetLayer = mizarAPI.getLayerManager().getLayerByName(additionalLayer.layerName);
+                    var planetLayer = mizarAPI.getLayerByName(additionalLayer.layerName);
                     callbackLayersLoaded(layers, planetLayer);
                     loadAdditionalLayersFromFile(additionalLayersFiles, mizarBaseUrl);
                     $('#loading').hide();
@@ -286,7 +286,7 @@ define(["jquery", "underscore-min",
                 configuration: this.options.configuration
             });
 
-            mizarAPI.getContextManager().createContext(mizarAPI.CONTEXT.Sky, this.options.skyCtx);
+            mizarAPI.createContext(Mizar.CONTEXT.Sky, this.options.skyCtx);
 
             loadNoStandardSkyProviders();
 
@@ -316,7 +316,7 @@ define(["jquery", "underscore-min",
 
             // Add stats
             if (this.options.configuration.stats.visible) {
-                mizarAPI.getContextManager().createStats({
+                mizarAPI.createStats({
                     element: $("#fps"),
                     verbose: this.options.configuration.stats.verbose ? this.options.configuration.stats.verbose : false
                 });
@@ -324,10 +324,10 @@ define(["jquery", "underscore-min",
             }
 
             // Initialize name resolver
-            mizarAPI.getServiceByName(mizarAPI.SERVICE.NameResolver).init(mizarAPI);
+            mizarAPI.getServiceByName(Mizar.SERVICE.NameResolver).init(mizarAPI);
 
             // Initialize reverse name resolver
-            mizarAPI.getServiceByName(mizarAPI.SERVICE.ReverseNameResolver).init(mizarAPI);
+            mizarAPI.getServiceByName(Mizar.SERVICE.ReverseNameResolver).init(mizarAPI);
 
             // UWS services initialization
             UWSManager.init(options);
@@ -336,7 +336,7 @@ define(["jquery", "underscore-min",
             UtilsCore.init(this, options);
 
             // Initialize moc base
-            mizarAPI.getServiceByName(mizarAPI.SERVICE.MocBase).init(this, options);
+            mizarAPI.getServiceByName(Mizar.SERVICE.MocBase).init(this, options);
 
             // Fullscreen mode
             document.addEventListener("keydown", function (event) {
@@ -364,11 +364,11 @@ define(["jquery", "underscore-min",
          * @return {SkyContext} SkyContext
          */
         MizarWidgetAPI.prototype.getContext = function () {
-            return mizarAPI.getContextManager().getActivatedContext();
+            return mizarAPI.getActivatedContext();
         };
 
         MizarWidgetAPI.prototype.getRenderContext = function() {
-            return mizarAPI.getContextManager().getRenderContext();
+            return mizarAPI.getRenderContext();
         };
 
         /**
@@ -378,7 +378,7 @@ define(["jquery", "underscore-min",
          * @return {Sky} Scene
          */
         MizarWidgetAPI.prototype.getScene = function () {
-            return mizarAPI.getContextManager().getScene();
+            return mizarAPI.getActivatedContext().getScene();
         };
 
         /**
@@ -388,19 +388,15 @@ define(["jquery", "underscore-min",
          * @return {AstroNavigation} Navigation
          */
         MizarWidgetAPI.prototype.getNavigation = function () {
-            return mizarAPI.getContextManager().getNavigation();
+            return mizarAPI.getActivatedContext().getNavigation();
         };
 
         MizarWidgetAPI.prototype.getCrs = function () {
-            return mizarAPI.getContextManager().getCrs();
+            return mizarAPI.getCrs();
         };
 
         MizarWidgetAPI.prototype.setCrs = function (coordinateSystem) {
-            mizarAPI.getContextManager().setCrs(coordinateSystem);
-        };
-
-        MizarWidgetAPI.prototype.getLayerManager = function() {
-            return mizarAPI.getLayerManager();
+            mizarAPI.setCrs(coordinateSystem);
         };
         
         MizarWidgetAPI.prototype.subscribeMizar = function (name, callback) {
@@ -416,20 +412,24 @@ define(["jquery", "underscore-min",
         };
 
         MizarWidgetAPI.prototype.subscribeCtx = function (name, callback) {
-            mizarAPI.getContextManager().subscribe(name, callback);
+            mizarAPI.getActivatedContext().subscribe(name, callback);
         };
 
         MizarWidgetAPI.prototype.unsubscribeCtx = function (name, callback) {
-            mizarAPI.getContextManager().unsubscribe(name, callback);
+            mizarAPI.getActivatedContext().unsubscribe(name, callback);
         };
 
         MizarWidgetAPI.prototype.publishCtx = function (name, context) {
-            mizarAPI.getContextManager().publish(name, context);
+            mizarAPI.getActivatedContext().publish(name, context);
         };        
 
 
         MizarWidgetAPI.prototype.refresh = function() {
-            mizarAPI.getContextManager().refresh();
+            mizarAPI.getActivatedContext().refresh();
+        };
+
+        MizarWidgetAPI.prototype.getTileManager = function() {
+            return mizarAPI.getActivatedContext().getTileManager();
         };
         
 
@@ -445,7 +445,7 @@ define(["jquery", "underscore-min",
             if(layerDesc.coordinateSystem) {
                 layerDesc.coordinateSystem = {geoideName: layerDesc.coordinateSystem};
             }
-            return mizarAPI.getLayerManager().addLayer(layerDesc, planetLayer);
+            return mizarAPI.addLayer(layerDesc, planetLayer);
         };
 
 
@@ -453,19 +453,19 @@ define(["jquery", "underscore-min",
             return mizarAPI.getServiceByName(name, options);
         };
 
-        MizarWidgetAPI.prototype.SERVICE = Constants.SERVICE;
+        MizarWidgetAPI.prototype.SERVICE = Mizar.SERVICE;
 
-        MizarWidgetAPI.prototype.LAYER = Constants.LAYER;
+        MizarWidgetAPI.prototype.LAYER = Mizar.LAYER;
 
-        MizarWidgetAPI.prototype.CONTEXT = Constants.CONTEXT;
+        MizarWidgetAPI.prototype.CONTEXT = Mizar.CONTEXT;
 
-        MizarWidgetAPI.prototype.CRS = Constants.CRS;
+        MizarWidgetAPI.prototype.CRS = Mizar.CRS;
         
-        MizarWidgetAPI.prototype.GEOMETRY = Constants.GEOMETRY;
+        MizarWidgetAPI.prototype.GEOMETRY = Mizar.GEOMETRY;
 
-        MizarWidgetAPI.prototype.UTILITY = Constants.UTILITY;
+        MizarWidgetAPI.prototype.UTILITY = Mizar.UTILITY;
 
-        MizarWidgetAPI.prototype.NAVIGATION = Constants.NAVIGATION;
+        MizarWidgetAPI.prototype.NAVIGATION = Mizar.NAVIGATION;
         
         /**
          * Show/hide angle distance GUI
@@ -613,7 +613,7 @@ define(["jquery", "underscore-min",
         };
 
         MizarWidgetAPI.prototype.getMode = function() {
-            return mizarAPI.getContextManager().getMode();
+            return mizarAPI.getActivatedContext().getMode();
         };
 
         /**
@@ -622,8 +622,8 @@ define(["jquery", "underscore-min",
          * @memberof MizarWidgetAPI.prototype
          * @param {Layer} layer the current layer
          */
-        MizarWidgetAPI.prototype.toggleDimension = function (gwLayer) {
-            mizarAPI.getContextManager().toggleDimension();
+        MizarWidgetAPI.prototype.toggleDimension = function (layer) {
+            mizarAPI.toggleDimension();
             this.setAngleDistancePlanetGui(true);
             this.setSwitchTo2D(true);
         };
@@ -646,10 +646,10 @@ define(["jquery", "underscore-min",
                     break;
                 }
             }
-            mizarAPI.getContextManager().toggleContext(gwLayer, ctxOptions, function() {
+            mizarAPI.toggleContext(gwLayer, ctxOptions, function() {
                 self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
                 $('#selectedFeatureDiv').hide();
-                if (mizarAPI.getContextManager().getMode() === mizarAPI.CONTEXT.Sky) {
+                if (mizarAPI.getActivatedContext().getMode() === Mizar.CONTEXT.Sky) {
                     self.setAngleDistancePlanetGui(false);
                     self.setAngleDistanceSkyGui(true);
                     self.setSwitchTo2D(false);
@@ -688,31 +688,31 @@ define(["jquery", "underscore-min",
          * Add layer by drag n drop
          */
         MizarWidgetAPI.prototype.addLayerByDragNDrop = function (name, GeoJson) {
-            var layerID = mizarAPI.getLayerManager().addLayer({
+            var layerID = mizarAPI.addLayer({
                 name: name,
-                type: mizarAPI.LAYER.GeoJSON,
+                type: Mizar.LAYER.GeoJSON,
                 pickable: true,
                 deletable: true,
                 visible:true
             });
-            var layer =  mizarAPI.getLayerManager().getLayerByID(layerID);
+            var layer =  mizarAPI.getLayerByID(layerID);
             layer.addFeatureCollection(GeoJson);
         };
 
         MizarWidgetAPI.prototype.getLayers = function() {
-            return mizarAPI.getLayerManager().getLayers();
+            return mizarAPI.getLayers();
         };
 
         MizarWidgetAPI.prototype.removeLayer = function(layerID) {
-            return mizarAPI.getLayerManager().removeLayer(layerID);
+            return mizarAPI.removeLayer(layerID);
         };
 
         MizarWidgetAPI.prototype.getLayerByName = function(name) {
-            return mizarAPI.getLayerManager().getLayerByName(name);
+            return mizarAPI.getLayerByName(name);
         };
 
         MizarWidgetAPI.prototype.setBackgroundLayer = function(name) {
-            return mizarAPI.getLayerManager().setBackgroundLayer(name);
+            return mizarAPI.setBackgroundLayer(name);
         };
 
         MizarWidgetAPI.prototype.viewPlanet = function(planetName) {

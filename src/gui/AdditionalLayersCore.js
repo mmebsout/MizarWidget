@@ -177,7 +177,7 @@ define(["jquery", "underscore-min", "./dialog/ErrorDialog", "../utils/UtilsCore"
              */
             init: function (m) {
                 mizarWidgetAPI = m;
-                globe = mizarWidgetAPI.getScene();
+                globe = mizarWidgetAPI.getContext().globe;
             },
             generatePointLegend: generatePointLegend,
             generateLineLegend: generateLineLegend,

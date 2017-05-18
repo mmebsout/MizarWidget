@@ -87,7 +87,7 @@ define(["jquery", "underscore-min", "./DynamicImageView", "./PickingManager", ".
                 // Update background options layout
                 updateBackgroundOptions(gwLayer);
                 selectedLayer = gwLayer;
-                if (gwLayer !== mizarWidgetAPI.getScene().baseImagery) {
+                if (gwLayer !== mizarWidgetAPI.getContext().globe.baseImagery) {
                     //LayerManager.setBackgroundSurvey(gwLayer.name);
                     mizarWidgetAPI.setBackgroundLayer(gwLayer.name);
                 }
@@ -124,7 +124,7 @@ define(["jquery", "underscore-min", "./DynamicImageView", "./PickingManager", ".
              */
             init: function (options) {
                 mizarWidgetAPI = options.mizar;
-                sky = mizarWidgetAPI.getScene();
+                sky = mizarWidgetAPI.getContext().globe;
                 parentElement = options.configuration.element;
                 this.updateUI();
 
@@ -309,7 +309,7 @@ define(["jquery", "underscore-min", "./DynamicImageView", "./PickingManager", ".
                     select: function (event, ui) {
                         var index = ui.item.index;
                         var layer = $(this).children().eq(index).data("layer");
-                        if (layer !== mizarWidgetAPI.getScene().baseImagery) {
+                        if (layer !== mizarWidgetAPI.getContext().globe.baseImagery) {
                             mizarWidgetAPI.setBackgroundLayer(layer.name);
                         }
                     }

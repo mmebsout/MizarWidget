@@ -33,7 +33,9 @@ define(["jquery"],
 
         var MollweideViewerCore = mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MollweideViewer);
 
-        MollweideViewerCore.init(options);
+        var mollweideOptions = $.extend({}, options);
+        mollweideOptions['mizar'] = mizarWidgetAPI.getMizarAPI();
+        MollweideViewerCore.init(mollweideOptions);
 
         // Interaction parameters
         var dragging = false;

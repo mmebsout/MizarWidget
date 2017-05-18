@@ -35,11 +35,22 @@ define(["jquery", "jquery.ui"],
                 return;
             }
 
-            mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).init(options);
+
+            var measureToolPlanetOptions = $.extend({}, options);
+            measureToolPlanetOptions['mizar'] = mizarWidgetAPI.getMizarAPI();
+            mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).init(measureToolPlanetOptions);
 
             this.renderContext = mizarWidgetAPI.getRenderContext();
 
             self = this;
+
+            mizarWidgetAPI.subscribeCtx("modifiedCrs", function() {
+                if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).activated) {
+                    self.toggle();
+                }
+            });
+
+
 
             var _handleMouseUp = function (event) {
 
@@ -76,8 +87,8 @@ define(["jquery", "jquery.ui"],
             });
         };
 
-        MeasureToolPlanet.prototype.updateContext = function (pContext) {
-            mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).updateContext(pContext);
+        MeasureToolPlanet.prototype.updateContext = function (mizarWidget) {
+            mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).updateContext(mizarWidget.getMizarAPI());
         };
         /**
          *    Enable/disable the tool

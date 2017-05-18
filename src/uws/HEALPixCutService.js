@@ -87,7 +87,7 @@ define(["jquery", "./UWSManager", "service/Samp", "gui/dialog/ErrorDialog", "../
 
                 $('#HEALPixCutBtn').button().click(function (event) {
 
-                    var astro = UtilsCore.getAstroCoordinatesFromCursorLocation(mizarWidgetAPI.getScene(), mizarWidgetAPI.getNavigation());
+                    var astro = UtilsCore.getAstroCoordinatesFromCursorLocation(mizarWidgetAPI.getContext(), mizarWidgetAPI.getNavigation());
 
                     var parameters = UtilsCore.getHEALPixCutCoordinates(event, mizarWidgetAPI.getScene(), mizarWidgetAPI.getNavigation());
 

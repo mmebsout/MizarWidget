@@ -353,30 +353,30 @@ define(["wcs", "gw/Utils/Constants"],
                 }
             },
 
-            getAstroCoordinatesFromCursorLocation: function (globe, navigation, LHV) {
+            getAstroCoordinatesFromCursorLocation: function (ctx, navigation, LHV) {
                 // Find angle between eye and north
                 var geoEye = [];
-                globe.coordinateSystem.getWorldFrom3D(navigation.center3d, geoEye);
+                ctx.getCoordinateSystem().getWorldFrom3D(navigation.center3d, geoEye);
 
                 if (_.isEmpty(LHV))
                     LHV = [];
 
-                globe.coordinateSystem.getLHVTransform(geoEye, LHV);
+                ctx.getCoordinateSystem().getLHVTransform(geoEye, LHV);
 
-                return globe.coordinateSystem.formatCoordinates([geoEye[0], geoEye[1]]);
+                return ctx.getCoordinateSystem().formatCoordinates([geoEye[0], geoEye[1]]);
             },
 
             /**
              * Get coordinates from cursor position.
              * @param event
-             * @param globe
+             * @param ctx
              * @returns parameter
              */
-            getHEALPixCutCoordinates: function (event, globe, navigation) {
+            getHEALPixCutCoordinates: function (event, ctx, navigation) {
                 // Find RA/Dec of each corner of viewport
-                var coords = [[0, 0], [globe.renderContext.canvas.width, 0], [globe.renderContext.canvas.width, globe.renderContext.canvas.height], [0, globe.renderContext.canvas.height]];
+                var coords = [[0, 0], [ctx.getRenderContext().canvas.width, 0], [ctx.getRenderContext().canvas.width, ctx.getRenderContext().canvas.height], [0, ctx.getRenderContext().canvas.height]];
                 for (var i = 0; i < coords.length; i++) {
-                    var geo = globe.getLonLatFromPixel(coords[i][0], coords[i][1]);
+                    var geo = ctx.getLonLatFromPixel(coords[i][0], coords[i][1]);
                     // Convert to RA/Dec
                     //if (geo[0] < 0) {
                     //    geo[0] += 360;
@@ -393,7 +393,7 @@ define(["wcs", "gw/Utils/Constants"],
                 //
                 //var astro = Utils.formatCoordinates([geoEye[0], geoEye[1]]);
 
-                this.getAstroCoordinatesFromCursorLocation(globe, navigation, LHV);
+                this.getAstroCoordinatesFromCursorLocation(ctx, navigation, LHV);
 
                 var north = [LHV[4], LHV[5], LHV[6]];
                 var cosNorth = vec3.dot(navigation.up, north);
@@ -413,7 +413,7 @@ define(["wcs", "gw/Utils/Constants"],
                 var cdelt2 = parseFloat($('#cdelt2').val());
 
                 // Get choosen layer
-                var healpixLayer = globe.baseImagery;
+                var healpixLayer = ctx.globe.baseImagery;
 
                 if (!context.fileName) {
                     ErrorDialog.open("FITS fileName isn't defined for HealpixCut service<br/>");
