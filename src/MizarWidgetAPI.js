@@ -129,6 +129,9 @@ define(["jquery", "underscore-min",
             // Add surveys
             for (var i = 0; i < layers.length; i++) {
                 var layer = layers[i];
+                if(layer.name === "Mars") {
+                    loadNoStandardPlanetProviders();
+                }
                 var gwLayer = self.addLayer(layer, planetLayer);
                 // Update layer visibility according to options
                 if (options.layerVisibility
@@ -646,6 +649,7 @@ define(["jquery", "underscore-min",
                     break;
                 }
             }
+
             mizarAPI.toggleContext(gwLayer, ctxOptions, function() {
                 self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
                 $('#selectedFeatureDiv').hide();
@@ -673,9 +677,6 @@ define(["jquery", "underscore-min",
                     self.setCategoryGui(true);
                     self.setImageViewerGui(true);
                     self.setExportGui(false);
-                    if(gwLayer.getName() === "Mars") {
-                        loadNoStandardPlanetProviders();
-                    }
                 }
             });
         };
