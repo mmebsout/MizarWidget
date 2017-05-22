@@ -216,7 +216,7 @@ define(["jquery", "underscore-min",
                     isMobile: this.isMobile,
                     mode: mizarWidgetAPI.CONTEXT.Sky
                 });
-            }
+            } 
 
             this.activatedContext.setComponentVisibility("measureSkyContainer", visible);
         };
