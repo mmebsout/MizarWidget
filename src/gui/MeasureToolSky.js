@@ -40,6 +40,17 @@ define(["jquery", "underscore-min", "jquery.ui"],
 
             mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).init(measureToolSkyOptions);
 
+            mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function() {
+                if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).activated) {
+                    self.toggle();
+                }
+            });
+            mizarWidgetAPI.subscribeCtx("modifiedCrs", function() {
+                if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).activated) {
+                    self.toggle();
+                }
+            });
+
             this.renderContext = mizarWidgetAPI.getRenderContext();
 
             self = this;
@@ -76,6 +87,20 @@ define(["jquery", "underscore-min", "jquery.ui"],
                 mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).clear();
             }
             $('#measureSkyInvoker').toggleClass('selected');
+        };
+
+        MeasureToolSky.prototype.remove = function() {
+            mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).remove();
+            mizarWidgetAPI.unsubscribeMizar("mizarMode:toggle", function() {
+                if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).activated) {
+                    self.toggle();
+                }
+            });
+            mizarWidgetAPI.unsubscribeCtx("modifiedCrs", function() {
+                if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).activated) {
+                    self.toggle();
+                }
+            });
         };
 
         return MeasureToolSky;

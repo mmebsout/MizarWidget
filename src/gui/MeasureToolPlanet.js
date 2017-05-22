@@ -35,7 +35,6 @@ define(["jquery", "jquery.ui"],
                 return;
             }
 
-
             var measureToolPlanetOptions = $.extend({}, options);
             measureToolPlanetOptions['mizar'] = mizarWidgetAPI.getMizarAPI();
             mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).init(measureToolPlanetOptions);
@@ -50,6 +49,11 @@ define(["jquery", "jquery.ui"],
                 }
             });
 
+            mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function() {
+                if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).activated) {
+                    self.toggle();
+                }
+            });
 
 
             var _handleMouseUp = function (event) {
@@ -109,6 +113,20 @@ define(["jquery", "jquery.ui"],
                 mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).clear();
             }
             $('#measurePlanetInvoker').toggleClass('selected');
+        };
+
+        MeasureToolPlanet.prototype.remove = function() {
+            mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).remove();
+            mizarWidgetAPI.unsubscribeCtx("modifiedCrs", function() {
+                if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).activated) {
+                    self.toggle();
+                }
+            });
+            mizarWidgetAPI.unsubscribeMizar("mizarMode:toggle", function() {
+                if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).activated) {
+                    self.toggle();
+                }
+            });
         };
 
         /**************************************************************************************************************/
