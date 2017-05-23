@@ -151,13 +151,13 @@ define(["jquery", "underscore-min",
         /**
          *    Activate picking
          */
-        function activate(context) {
-            context.getRenderContext().canvas.addEventListener("mousedown", _handleMouseDown);
-            context.getRenderContext().canvas.addEventListener("mouseup", _handleMouseUp);
+        function activate() {
+            currentContext.getRenderContext().canvas.addEventListener("mousedown", _handleMouseDown);
+            currentContext.getRenderContext().canvas.addEventListener("mouseup", _handleMouseUp);
 
             if (isMobile) {
-                context.getRenderContext().canvas.addEventListener("touchstart", _handleMouseDown);
-                context.getRenderContext().canvas.addEventListener("touchend", _handleMouseUp);
+                currentContext.getRenderContext().canvas.addEventListener("touchstart", _handleMouseDown);
+                currentContext.getRenderContext().canvas.addEventListener("touchend", _handleMouseUp);
             }
 
             // Hide popup and blur selection when pan/zoom or animation
@@ -172,13 +172,13 @@ define(["jquery", "underscore-min",
         /**
          *    Deactivate picking
          */
-        function deactivate(context) {
-            context.getRenderContext().canvas.removeEventListener("mousedown", _handleMouseDown);
-            context.getRenderContext().canvas.removeEventListener("mouseup", _handleMouseUp);
+        function deactivate() {
+            currentContext.getRenderContext().canvas.removeEventListener("mousedown", _handleMouseDown);
+            currentContext.getRenderContext().canvas.removeEventListener("mouseup", _handleMouseUp);
 
             if (isMobile) {
-                context.getRenderContext().canvas.removeEventListener("touchstart", _handleMouseDown);
-                context.getRenderContext().canvas.removeEventListener("touchend", _handleMouseUp);
+                currentContext.getRenderContext().canvas.removeEventListener("touchstart", _handleMouseDown);
+                currentContext.getRenderContext().canvas.removeEventListener("touchend", _handleMouseUp);
             }
 
             // Hide popup and blur selection when pan/zoom or animation
@@ -208,7 +208,7 @@ define(["jquery", "underscore-min",
                 isMobile = configuration.isMobile;
                 pickingManagerCore = mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.PickingManager);
 
-                activate(currentContext);
+                activate();
 
                 mizarWidgetAPI.subscribeMizar("mizarMode:toggle", this.updateContext);
                 mizarWidgetAPI.subscribeCtx("modifiedCrs", this.updateContext);
@@ -230,10 +230,10 @@ define(["jquery", "underscore-min",
              */
             updateContext: function () {
                 if(currentContext)
-                    deactivate(currentContext);
+                    deactivate();
                 currentContext = mizarWidgetAPI.getContext();
                 pickingManagerCore.updateContext(currentContext);
-                activate(currentContext);
+                activate();
             },
 
             /**************************************************************************************************************/
