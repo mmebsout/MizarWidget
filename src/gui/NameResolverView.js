@@ -23,9 +23,9 @@
  */
 define(["jquery", "underscore-min", "../utils/UtilsCore",
         "text!templates/nameResolverResult.html", "jquery.ui", "jquery.once","string"],
-    function ($, _, UtilsCore, 
+    function ($, _, UtilsCore,
               nameResolverResultHTMLTemplate) {
-        
+
         var nameResolverHTML = '<form id="searchForm">\
 				<fieldset>\
 					<div class="searchInputDiv">\
@@ -166,6 +166,18 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
             $clear.fadeIn(animationDuration);
         }
 
+        /**
+         *    Show error message
+         */
+        function _showErrorOutOfBound() {
+            $resolverSearchResult
+                .html("<div class='errorNameResolver'>Bad input parameters (coordinates out of extent)</div>")
+                .fadeIn(0);
+
+            $nameResolver.find("#searchSpinner").fadeOut(animationDuration).end();
+            $clear.fadeIn(animationDuration);
+        }
+
         /**************************************************************************************************************/
 
         /**
@@ -174,7 +186,6 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
         function _submitRequest(event) {
             event.preventDefault();
             $input.blur();
-
             var objectName = $input.val();
 
             if (objectName != $input.attr("value") && objectName != '') {
@@ -183,7 +194,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                     .find('#searchClear').fadeOut(animationDuration);
 
                 $resolverSearchResult.fadeOut(animationDuration);
-                NameResolver.goTo(objectName, _showResults, _showError);
+                NameResolver.goTo(objectName, _showResults, _showError,_showErrorOutOfBound);
             }
             else {
                 $resolverSearchResult.html("Enter object name").fadeIn(animationDuration);
@@ -245,13 +256,19 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
             // Clear search result field when pan
             $('canvas').on('click', _clearResults);
 
+            $('#navigationDiv').on('mousewheel','',_mousewheel);
             $('#searchDiv').find('#resolverSearchResult').on("click", '.nameResolverResult.coordinatesResolverResult', _zoomToResult);
+
             $('#searchDiv').find('#resolverSearchResult').on("click", '.layerResolverResult .nameResolverResult', _selectLayer);
             $nameResolver.find('#searchClear').on('click', _clearInput);
         }
-        
-
         /**************************************************************************************************************/
+        function _mousewheel(event) {
+          var d = $('#navigationDiv');
+          var top = d.scrollTop();
+          var delta = event.originalEvent.deltaY;
+          d.scrollTop( top + delta );
+        }
 
         function _selectLayer(event) {
             var current = $(this).parent();
