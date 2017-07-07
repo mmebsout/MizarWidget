@@ -251,7 +251,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 mizarWidgetAPI.unsubscribeCtx("backgroundLayer:add", BackgroundLayersView.addView);
                 mizarWidgetAPI.unsubscribeCtx("additionalLayer:add", AdditionalLayersView.addView);
                 mizarWidgetAPI.unsubscribeMizar("mizarMode:toggle", this.toggleMode);
-                
+
                 $('canvas').off('dragover', handleDragOver);
                 $('canvas').off('drop', handleDrop);
             },

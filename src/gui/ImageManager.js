@@ -82,8 +82,8 @@ define(["jquery", "./ImageProcessing"],
             /**
              *    Show image
              */
-            showImage: function () {
-                fitsVisu.showImage()
+            showImage: function (featureData) {
+                fitsVisu.showImage(featureData)
             },
 
             /**********************************************************************************************/
@@ -91,8 +91,8 @@ define(["jquery", "./ImageProcessing"],
             /**
              *    Remove image from renderer
              */
-            removeImage: function () {
-                fitsVisu.removeImage()
+            removeImage: function (featureData) {
+                fitsVisu.removeImage(featureData)
             },
 
             /**********************************************************************************************/
@@ -100,8 +100,8 @@ define(["jquery", "./ImageProcessing"],
             /**
              *    Start download of texture
              */
-            addImage: function () {
-                fitsVisu.addImage()
+            addImage: function (featureData) {
+                fitsVisu.addImage(featureData)
             },
 
             computeFits: function () {
