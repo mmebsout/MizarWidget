@@ -262,7 +262,12 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
             $('#searchDiv').find('#resolverSearchResult').on("click", '.layerResolverResult .nameResolverResult', _selectLayer);
             $nameResolver.find('#searchClear').on('click', _clearInput);
         }
+
         /**************************************************************************************************************/
+
+        /**
+         *    Manage mousewheel event to scroll list of name resolver results
+         */
         function _mousewheel(event) {
           var d = $('#navigationDiv');
           var top = d.scrollTop();

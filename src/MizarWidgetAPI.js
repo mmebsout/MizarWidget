@@ -3,7 +3,7 @@
  */
 define(["jquery", "underscore-min",
         "./utils/UtilsCore", "MizarWidgetGui",
-        "./uws/UWSManager", 
+        "./uws/UWSManager",
         "gw/Mizar", "gw/Utils/Constants","./gui/dialog/ErrorDialog","text!templates/mizarCore.html"],
     function ($, _,
               UtilsCore, MizarWidgetGui,
@@ -247,11 +247,15 @@ define(["jquery", "underscore-min",
         function createOptions(configuration) {
             var isMobile = ('ontouchstart' in window || (window.DocumentTouch !== undefined && window.DocumentTouch && document instanceof DocumentTouch));
             var sitoolsBaseUrl = configuration.sitoolsBaseUrl ? configuration.sitoolsBaseUrl : "http://demonstrator.telespazio.com/sitools";
+            /*var proxyUrl = configuration.proxyUrl;
+            var proxyUse = configuation.proxyUse;*/
             var mizarBaseUrl = getMizarUrl();
             options = {};
             $.extend(options, configuration);
             options.global.sitoolsBaseUrl = sitoolsBaseUrl;
-            options.configuration.isMobile = isMobile;
+/*            options.global.proxyUrl = proxyUrl;
+            options.global.proxyUse = proxyUse;
+*/            options.configuration.isMobile = isMobile;
             options.configuration.mizarBaseUrl = getMizarUrl();
             return options;
         }
@@ -401,7 +405,7 @@ define(["jquery", "underscore-min",
         MizarWidgetAPI.prototype.setCrs = function (coordinateSystem) {
             mizarAPI.setCrs(coordinateSystem);
         };
-        
+
         MizarWidgetAPI.prototype.subscribeMizar = function (name, callback) {
             mizarAPI.subscribe(name, callback);
         };
@@ -424,7 +428,7 @@ define(["jquery", "underscore-min",
 
         MizarWidgetAPI.prototype.publishCtx = function (name, context) {
             mizarAPI.getActivatedContext().publish(name, context);
-        };        
+        };
 
 
         MizarWidgetAPI.prototype.refresh = function() {
@@ -434,7 +438,7 @@ define(["jquery", "underscore-min",
         MizarWidgetAPI.prototype.getTileManager = function() {
             return mizarAPI.getActivatedContext().getTileManager();
         };
-        
+
 
         /**
          * Add additional layer(OpenSearch, GeoJSON, HIPS, grid coordinates)
@@ -463,13 +467,13 @@ define(["jquery", "underscore-min",
         MizarWidgetAPI.prototype.CONTEXT = Mizar.CONTEXT;
 
         MizarWidgetAPI.prototype.CRS = Mizar.CRS;
-        
+
         MizarWidgetAPI.prototype.GEOMETRY = Mizar.GEOMETRY;
 
         MizarWidgetAPI.prototype.UTILITY = Mizar.UTILITY;
 
         MizarWidgetAPI.prototype.NAVIGATION = Mizar.NAVIGATION;
-        
+
         /**
          * Show/hide angle distance GUI
          * @function setAngleDistanceSkyGui
@@ -697,6 +701,7 @@ define(["jquery", "underscore-min",
                 visible:true
             });
             var layer =  mizarAPI.getLayerByID(layerID);
+
             layer.addFeatureCollection(GeoJson);
         };
 
