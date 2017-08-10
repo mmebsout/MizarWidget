@@ -175,6 +175,8 @@ require(["./MizarWidget"], function (MizarWidget) {
     var widgetOptions = {
         global : {
             sitoolsBaseUrl: "http://demonstrator.telespazio.com/sitools",
+            proxyUrl : "http://localhost:8080/?url=",
+            proxyUse : true
         },
         configuration : {
             mizarBaseUrl: "http://localhost",
@@ -282,8 +284,6 @@ require(["./MizarWidget"], function (MizarWidget) {
         },
         debug : true,
         //sitoolsBaseUrl: 'http://172.17.0.2/sitools/',//'http://sitools.akka.eu:8080',
-        proxyUrl : "http://localhost:8080/?url=",
-        proxyUse : true,
         hipsServiceUrl: "http://aladin.unistra.fr/hips/globalhipslist?fmt=json&dataproduct_subtype=color",
         backgroundSurveysFiles: ["../data/backgroundSurveys.json"],
         additionalLayersFiles: [{
