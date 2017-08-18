@@ -654,6 +654,15 @@ define(["jquery", "underscore-min",
                 }
             }
 
+            // special case : if in planet context...
+            if (mizarAPI.getActivatedContext().getMode() === Mizar.CONTEXT.Planet ) {
+              // ...if in 2D dimension...
+              if (mizarAPI.getCrs().isFlat()) {
+                // before toogle context, we have to toggle dimension
+                mizarAPI.toggleDimension();
+              }
+            }
+
             mizarAPI.toggleContext(gwLayer, ctxOptions, function() {
                 self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
                 $('#selectedFeatureDiv').hide();

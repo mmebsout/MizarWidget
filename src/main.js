@@ -176,7 +176,7 @@ require(["./MizarWidget"], function (MizarWidget) {
         global : {
             sitoolsBaseUrl: "http://demonstrator.telespazio.com/sitools",
             proxyUrl : "http://localhost:8080/?url=",
-            proxyUse : true
+            proxyUse : false
         },
         configuration : {
             mizarBaseUrl: "http://localhost",
