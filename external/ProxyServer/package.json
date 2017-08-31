@@ -15,8 +15,7 @@
     }
   ],
   "license": "GPL-3.0",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "cors": "^2.8.4",
     "http": "0.0.0",
     "request": "^2.81.0",
