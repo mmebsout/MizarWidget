@@ -1,0 +1,26 @@
+{
+  "name": "ProxyServer",
+  "version": "1.0.0",
+  "description": "Little Proxy",
+  "main": "./proxy.js",
+  "directories": {
+  },
+  "scripts": {
+  },
+  "repository": {
+  },
+  "keywords": [
+  ],
+  "author": "CS",
+  "contributors": [
+    {
+      "name": "Frederic Ligeard (C-S)",
+      "email": "frederic.ligeard@c-s.fr"
+    }
+  ],
+  "license": "GPL-3.0",
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
