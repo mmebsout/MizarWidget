@@ -3,14 +3,10 @@
   "version": "1.0.0",
   "description": "Little Proxy",
   "main": "./proxy.js",
-  "directories": {
-  },
-  "scripts": {
-  },
-  "repository": {
-  },
-  "keywords": [
-  ],
+  "directories": {},
+  "scripts": {},
+  "repository": {},
+  "keywords": [],
   "author": "CS",
   "contributors": [
     {
@@ -19,8 +15,11 @@
     }
   ],
   "license": "GPL-3.0",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
+    "cors": "^2.8.4",
+    "http": "0.0.0",
+    "request": "^2.81.0",
+    "url": "^0.11.0"
   }
 }
