@@ -389,27 +389,6 @@
         "layers": "viking",
         "description": "Red planet",
         "attribution": "Color background provided by <a href=\"http://www.mars.asu.edu/data/\" target=\"_blank\">Mars Dataset</a>"
-      },
-      {
-        "name": "THEMIS",
-        "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
-        "layers": "themis_day_ir_100m",
-        "description": "Thermis",
-        "attribution": "Color background provided by <a href=\"http://www.mars.asu.edu/data/\" target=\"_blank\">Mars Dataset</a>"
-      },
-      {
-        "name": "MOLA",
-        "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
-        "layers": "mola",
-        "format": "image/png",
-        "attribution": "Color background provided by <a href=\"http://www.mars.asu.edu/data/\" target=\"_blank\">Mars Dataset</a>"
-      },
-      {
-        "name": "pyroxene",
-        "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
-        "layers": "tes_High-Ca_Pyroxene",
-        "description": "Pyroxene",
-        "attribution": "Color background provided by <a href=\"http://www.mars.asu.edu/data/\" target=\"_blank\">Mars Dataset</a>"
       }
     ],
     "visible": false

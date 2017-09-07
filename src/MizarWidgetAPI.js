@@ -653,7 +653,6 @@ define(["jquery", "underscore-min",
                     break;
                 }
             }
-
             // special case : if in planet context...
             if (mizarAPI.getActivatedContext().getMode() === Mizar.CONTEXT.Planet ) {
               // ...if in 2D dimension...

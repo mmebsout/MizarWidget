@@ -48,6 +48,7 @@ require.config({
         "loadmask": "../external/loadmask/jquery.loadmask",
         "text": "../node_modules/requirejs-plugins/lib/text",
         "string": "../node_modules/string/dist/string.min",
+        "xmltojson" : "../external/Mizar/node_modules/xmltojson/lib/xmltojson",
 
         // Mizar Core requirements
         "gw": "../external/Mizar/src",
