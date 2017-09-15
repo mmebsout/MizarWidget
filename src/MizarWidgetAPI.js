@@ -4,7 +4,7 @@
 define(["jquery", "underscore-min",
         "./utils/UtilsCore", "MizarWidgetGui",
         "./uws/UWSManager",
-        "gw/Mizar", "gw/Utils/Constants","./gui/dialog/ErrorDialog","text!templates/mizarCore.html"],
+        "gw/Mizar", "gw/Utils/Constants","gw/Gui/dialog/ErrorDialog","text!templates/mizarCore.html"],
     function ($, _,
               UtilsCore, MizarWidgetGui,
               UWSManager,
@@ -355,6 +355,19 @@ define(["jquery", "underscore-min",
                         });
                 }
             });
+            console.log("options",options);
+            if ((options) && (options.global) && (options.global.displayWarning === true)) {
+              ErrorDialog.setDisplayWarning(true);
+              $('#warningButton').on('click', function () {
+                  if (ErrorDialog.isActive() === true) {
+                    ErrorDialog.hide();
+                  } else {
+                    ErrorDialog.view();
+                  }
+              })
+            } else {
+              ErrorDialog.setDisplayWarning(false);
+            }
         };
 
 

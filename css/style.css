@@ -226,6 +226,21 @@ body {
     cursor: pointer;
 }
 
+/*** Warning button ***/
+#warningButton {
+    width: 32px;
+    height: 32px;
+    border: 0px solid black;
+    overflow: hidden;
+    outline: none;
+    display: inline-block;
+    background: url(./images/warning.png) no-repeat;
+    position: relative;
+    left: -20px;
+    pointer-events: auto;
+}
+
+
 /*** Search tool ***/
 #searchInvoker {
     width: 32px;
