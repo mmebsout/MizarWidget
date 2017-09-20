@@ -82,7 +82,6 @@ define(["jquery", "underscore-min", "./DynamicImageView", "./PickingManager", ".
                 $layerDiv.addClass('backgroundLayer_' + nbBackgroundLayers)
                     .attr("data-class", "unknown");
             }
-
             if (gwLayer.isVisible()) {
                 // Update background options layout
                 updateBackgroundOptions(gwLayer);
@@ -92,9 +91,8 @@ define(["jquery", "underscore-min", "./DynamicImageView", "./PickingManager", ".
                     mizarWidgetAPI.setBackgroundLayer(gwLayer.name);
                 }
             }
-
-            $el.find('#backgroundLayersSelect').iconselectmenu("refresh");
             nbBackgroundLayers++;
+
         }
 
         /**************************************************************************************************************/

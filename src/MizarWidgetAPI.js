@@ -355,7 +355,6 @@ define(["jquery", "underscore-min",
                         });
                 }
             });
-            console.log("options",options);
             if ((options) && (options.global) && (options.global.displayWarning === true)) {
               ErrorDialog.setDisplayWarning(true);
               $('#warningButton').on('click', function () {
