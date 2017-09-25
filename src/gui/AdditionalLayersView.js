@@ -249,6 +249,31 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
               return;
             }
             var isOn = gwLayer.isVisible();
+            if (isOn === true) {
+              console.log("Visibility set to on for "+gwLayer.name+" with id="+gwLayer.ID);
+              console.log("Change z-index !");
+              console.log("mizar",mizarWidgetAPI);
+              var layers = mizarWidgetAPI.mizarWidgetGui.activatedContext.layers;
+              var foundIndex = -1;
+              var foundLayer = null;
+              for (var i=0;((i<layers.length) && (foundIndex<0));i++) {
+                if (layers[i].ID === gwLayer.ID) {
+                  foundIndex = i;
+                  foundLayer = layers[i];
+                  console.log("Found id = "+foundLayer.ID+" for i="+foundIndex);
+                }
+              }
+              // Place it at top of array
+              if (foundIndex>=1) {
+                // if foundIndex is zéro, layer is still at top
+                for (var j=(foundIndex-1);j>=0;j--) {
+                  layers[j+1]=layers[j];
+                }
+                layers[0] = foundLayer;
+              }
+
+              console.log("layers",layers);
+            }
             var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
               shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');

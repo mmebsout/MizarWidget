@@ -37,7 +37,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
         var parentElement;
         var $el;
 
-        
+
 
 
         /**
@@ -170,6 +170,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 layer = planetLayer.layers[i];
                 AdditionalLayersView.addView(layer);
             }
+            $el.find('#backgroundLayersSelect').iconselectmenu("refresh");
         }
 
         /**************************************************************************************************************/
