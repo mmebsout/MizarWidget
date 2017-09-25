@@ -21,15 +21,19 @@ function onRequest(req, res) {
 
     var queryData = url.parse(req.url, true).query;
     console.log(d+" Proxify : "+queryData.url);
-    if (queryData.url) {
-        request({
-            url: queryData.url
-        }).on('error', function(e) {
-            console.log("                            ------------> ERROR");
-            res.end(e);
-        }).pipe(res);
-    }
-    else {
-        res.end("no url found");
+    try {
+      if (queryData.url) {
+          request({
+              url: queryData.url
+          }).on('error', function(e) {
+              console.log("                            ------------> ERROR");
+              res.end(e);
+          }).pipe(res);
+      }
+      else {
+          res.end("no url found");
+      }
+    } catch (e) {
+    console.log("Error",e);
     }
 }
