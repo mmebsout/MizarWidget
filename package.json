@@ -7,6 +7,12 @@
     "example": "examples",
     "test": "tests"
   },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    }
+  },
   "scripts": {
     "jsdoc": "jsdoc -c jsdoc.conf",
     "jshint": "jshint -c ./.jshintrc  src/*",
@@ -52,6 +58,9 @@
   "license": "GPL-3.0",
   "dependencies": {
     "jquery": "^3.1.1",
+    "jquery-datetimepicker": "^2.5.4",
+    "jquery-ui": "^1.12.1",
+    "jquery-ui-timepicker-addon": "^1.6.3",
     "requirejs": "^2.3.2",
     "requirejs-plugins": "^1.0.2",
     "string": "^3.3.3",

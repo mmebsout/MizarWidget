@@ -100,6 +100,7 @@ define(["jquery", "service/gui/OpenSearchService", "../service/gui/MocService", 
                     show: {effect: "slideDown", duration: 300}
                 });
 
+                OpenSearchService.init(mizar);
                 MocService.init(mizar);
                 XMatchService.init(mizar, configuration);
                 HEALPixCutService.init(mizar);
@@ -129,9 +130,13 @@ define(["jquery", "service/gui/OpenSearchService", "../service/gui/MocService", 
                 for (var i = 0; i < layer.availableServices.length; i++) {
                     service = getServiceFromConf(layer.availableServices[i]);
                     if (service) {
+                        if (service.addLayer) {
+                          console.log("Add layer",layer);
+                          service.addLayer(layer);
+                        }
+                        console.log("Add Service",service);
                         service.addService(tabs, layer.availableServices[i]);
-                        if (service.addLayer)
-                            service.addLayer(layer);
+                        console.log("service added");
                     }
                     else {
                         // Unrecognized service, remove it

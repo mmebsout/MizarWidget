@@ -27,6 +27,8 @@ require.config({
         "jquery": "../external/jquery/dist/jquery.min",
         "jquery.ui": "../external/jquery-ui/jquery-ui.min",
         "jquery.ui.timepicker": "../external/jquery.ui.timepicker/jquery.ui.timepicker",
+        //"jquery.datetimepicker": "../node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon",
+        "jquery.datetimepicker": "../external/jquery.ui.timepicker/jquery.ui.timepicker",
         "jquery.once": "../external/jquery-once/jquery.once.min",
         "underscore-min": "../external/underscore/underscore",
         "jszip": "../external/jszip/jszip.min",
@@ -171,13 +173,23 @@ require(["./MizarWidget"], function (MizarWidget) {
             "attribution": "HST data provided by <a href=\"http://hst.esac.esa.int\" target=\"_blank\"><img src=\"http://172.17.0.2/sitools/upload/esa.svg\" width='28' height='16'/></a>"
         });
 
+        mizar.addLayer({
+            type: Mizar.LAYER.OpenSearch,
+            afterLoad: function(layer) {
+                mizar.getMizarWidgetGui().refreshCategoryGui();
+
+            },
+            getCapabilities     :"https://peps.cnes.fr/resto/api/collections/S1/describe.xml",
+            availableServices   : [ "OpenSearch" ]
+        });
+
     }
 
     var widgetOptions = {
         global : {
             sitoolsBaseUrl: "http://demonstrator.telespazio.com/sitools",
             proxyUrl : "http://localhost:8080/?url=",
-            proxyUse : true,
+            proxyUse : false,
             displayWarning : true
         },
         configuration : {

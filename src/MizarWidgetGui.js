@@ -356,6 +356,18 @@ define(["jquery", "underscore-min",
         };
 
         /**
+         * refresh layer manager view (when a layer is loaded)
+         * @param visible
+         */
+        //TODO décrire visibles
+        MizarWidgetGui.prototype.refreshCategoryGui = function () {
+              LayerManagerView.remove();
+              LayerManagerView.init(mizarWidgetAPI, $.extend({element: $(mizarDiv).find("#categoryDiv")}, options));
+              this.activatedContext.setComponentVisibility("categoryDiv", true);
+        };
+
+
+        /**
          * Adds/removes image viewer GUI
          * @param visible
          */

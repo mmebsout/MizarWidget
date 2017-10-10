@@ -135,6 +135,12 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
                     primary: "ui-icon-arrowthickstop-1-s"
                 }
             }).end()
+                  .find('.queryOpenSearch').button({
+                  text: false,
+                  icons: {
+                      primary: "ui-icon-arrowrefresh-1-w"
+                  }
+            }).end()
                 .find('.isFits').button().end()
                 .find('.addFitsView').button({
                 text: false,
@@ -250,17 +256,17 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
             }
             var isOn = gwLayer.isVisible();
             if (isOn === true) {
-              console.log("Visibility set to on for "+gwLayer.name+" with id="+gwLayer.ID);
+/*              console.log("Visibility set to on for "+gwLayer.name+" with id="+gwLayer.ID);
               console.log("Change z-index !");
               console.log("mizar",mizarWidgetAPI);
-              var layers = mizarWidgetAPI.mizarWidgetGui.activatedContext.layers;
+  */            var layers = mizarWidgetAPI.mizarWidgetGui.activatedContext.layers;
               var foundIndex = -1;
               var foundLayer = null;
               for (var i=0;((i<layers.length) && (foundIndex<0));i++) {
                 if (layers[i].ID === gwLayer.ID) {
                   foundIndex = i;
                   foundLayer = layers[i];
-                  console.log("Found id = "+foundLayer.ID+" for i="+foundIndex);
+                  //console.log("Found id = "+foundLayer.ID+" for i="+foundIndex);
                 }
               }
               // Place it at top of array
@@ -271,8 +277,6 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
                 }
                 layers[0] = foundLayer;
               }
-
-              console.log("layers",layers);
             }
             var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
@@ -511,6 +515,16 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
         /**************************************************************************************************************/
 
         /**
+         *    Display Open Search Form
+         */
+        function queryOpenSearch() {
+            var layer = $(this).closest(".addLayer").data("layer");
+            alert("Query Open Search!!!");
+        }
+
+        /**************************************************************************************************************/
+
+        /**
          *    Zoom to barycenter of all features contained by layer
          *    (available for GlobWeb.VectorLayers only)
          */
@@ -557,6 +571,7 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
                 .on('click', ".category .layerServices", showLayerServices)
                 .on('click', ".category .exportLayer", exportLayer)
                 .on('click', '.category .downloadAsVO', downloadAsVO)
+                .on('click', '.category .queryOpenSearch', queryOpenSearch)
                 .on("click", ".category .zoomTo", zoomTo)
                 .on('click', '.category .isFits', toggleFits);
         }
@@ -643,6 +658,7 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
                     .off('click', ".category .layerServices", showLayerServices)
                     .off('click', ".category .exportLayer", exportLayer)
                     .off('click', '.category .downloadAsVO', downloadAsVO)
+                    .off('click', '.category .queryOpenSearch', queryOpenSearch)
                     .off("click", ".category .zoomTo", zoomTo)
                     .off('click', '.category .isFits', toggleFits);
 

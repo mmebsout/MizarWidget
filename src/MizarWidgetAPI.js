@@ -4,11 +4,11 @@
 define(["jquery", "underscore-min",
         "./utils/UtilsCore", "MizarWidgetGui",
         "./uws/UWSManager",
-        "gw/Mizar", "gw/Utils/Constants","gw/Gui/dialog/ErrorDialog","text!templates/mizarCore.html"],
+        "gw/Mizar", "gw/Utils/Constants","gw/Gui/dialog/ErrorDialog","text!templates/mizarCore.html","gui/LayerManagerView"],
     function ($, _,
               UtilsCore, MizarWidgetGui,
               UWSManager,
-              Mizar, Constants, ErrorDialog, mizarCoreHTML) {
+              Mizar, Constants, ErrorDialog, mizarCoreHTML,LayerManagerView) {
 
         // private variables.
         var mizarDiv;
