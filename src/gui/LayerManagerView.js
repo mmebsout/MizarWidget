@@ -38,6 +38,8 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
         var $el;
 
 
+
+
         /**
          * Private functions
          */
@@ -134,6 +136,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
          *    Initialize view with layers stored in <LayerManager>
          */
         function initLayers() {
+            var sum=0;
             var layers = mizarWidgetAPI.getLayers();
 
             // Add view depending on category of each layer
@@ -146,6 +149,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                     AdditionalLayersView.addView(layer);
                 }
             }
+            $el.find('#backgroundLayersSelect').iconselectmenu("refresh");
         }
 
         /**************************************************************************************************************/
@@ -166,6 +170,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 layer = planetLayer.layers[i];
                 AdditionalLayersView.addView(layer);
             }
+            $el.find('#backgroundLayersSelect').iconselectmenu("refresh");
         }
 
         /**************************************************************************************************************/

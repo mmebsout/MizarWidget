@@ -194,7 +194,11 @@ define(["wcs", "gw/Utils/Constants"],
              *    Format the given feature identifier to remove special caracters(as ?, [, ], ., etc..) which cannot be used as HTML id's
              */
             formatId: function (id) {
-                return id.replace(/\s{1,}|\.{1,}|\[{1,}|\]{1,}|\({1,}|\){1,}|\~{1,}|\+{1,}|\°{1,}|\-{1,}|\'{1,}|\"{1,}/g, "");
+                if (typeof id === 'string') {
+                  return id.replace(/\s{1,}|\.{1,}|\[{1,}|\]{1,}|\({1,}|\){1,}|\~{1,}|\+{1,}|\°{1,}|\-{1,}|\'{1,}|\"{1,}/g, "");
+                } else {
+                  return id;
+                }
             },
 
             /**
@@ -469,7 +473,7 @@ define(["wcs", "gw/Utils/Constants"],
                 return (obj.type == Constants.LAYER.Moc);
             },
             isHipsCatLayer: function (obj){
-                return (obj.type == Constants.LAYER.HipsCat);  
+                return (obj.type == Constants.LAYER.HipsCat);
             },
             isPlanetLayer: function (obj) {
                 return (obj.type == Constants.LAYER.Planet);

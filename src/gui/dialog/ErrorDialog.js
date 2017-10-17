@@ -31,10 +31,11 @@ define(["jquery", "jquery.ui"], function ($) {
         .appendTo('body')
         .dialog({
             autoOpen: false,
-            resizable: false,
-            draggable: false,
+            resizable: true,
+            draggable: true,
             width: '300px',
             minHeight: 'auto',
+            maxHeight: '300px',
             dialogClass: 'errorBox'
         });
 
@@ -45,6 +46,7 @@ define(["jquery", "jquery.ui"], function ($) {
          *    @param html HTML text
          */
         open: function (html) {
+            console.log("htlml",html);
             $errorDiv
                 .html(html)
                 .dialog("open");

@@ -4,11 +4,11 @@
 define(["jquery", "underscore-min",
         "./utils/UtilsCore", "MizarWidgetGui",
         "./uws/UWSManager",
-        "gw/Mizar", "gw/Utils/Constants","./gui/dialog/ErrorDialog","text!templates/mizarCore.html"],
+        "gw/Mizar", "gw/Utils/Constants","gw/Gui/dialog/ErrorDialog","text!templates/mizarCore.html","gui/LayerManagerView"],
     function ($, _,
               UtilsCore, MizarWidgetGui,
               UWSManager,
-              Mizar, Constants, ErrorDialog, mizarCoreHTML) {
+              Mizar, Constants, ErrorDialog, mizarCoreHTML,LayerManagerView) {
 
         // private variables.
         var mizarDiv;
@@ -247,15 +247,15 @@ define(["jquery", "underscore-min",
         function createOptions(configuration) {
             var isMobile = ('ontouchstart' in window || (window.DocumentTouch !== undefined && window.DocumentTouch && document instanceof DocumentTouch));
             var sitoolsBaseUrl = configuration.sitoolsBaseUrl ? configuration.sitoolsBaseUrl : "http://demonstrator.telespazio.com/sitools";
-            /*var proxyUrl = configuration.proxyUrl;
-            var proxyUse = configuation.proxyUse;*/
+            var proxyUrl = configuration.global.proxyUrl ? configuration.global.proxyUrl : null;
+            var proxyUse = configuration.global.proxyUse ? configuration.global.proxyUse : null;
             var mizarBaseUrl = getMizarUrl();
             options = {};
             $.extend(options, configuration);
             options.global.sitoolsBaseUrl = sitoolsBaseUrl;
-/*            options.global.proxyUrl = proxyUrl;
-            options.global.proxyUse = proxyUse;
-*/            options.configuration.isMobile = isMobile;
+            options.configuration.proxyUrl = proxyUrl;
+            options.configuration.proxyUse = proxyUse;
+            options.configuration.isMobile = isMobile;
             options.configuration.mizarBaseUrl = getMizarUrl();
             return options;
         }
@@ -355,6 +355,18 @@ define(["jquery", "underscore-min",
                         });
                 }
             });
+            if ((options) && (options.global) && (options.global.displayWarning === true)) {
+              ErrorDialog.setDisplayWarning(true);
+              $('#warningButton').on('click', function () {
+                  if (ErrorDialog.isActive() === true) {
+                    ErrorDialog.hide();
+                  } else {
+                    ErrorDialog.view();
+                  }
+              })
+            } else {
+              ErrorDialog.setDisplayWarning(false);
+            }
         };
 
 
@@ -652,6 +664,14 @@ define(["jquery", "underscore-min",
                     ctxOptions = planetLayer;
                     break;
                 }
+            }
+            // special case : if in planet context...
+            if (mizarAPI.getActivatedContext().getMode() === Mizar.CONTEXT.Planet ) {
+              // ...if in 2D dimension...
+              if (mizarAPI.getCrs().isFlat()) {
+                // before toogle context, we have to toggle dimension
+                mizarAPI.toggleDimension();
+              }
             }
 
             mizarAPI.toggleContext(gwLayer, ctxOptions, function() {

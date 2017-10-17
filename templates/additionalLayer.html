@@ -1,5 +1,5 @@
 <div class="ui-widget addLayer" id="addLayer_<%= shortName %>">
-	
+
 	<span id="visible_<%= shortName %>"
           class="<% if (layer.isVisible()) print('ui-state-active'); else print('ui-state-default'); %> ui-corner-all ui-button">
 		<span class="ui-icon <% if (layer.isVisible()) print('ui-icon-check'); else print('ui-icon-empty'); %>"></span>
@@ -40,7 +40,15 @@
         }
         if ( layer.type == "OpenSearch" )
         {
-        %>
+					if ( layer.hasForm )
+        	{
+				%>
+        <a download="">
+            <button class="queryOpenSearch">Query OpenSearch</button>
+        </a>
+				<%
+				}
+				%>
         <button class="exportLayer">Export visible tiles by SAMP</button>
         <a href="" download="">
             <button class="downloadAsVO">Download visible tiles as VOTable</button>

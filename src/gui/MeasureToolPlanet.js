@@ -26,7 +26,7 @@ define(["jquery", "jquery.ui"],
     function ($) {
 
         var mizarWidgetAPI, self;
-        
+
         var MeasureToolPlanet = function (options) {
             // Required options
             mizarWidgetAPI = options.mizar;

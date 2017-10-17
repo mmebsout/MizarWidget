@@ -19,7 +19,7 @@
 
 /**
  * MizarWidgetGui contains the GUI of MizarWidget.
- * 
+ *
  * The GUI of Mizar widget provides the following elements:
  * <ul>
  *     <li>a graphical element to handle the different layer : on/off, opacity</li>
@@ -41,7 +41,7 @@
  *     <li>a graphical element to display error to the user</li>
  *     <li>two services : a sharing service and <a href="http://www.ivoa.net/documents/SAMP/">SAMP</a></li>
  * </ul>
- * 
+ *
  */
 //TODO Faire MollweideViewer pour la Terre
 //TODO faire switch 2D/3D pour le ciel
@@ -216,7 +216,7 @@ define(["jquery", "underscore-min",
                     isMobile: this.isMobile,
                     mode: mizarWidgetAPI.CONTEXT.Sky
                 });
-            } 
+            }
 
             this.activatedContext.setComponentVisibility("measureSkyContainer", visible);
         };
@@ -354,6 +354,18 @@ define(["jquery", "underscore-min",
             //    context.setComponentVisibility("categoryDiv", visible);
             //});
         };
+
+        /**
+         * refresh layer manager view (when a layer is loaded)
+         * @param visible
+         */
+        //TODO décrire visibles
+        MizarWidgetGui.prototype.refreshCategoryGui = function () {
+              LayerManagerView.remove();
+              LayerManagerView.init(mizarWidgetAPI, $.extend({element: $(mizarDiv).find("#categoryDiv")}, options));
+              this.activatedContext.setComponentVisibility("categoryDiv", true);
+        };
+
 
         /**
          * Adds/removes image viewer GUI

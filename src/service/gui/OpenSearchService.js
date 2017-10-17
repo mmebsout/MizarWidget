@@ -21,7 +21,7 @@
 /**
  * OpenSearch service
  */
-define(["jquery", "underscore-min", "text!templates/openSearchService.html", "text!templates/openSearchForm.html", "jquery.ui", "jquery.ui.timepicker"],
+define(["jquery", "underscore-min", "text!templates/openSearchService.html", "text!templates/openSearchForm.html", "jquery.ui", "jquery.datetimepicker"],
     function ($, _, openSearchServiceHTMLTemplate, openSearchFormHTMLTemplate) {
 
         // Template generating the open search service div
@@ -29,6 +29,7 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
 
         // Template generating the form of properties
         var openSearchFormTemplate = _.template(openSearchFormHTMLTemplate);
+
         var layers = [];
 
         /**
@@ -66,12 +67,13 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
                 .find('.openSearchForm')
                 .data("layer", layer)
                 .submit(handleSubmit).end()
-                .find(".datepicker").datetimepicker({
+                .find(".datetimepicker").datetimepicker({
                 showSecond: true,
                 separator: 'T',
                 timeSuffix: 'Z',
+                dateFormat: "yy-mm-dd",
                 timeFormat: 'HH:mm:ss'
-            });
+            })
             $('#openSearchTabs').tabs("refresh");
         }
 
@@ -81,7 +83,9 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
          *    @param layer GlobWeb layer
          */
         function attachForm(layer) {
-            $.ajax({
+            layer.openSearchForm = openSearchFormTemplate({layer: layer,submit:function() {alert('toto');}});
+            handleForm(layer);
+            /*$.ajax({
                 type: "GET",
                 url: layer.serviceUrl,
                 dataType: "xml",
@@ -110,21 +114,27 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
                     $('#osForm_' + layer.id)
                         .html("(" + thrownError.status + ") " + thrownError.statusText + "<br/>For more details, contact administrator.");
                 }
-            });
+            });*/
         }
 
         return {
+            init: function (m) {
+              mizarWidgetAPI = m;
+            },
+
             /**
              *    Add layer to the service
              */
             addLayer: function (layer) {
-                layers.push(layer);
+              layers.push(layer);
 
                 if (!layer.openSearchForm)
                     attachForm(layer);
 
-                $('#openSearchTabs').children(".ui-tabs-nav").append('<li><a href="#osForm_' + layer.id + '">' + layer.name + '</a></li>');
-                $('#openSearchTabs').append('<div id="osForm_' + layer.id + '">' + layer.openSearchForm + '</div>');
+                if ((typeof $("#osForm_" + layer.id).length === "number") && ($("#osForm_" + layer.id).length  === 0)) {
+                  $('#openSearchTabs').children(".ui-tabs-nav").append('<li><a href="#osForm_' + layer.id + '">' + layer.name + '</a></li>');
+                  $('#openSearchTabs').append('<div id="osForm_' + layer.id + '">' + layer.openSearchForm + '</div>');
+                }
                 handleForm(layer);
             },
 
@@ -139,8 +149,9 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
                 }
 
                 var index = $('#openSearchTabs').find('.ui-tabs-nav li[aria-controls="osForm_' + layer.id + '"]').index();
-                $('#openSearchTabs').tabs("remove", index);
-                $('#openSearchTabs').tabs("refresh");
+
+                //$('#openSearchTabs').tabs("remove", index);
+                //$('#openSearchTabs').tabs("refresh");
             },
 
             /**
@@ -149,6 +160,7 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
              *    @param tabs jQueryUI tabs selector
              */
             addService: function (tabs) {
+                if ((typeof $("#OpenSearchService").length === "number") && ($("#OpenSearchService").length  === 0)) {
                 // Append header
                 $('<li style="display: none;"><a href="#OpenSearchService">OpenSearch</a></li>')
                     .appendTo(tabs.children(".ui-tabs-nav"))
@@ -167,12 +179,14 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
                     })
                     .find('.openSearchForm')
                     .submit(handleSubmit).end()
-                    .find('.datepicker').datetimepicker({
+                    .find('.datetimepicker').datetimepicker({
                     showSecond: true,
                     separator: 'T',
                     timeSuffix: 'Z',
+                    dateFormat: "yy-mm-dd",
                     timeFormat: 'HH:mm:ss'
                 });
+              }
 
             },
 
@@ -183,7 +197,7 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
              */
             removeService: function (tabs) {
                 var index = $(this).index();
-                tabs.tabs("remove", index);
+                //tabs.tabs("remove", index);
             }
         }
 

@@ -30,7 +30,7 @@ define(["jquery", "underscore-min", "jquery.ui"],
         var MeasureToolSky = function (options) {
             // Required options
             mizarWidgetAPI = options.mizar;
-            
+
             if( options.mode !== mizarWidgetAPI.CONTEXT.Sky ) {
                 return;
             }

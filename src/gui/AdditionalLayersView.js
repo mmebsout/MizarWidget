@@ -74,8 +74,13 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
          *    Initialize UI of opacity slider for the given layer
          */
         function initializeSlider($layerDiv, gwLayer) {
+            if (typeof gwLayer === 'undefined') {
+              return;
+            }
             var shortName = UtilsCore.formatId(gwLayer.name);
-            shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            if (typeof shortName === 'string') {
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            }
             // Slider initialisation
             $layerDiv.find('#slider_' + shortName).slider({
                 value: gwLayer.getOpacity() * 100,
@@ -130,6 +135,12 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
                     primary: "ui-icon-arrowthickstop-1-s"
                 }
             }).end()
+                  .find('.queryOpenSearch').button({
+                  text: false,
+                  icons: {
+                      primary: "ui-icon-arrowrefresh-1-w"
+                  }
+            }).end()
                 .find('.isFits').button().end()
                 .find('.addFitsView').button({
                 text: false,
@@ -155,7 +166,7 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
             var $canvas = $layerDiv.find('.legend');
             var canvas = $canvas[0];
 
-            if (UtilsCore.isOpenSearchLayer(gwLayer) || UtilsCore.isMocLayer(gwLayer) 
+            if (UtilsCore.isOpenSearchLayer(gwLayer) || UtilsCore.isMocLayer(gwLayer)
                 || UtilsCore.isVectorLayer(gwLayer) || UtilsCore.isGeoJsonLayer(gwLayer) || UtilsCore.isHipsCatLayer(gwLayer)) {
                 if (gwLayer.dataType === mizarWidgetAPI.GEOMETRY.Point) {
                     AdditionalLayersCore.generatePointLegend(gwLayer, canvas, gwLayer.style.iconUrl);
@@ -178,8 +189,13 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
          *    Create dialog to modify contrast/colormap of fits layers
          */
         function createDynamicImageDialog(gwLayer) {
+            if (typeof gwLayer === 'undefined') {
+              return;
+            }
             var shortName = UtilsCore.formatId(gwLayer.name);
-            shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            if (typeof shortName === 'string') {
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            }
             // Supports fits, so create dynamic image view in dialog
             var dialogId = "addFitsViewDialog_" + shortName;
             var $dialog = $('<div id="' + dialogId + '"></div>').appendTo('body').dialog({
@@ -235,9 +251,37 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
          *    TODO: create view object
          */
         function onVisibilityChange(gwLayer) {
+            if (typeof gwLayer === 'undefined') {
+              return;
+            }
             var isOn = gwLayer.isVisible();
+            if (isOn === true) {
+/*              console.log("Visibility set to on for "+gwLayer.name+" with id="+gwLayer.ID);
+              console.log("Change z-index !");
+              console.log("mizar",mizarWidgetAPI);
+  */            var layers = mizarWidgetAPI.mizarWidgetGui.activatedContext.layers;
+              var foundIndex = -1;
+              var foundLayer = null;
+              for (var i=0;((i<layers.length) && (foundIndex<0));i++) {
+                if (layers[i].ID === gwLayer.ID) {
+                  foundIndex = i;
+                  foundLayer = layers[i];
+                  //console.log("Found id = "+foundLayer.ID+" for i="+foundIndex);
+                }
+              }
+              // Place it at top of array
+              if (foundIndex>=1) {
+                // if foundIndex is zéro, layer is still at top
+                for (var j=(foundIndex-1);j>=0;j--) {
+                  layers[j+1]=layers[j];
+                }
+                layers[0] = foundLayer;
+              }
+            }
             var shortName = UtilsCore.formatId(gwLayer.name);
-            shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            if (typeof shortName === 'string') {
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            }
             // Manage 'custom' checkbox
             // jQuery UI button is not sexy enough :)
             // Toggle some classes when the user clicks on the visibility checkbox
@@ -272,8 +316,13 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
          *    Set visibility event handlers
          */
         function manageLayerVisibility($layerDiv, gwLayer, categoryId) {
+            if (typeof gwLayer === 'undefined') {
+              return;
+            }
             var shortName = UtilsCore.formatId(gwLayer.name);
-            shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            if (typeof shortName === 'string') {
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            }
             // Open tools div when the user clicks on the layer label
             var toolsDiv = $layerDiv.find('.layerTools');
             $layerDiv.children('label').click(function () {
@@ -307,8 +356,13 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
          *    Create the Html for addtionnal layer
          */
         function createHtmlForAdditionalLayer(gwLayer, categoryId) {
+            if (typeof gwLayer === 'undefined') {
+              return;
+            }
             var shortName = UtilsCore.formatId(gwLayer.name);
-            shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            if (typeof shortName === 'string') {
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            }
             var layerDiv = AdditionalLayersCore.createHTMLFromTemplate(additionalLayerTemplate, gwLayer, shortName, isMobile);
 
             var $layerDiv = $(layerDiv)
@@ -378,8 +432,13 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
          *    Remove the category if the given layer is the last layer of category
          */
         function removeView(gwLayer) {
+            if (typeof gwLayer === 'undefined') {
+              return;
+            }
             var shortName = UtilsCore.formatId(gwLayer.name);
-            shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            if (typeof shortName === 'string') {
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            }
             var addLayerDiv = $(parentElement).find('#addLayer_' + shortName);
             if (addLayerDiv.parent().children().length === 1) {
                 // Last child to remove -> remove the category
@@ -456,6 +515,16 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
         /**************************************************************************************************************/
 
         /**
+         *    Display Open Search Form
+         */
+        function queryOpenSearch() {
+            var layer = $(this).closest(".addLayer").data("layer");
+            alert("Query Open Search!!!");
+        }
+
+        /**************************************************************************************************************/
+
+        /**
          *    Zoom to barycenter of all features contained by layer
          *    (available for GlobWeb.VectorLayers only)
          */
@@ -502,6 +571,7 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
                 .on('click', ".category .layerServices", showLayerServices)
                 .on('click', ".category .exportLayer", exportLayer)
                 .on('click', '.category .downloadAsVO', downloadAsVO)
+                .on('click', '.category .queryOpenSearch', queryOpenSearch)
                 .on("click", ".category .zoomTo", zoomTo)
                 .on('click', '.category .isFits', toggleFits);
         }
@@ -512,8 +582,13 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
          *    Show spinner on layer loading
          */
         function onLoadStart(layer) {
+            if (typeof layer === 'undefined') {
+              return;
+            }
             var shortName = UtilsCore.formatId(layer.name);
-            shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            if (typeof shortName === 'string') {
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            }
             $('#addLayer_' + shortName).find('.spinner').stop(true, true).fadeIn('fast');
         }
 
@@ -523,8 +598,13 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
          *    Hide spinner when layer is loaded
          */
         function onLoadEnd(layer) {
+            if (typeof layer === 'undefined') {
+              return;
+            }
             var shortName = UtilsCore.formatId(layer.name);
-            shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            if (typeof shortName === 'string') {
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+            }
             $('#addLayer_' + shortName).find('.spinner').fadeOut(500);
         }
 
@@ -578,6 +658,7 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
                     .off('click', ".category .layerServices", showLayerServices)
                     .off('click', ".category .exportLayer", exportLayer)
                     .off('click', '.category .downloadAsVO', downloadAsVO)
+                    .off('click', '.category .queryOpenSearch', queryOpenSearch)
                     .off("click", ".category .zoomTo", zoomTo)
                     .off('click', '.category .isFits', toggleFits);
 
