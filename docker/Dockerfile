@@ -35,7 +35,6 @@ WORKDIR /var/www/html/demo
 
 RUN git clone https://github.com/MizarWeb/MizarWidget \
  && cd MizarWidget \
- && git checkout sprint03 \
  && git submodule init \
  && git submodule update \
  && npm install \
