@@ -135,45 +135,22 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
         /**
          *    Initialize view with layers stored in <LayerManager>
          */
-        function initLayers() {
+        function initLayers(context) {
+            mizarWidgetAPI.getMizarWidgetGui().setUpdatedActivatedContext(context);
             var sum=0;
-            var layers = mizarWidgetAPI.getLayers();
+            var layers = context.getLayers();
 
             // Add view depending on category of each layer
             for (var i = 0; i < layers.length; i++) {
                 var layer = layers[i];
                 if (layer.category === "background") {
                     BackgroundLayersView.addView(layer);
-                }
-                else {
+                } else {
                     AdditionalLayersView.addView(layer);
                 }
             }
             $el.find('#backgroundLayersSelect').iconselectmenu("refresh");
         }
-
-        /**************************************************************************************************************/
-
-        /**
-         *    Init background layer only from the given planet layer
-         */
-        function initPlanetLayer(planetLayer) {
-            var i,layer;
-            // Add planet WMS background layers
-            for (i = 0; i < planetLayer.baseImageries.length; i++) {
-                layer = planetLayer.baseImageries[i];
-                BackgroundLayersView.addView(layer);
-            }
-
-            // Add additional layers stored on the given planet layer
-            for (i = 0; i < planetLayer.layers.length; i++) {
-                layer = planetLayer.layers[i];
-                AdditionalLayersView.addView(layer);
-            }
-            $el.find('#backgroundLayersSelect').iconselectmenu("refresh");
-        }
-
-        /**************************************************************************************************************/
 
         return {
 
@@ -214,7 +191,6 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                     heightStyle: "content"
                 }).show().accordion("refresh");
 
-                initLayers();
                 LayerServiceView.init(mizarWidgetAPI, configuration);
 
                 // Setup the drag & drop listeners.
@@ -272,15 +248,9 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 AdditionalLayersView.remove();
                 BackgroundLayersView.init({mizar: mizarWidgetAPI, configuration: configuration});
                 AdditionalLayersView.init({mizar: mizarWidgetAPI, configuration: configuration});
-                if (mizarWidgetAPI.getMode() === mizarWidgetAPI.CONTEXT.Sky) {
-                    // Reinit background&additional views
-                    initLayers();
-                }
-                else {
-                    // Reinit only background layers view for the given planet layer
-                    //initPlanetLayer(context.planetLayer);
-                    initLayers();
-                }
+                initLayers(context);
+                mizarWidgetAPI.subscribeCtx("backgroundLayer:add", BackgroundLayersView.addView);
+                mizarWidgetAPI.subscribeCtx("additionalLayer:add", AdditionalLayersView.addView);
                 $el.accordion("option", "active", 0).accordion("refresh");
             },
 

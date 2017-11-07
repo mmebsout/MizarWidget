@@ -68,30 +68,35 @@ define(["jquery", "underscore-min", "./DynamicImageView", "./PickingManager", ".
          *    Create the Html for the given background layer
          */
         function createHtmlForBackgroundLayer(gwLayer) {
-            // Add HTML
-            var $layerDiv = $('<option ' + (gwLayer.isVisible() ? "selected" : "") + '>' + gwLayer.name + '</option>')
-                .appendTo($el.find('#backgroundLayersSelect'))
-                .data("layer", gwLayer);
+            if(gwLayer.type === "WCSElevation" || gwLayer.type === "WMSElevation") {
+                // skip it, we do not want to see it in the client
+            } else {
+                // Add HTML
+                var $layerDiv = $('<option ' + (gwLayer.isVisible() ? "selected" : "") + '>' + gwLayer.name + '</option>')
+                    .appendTo($el.find('#backgroundLayersSelect'))
+                    .data("layer", gwLayer);
 
-            if (gwLayer.icon) {
-                $layerDiv.addClass('backgroundLayer_' + nbBackgroundLayers)
-                    .attr("data-style", "background-image: url(" + gwLayer.icon + ")");
-            }
-            else {
-                // Use default style for icon
-                $layerDiv.addClass('backgroundLayer_' + nbBackgroundLayers)
-                    .attr("data-class", "unknown");
-            }
-            if (gwLayer.isVisible()) {
-                // Update background options layout
-                updateBackgroundOptions(gwLayer);
-                selectedLayer = gwLayer;
-                if (gwLayer !== mizarWidgetAPI.getContext().globe.baseImagery) {
-                    //LayerManager.setBackgroundSurvey(gwLayer.name);
-                    mizarWidgetAPI.setBackgroundLayer(gwLayer.name);
+                if (gwLayer.icon) {
+                    $layerDiv.addClass('backgroundLayer_' + nbBackgroundLayers)
+                        .attr("data-style", "background-image: url(" + gwLayer.icon + ")");
                 }
+                else {
+                    // Use default style for icon
+                    $layerDiv.addClass('backgroundLayer_' + nbBackgroundLayers)
+                        .attr("data-class", "unknown");
+                }
+                //if (gwLayer.isVisible()) {
+                //    // Update background options layout
+                //    updateBackgroundOptions(gwLayer);
+                //    selectedLayer = gwLayer;
+                //    if (gwLayer !== mizarWidgetAPI.getContext().globe.baseImagery) {
+                //        //LayerManager.setBackgroundSurvey(gwLayer.name);
+                //        mizarWidgetAPI.setBackgroundLayer(gwLayer.name);
+                //    }
+                //}
+                $el.find('#backgroundLayersSelect').iconselectmenu("refresh");
+                nbBackgroundLayers++;
             }
-            nbBackgroundLayers++;
 
         }
 
@@ -204,7 +209,7 @@ define(["jquery", "underscore-min", "./DynamicImageView", "./PickingManager", ".
 
                 if (mizarWidgetAPI.getMode() === mizarWidgetAPI.CONTEXT.Planet && !mizarWidgetAPI.getCrs().isFlat()) {
                     $el.find('.backToSky').button().click(function (event) {
-                        mizarWidgetAPI.toggleContext();
+                        mizarWidgetAPI.toggleToSky();
                     });
                     $el.find("#backgroundOptions").hide();
                 } else if (mizarWidgetAPI.getMode() === mizarWidgetAPI.CONTEXT.Planet && mizarWidgetAPI.getCrs().isFlat()) {

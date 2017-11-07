@@ -54,7 +54,7 @@ define(["./MizarWidgetAPI"], function (MizarWidgetAPI) {
     /**
      * Returns the wrapper between mizarWidget and the mizarWidgetAPI
      * @function getMizarGlobal
-     * @memberof MizarWidget.prototype
+     * @memberOf MizarWidget.prototype
      * @return {MizarGlobal|*}
      */
     MizarWidget.prototype.getMizarWidgetAPI = function () {

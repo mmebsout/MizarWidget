@@ -390,39 +390,43 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
          *    Create HTML for the given layer
          */
         function addView(gwLayer) {
-            var category = gwLayer.category;
-            // Other as default
-            if (!category) {
-                category = 'Other';
-            }
-
-            // Create new category if doesn't exists
-            var categoryId;
-            if (!categories[category]) {
-                categoryId = UtilsCore.formatId(category);
-                $('<div class="category"><h3>' + category + '</h3>\
-			<div id="' + categoryId + '"></div></div>')
-                    .insertBefore($('#otherLayers').parent());
-
-                categories[category] = categoryId;
-
-                // Refresh accordion
-                $(parentElement).accordion("refresh");
-                // Add scroll to the new category
-                initNiceScroll(categoryId);
-            }
-            else {
-                categoryId = categories[category];
-                // If it's the first added layer, show the category
-                if ($('#' + categoryId + " .addLayer").length === 0) {
-                    $('#' + categoryId).closest(".category").show();
+            if(gwLayer.type === "WCSElevation" || gwLayer.type === "WMSElevation") {
+                // skip it
+            } else {
+                var category = gwLayer.category;
+                // Other as default
+                if (!category) {
+                    category = 'Other';
                 }
+
+                // Create new category if doesn't exists
+                var categoryId;
+                if (!categories[category]) {
+                    categoryId = UtilsCore.formatId(category);
+                    $('<div class="category"><h3>' + category + '</h3>\
+			<div id="' + categoryId + '"></div></div>')
+                        .insertBefore($('#otherLayers').parent());
+
+                    categories[category] = categoryId;
+
+                    // Refresh accordion
+                    $(parentElement).accordion("refresh");
+                    // Add scroll to the new category
+                    initNiceScroll(categoryId);
+                }
+                else {
+                    categoryId = categories[category];
+                    // If it's the first added layer, show the category
+                    if ($('#' + categoryId + " .addLayer").length === 0) {
+                        $('#' + categoryId).closest(".category").show();
+                    }
+                }
+
+                // Add HTML
+                createHtmlForAdditionalLayer(gwLayer, categoryId);
+
+                gwLayer.subscribe("visibility:changed", onVisibilityChange);
             }
-
-            // Add HTML
-            createHtmlForAdditionalLayer(gwLayer, categoryId);
-
-            gwLayer.subscribe("visibility:changed", onVisibilityChange);
         }
 
         /**************************************************************************************************************/

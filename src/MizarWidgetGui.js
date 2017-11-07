@@ -98,17 +98,17 @@ define(["jquery", "underscore-min",
          */
         //TODO décrire div et global options
         var MizarWidgetGui = function (div, globalOptions) {
-            if (!globalOptions.options.configuration.guiActivated) {
+            if (!globalOptions.options.gui) {
                 return;
             }
             mizarDiv = div;
-            this.mode = globalOptions.options.configuration.mode;
+            this.mode = _.find(globalOptions.options.ctx, function(obj) { return obj.name === globalOptions.options.defaultCtx });
 
             options = globalOptions.options;
 
             mizarWidgetAPI = globalOptions.mizarWidgetAPI;
 
-            this.isMobile = globalOptions.options.configuration.isMobile;
+            this.isMobile = globalOptions.options.gui.isMobile;
 
             this.activatedContext = mizarWidgetAPI.getContext();
 
@@ -296,7 +296,7 @@ define(["jquery", "underscore-min",
                 // Mollweide viewer lazy initialization
                 this.mollweideViewer = new MollweideViewer({
                     mizar: mizarWidgetAPI,
-                    mizarBaseUrl: options.configuration.mizarBaseUrl
+                    mizarBaseUrl: options.global.mizarBaseUrl
                 });
             }
             this.activatedContext.setComponentVisibility("2dMapContainer", visible);

@@ -87,12 +87,14 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
                 var button = $('#goToMarsBtn');
 
                 button.button().once().click(function () {
-                    var marsLayer = mizarWidgetAPI.getLayerByName("Mars");
-                    if (marsLayer !== undefined) {
-                        mizarWidgetAPI.toggleContext(marsLayer);
-                        //mizarWidgetAPI.toggleContext(marsLayer, configuration.options);
-                        $('#selectedFeatureDiv').hide();
-                    }
+                    mizarWidgetAPI.createMarsContext();
+                    $('#selectedFeatureDiv').hide();
+                    //var marsLayer = mizarWidgetAPI.getLayerByName("Mars");
+                    //if (marsLayer !== undefined) {
+                    //    mizarWidgetAPI.toggleContext(marsLayer);
+                    //    //mizarWidgetAPI.toggleContext(marsLayer, configuration.options);
+                    //    $('#selectedFeatureDiv').hide();
+                    //}
                 });
             }
         }

@@ -50,7 +50,7 @@ require.config({
         "loadmask": "../external/loadmask/jquery.loadmask",
         "text": "../node_modules/requirejs-plugins/lib/text",
         "string": "../node_modules/string/dist/string.min",
-        "xmltojson" : "../external/Mizar/node_modules/xmltojson/lib/xmlToJSON.min",
+        "xmltojson": "../external/Mizar/node_modules/xmltojson/lib/xmlToJSON.min",
 
         // Mizar Core requirements
         "gw": "../external/Mizar/src",
@@ -140,180 +140,63 @@ require(["./MizarWidget"], function (MizarWidget) {
             mizar.setImageViewerGui(true);
             mizar.setExportGui(false);
         }
-
-        var atmosMarsLayer = {
-            "category": "Other",
-            "type": mizar.LAYER.Atmosphere,
-            "exposure": 1.4,
-            "wavelength": [0.56, 0.66, 0.78],
-            "name": "Atmosphere",
-            "lightDir": [0, 1, 0],
-            "visible": true
-        };
-        var coordLayer = {
-            "category": "Other",
-            "type": mizar.LAYER.TileWireframe,
-            "name": "Coordinates Grid",
-            "outline": true,
-            "visible": true
-        };
-
-        var marsLayer = mizar.getLayerByName("Mars");
-        mizar.addLayer(atmosMarsLayer, marsLayer);
-        mizar.addLayer(coordLayer, marsLayer);
-        mizar.addLayer({
-            "category": "Test",
-            "type": mizar.LAYER.OpenSearch,
-            "dataType": "line",
-            "name": "HST_test",
-            "serviceUrl": "http://172.17.0.2/sitools/hst",
-            "description": "Hubble Space Telescope (HST) is an orbiting astronomical observatory operating from the near-infrared into the ultraviolet. Launched in 1990 and scheduled to operate through 2010, HST carries and has carried a wide variety of instruments producing imaging, spectrographic, astrometric, and photometric data through both pointed and parallel observing programs. MAST is the primary archive and distribution center for HST data, distributing science, calibration, and engineering data to HST users and the astronomical community at large. Over 100 000 observations of more than 20 000 targets are available for retrieval from the Archive.",
-            "visible": false,
-            "minOrder": 4,
-            "attribution": "HST data provided by <a href=\"http://hst.esac.esa.int\" target=\"_blank\"><img src=\"http://172.17.0.2/sitools/upload/esa.svg\" width='28' height='16'/></a>"
-        });
-
-        mizar.addLayer({
-            type: Mizar.LAYER.OpenSearch,
-            afterLoad: function(layer) {
-                mizar.getMizarWidgetGui().refreshCategoryGui();
-
-            },
-            getCapabilities     :"https://peps.cnes.fr/resto/api/collections/S1/describe.xml",
-            availableServices   : [ "OpenSearch" ]
-        });
-
     }
 
     var widgetOptions = {
-        global : {
-            sitoolsBaseUrl: "http://demonstrator.telespazio.com/sitools",
-            proxyUrl : "http://localhost:8080/?url=",
-            proxyUse : false,
-            displayWarning : true
+        "global": {
+            "sitoolsBaseUrl": "http://demonstrator.telespazio.com/sitools",
+            "proxyUrl": "http://localhost:8080/?url=",
+            "proxyUse": false,
+            "displayWarning": true
         },
-        configuration : {
-            mizarBaseUrl: "http://localhost",
-            guiActivated: true,
-            isMobile: false,
-            mode: "Sky",
-            positionTracker: {
-                position: "bottom"
+        "gui": {
+            "isMobile": false,
+            "positionTracker": {
+                "position": "bottom"
             },
-            elevationTracker: {
-                position: "bottom"
+            "elevationTracker": {
+                "position": "bottom"
             },
-            stats: {
-                visible: true
+            "stats": {
+                "visible": true
             },
-            debug: true,
-            registry: {
-                hips :"http://aladin.unistra.fr/hips/globalhipslist?fmt=json&dataproduct_subtype=color"
+            "debug": true,
+            "registry": {
+                "hips" :"http://aladin.unistra.fr/hips/globalhipslist?fmt=json&dataproduct_subtype=color"
             },
-            shortener: "${sitoolsBaseUrl}/shortener"
+            "shortener": "${sitoolsBaseUrl}/shortener"
         },
-        skyCtx : {
-            continuousRendering : true,
-            coordinateSystem: {
-                geoideName: "Equatorial"
-            },
-            navigation: {
-                initTarget: [85.2500, -2.4608],
-                initFov: 20,
-                inertia: true,
-                minFov: 0.001,
-                zoomFactor: 0,
-                mouse: {
-                    "zoomOnDblClick": true
-                }
-            },
-            layers: ["../data/backgroundSurveys.json"],
-            nameResolver: {
-                zoomFov: 2,
-                jsObject: "gw/NameResolver/CDSNameResolver"
-            },
-            reverseNameResolver: {
-                jsObject: "gw/ReverseNameResolver/CDSReverseNameResolver",
-                baseUrl: "http://alasky.u-strasbg.fr/cgi/simbad-flat/simbad-quick.py?Ident={coordinates}&SR={radius}"
-            },
-            webProcessing : [
-                {
-                    name : "cutOut",
-                    baseUrl: "${sitoolsBaseUrl}/cutout"
-                },
-                {
-                    name : "zScale",
-                    baseUrl: "${sitoolsBaseUrl}/zscale"
-                },
-                {
-                    name : "healpixcut",
-                    baseUrl: "${sitoolsBaseUrl}/healpixcut"
-                }
-            ]
-        },
-        planetCtx : [
+        "ctx": [
             {
-                layerName: "Mars",
-                continuousRendering : false,
-                layers: "../data/marsLayers.json",
-                nameResolver: {
-                    jsObject: "gw/NameResolver/DictionaryNameResolver",
-                    baseUrl: "../data/mars_resolver.json"
-                },
-                navigation: {
-                    initTarget: [85.2500, -45.4608],
-                    updateViewMatrix : false,
-                    inertia: true,
-                    mouse: {
-                        "zoomOnDblClick": true
-                    }
-                }
+                "name": "sky",
+                "mode": "Sky",
+                "description": "./skyCtx.json"
+            },
+            {
+                "name": "mars",
+                "mode": "Planet",
+                "description": "./marsCtx.json"
+            },
+            {
+                "name": "moon",
+                "mode": "Planet",
+                "description": "./moonCtx.json"
+            },
+            {
+                "name": "earth",
+                "mode": "Planet",
+                "description": "/earthCtx.json"
             }
-        ]
-
-
-
+        ],
+        "defaultCtx": "earth"
     };
 
-    var options = {
-
-        guiActivated: true,
-        isMobile: false,
-        mode: "Sky",
-        coordinateSystem: {
-            geoideName: "Equatorial"
-        },
-        navigation: {
-            "initTarget": [0, 0],
-            "inertia":true
-        },
-        positionTracker: {
-            position: "bottom"
-        },
-        elevationTracker: {
-            "position": "bottom"
-        },
-        stats: {
-            visible: true
-        },
-        debug : true,
-        //sitoolsBaseUrl: 'http://172.17.0.2/sitools/',//'http://sitools.akka.eu:8080',
-        hipsServiceUrl: "http://aladin.unistra.fr/hips/globalhipslist?fmt=json&dataproduct_subtype=color",
-        backgroundSurveysFiles: ["../data/backgroundSurveys.json"],
-        additionalLayersFiles: [{
-            layerName: "Mars",
-            url: "../data/marsLayers.json"
-        }],
-        nameResolver: {
-            zoomFov: 2,
-            jsObject: "gw/NameResolver/CDSNameResolver"
-        }
-    };
 
     var mizarWidget = new MizarWidget('mizarWidget-div', widgetOptions);
     var mizarWidgetAPI = mizarWidget.getMizarWidgetAPI();
 
     initGuiAndLayers(mizarWidgetAPI);
+    mizarWidgetAPI.init();
     //mizarWidgetAPI.viewPlanet("Earth");
 
 });

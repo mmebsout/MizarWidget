@@ -19,7 +19,7 @@ define(["jquery", "underscore-min",
         /**
          * Returns the mizar URL.
          * @return {String}
-         * @privateet
+         * @private
          */
         var getMizarUrl = function () {
             /**
@@ -51,6 +51,16 @@ define(["jquery", "underscore-min",
             }
             return mizarBaseUrl;
         };
+
+        var getUrl = function(url){
+            return $.ajax({
+                type: "GET",
+                url: url,
+                cache: false,
+                async: false
+            }).responseText;
+        };
+
 
         /**
          * Applies the shared parameters to options if they exist.
@@ -121,18 +131,17 @@ define(["jquery", "underscore-min",
         /**
          * Adds layers to sky (default) or to planet if planetLayer is defined.
          * @param {array} layers to add to a globe : sky or planet
-         * @param {PlanetLayer} [planetLayer]
          * @private
          * @fires Mizar#backgroundSurveysReady
          */
-        var callbackLayersLoaded = function (layers, planetLayer) {
+        var callbackLayersLoaded = function (layers) {
             // Add surveys
             for (var i = 0; i < layers.length; i++) {
                 var layer = layers[i];
                 if(layer.name === "Mars") {
                     loadNoStandardPlanetProviders();
                 }
-                var gwLayer = self.addLayer(layer, planetLayer);
+                var gwLayer = self.addLayer(layer);
                 // Update layer visibility according to options
                 if (options.layerVisibility
                     && options.layerVisibility.hasOwnProperty(layer.name)) {
@@ -159,84 +168,6 @@ define(["jquery", "underscore-min",
             mizarAPI.registerNoStandardDataProvider("crater", craterProvider.loadFiles);
         };
 
-        /**
-         * Loads background data in the background view.
-         * @param layers
-         * @param {Object} backgroundSurveysFiles
-         * @param {String} mizarBaseUrl
-         */
-
-        //TODO improve
-        var loadBackgroundLayersFromFile = function (layers, backgroundSurveysFiles, mizarBaseUrl) {
-            if (_.isEmpty(backgroundSurveysFiles)) {
-                callbackLayersLoaded(layers);
-                return layers;
-            }
-
-            var backgroundFileUrl = backgroundSurveysFiles.shift();
-            var mizarUrl = mizarBaseUrl;
-            $.ajax({
-                type: "GET",
-                async: false, // Deal with it..
-                //url: mizarBaseUrl + "data/backgroundSurveys.json",
-                url: mizarUrl + backgroundFileUrl,
-                dataType: "text",
-                success: function (response) {
-                    response = _removeComments(response);
-                    try {
-                        layers = layers.concat($.parseJSON(response));
-                    } catch (e) {
-                        ErrorDialog.open("Background surveys parsing error<br/> For more details see http://jsonlint.com/.");
-                        console.error(e.message);
-                        //return false;
-                    }
-                    $.proxy(loadBackgroundLayersFromFile, self)(layers, backgroundSurveysFiles, mizarUrl);
-                },
-                error: function (thrownError) {
-                    console.error(thrownError);
-                    $.proxy(loadBackgroundLayersFromFile, self)(layers, backgroundSurveysFiles, mizarUrl);
-                }
-            });
-        };
-
-        /**
-         * Loads layers in additional view.
-         * @param additionalLayersFiles
-         * @param {String} mizarBaseUrl
-         */
-        //TODO improve
-        var loadAdditionalLayersFromFile = function (additionalLayersFiles, mizarBaseUrl) {
-            if (_.isEmpty(additionalLayersFiles)) {
-                return;
-            }
-            var additionalLayer = additionalLayersFiles.shift();
-            var layers = [];
-            $.ajax({
-                type: "GET",
-                //async: false, // Deal with it..
-                url: mizarBaseUrl + additionalLayer.layers,
-                dataType: "text",
-                success: function (response) {
-                    response = _removeComments(response);
-                    try {
-                        layers = $.parseJSON(response);
-                    } catch (e) {
-                        ErrorDialog.open("Background surveys parsing error<br/> For more details see http://jsonlint.com/.");
-                        console.error(e.message);
-                        //return false;
-                    }
-                    var planetLayer = mizarAPI.getLayerByName(additionalLayer.layerName);
-                    callbackLayersLoaded(layers, planetLayer);
-                    loadAdditionalLayersFromFile(additionalLayersFiles, mizarBaseUrl);
-                    $('#loading').hide();
-                },
-                error: function (thrownError) {
-                    console.error(thrownError);
-                    loadAdditionalLayersFromFile(additionalLayersFiles, mizarBaseUrl);
-                    $('#loading').hide();
-                }
-            });
-        };
 
         /**
          * Creates global options for mizar configuration.
@@ -246,22 +177,34 @@ define(["jquery", "underscore-min",
          */
         function createOptions(configuration) {
             var isMobile = ('ontouchstart' in window || (window.DocumentTouch !== undefined && window.DocumentTouch && document instanceof DocumentTouch));
-            var sitoolsBaseUrl = configuration.sitoolsBaseUrl ? configuration.sitoolsBaseUrl : "http://demonstrator.telespazio.com/sitools";
+            var sitoolsBaseUrl = configuration.global.sitoolsBaseUrl ? configuration.global.sitoolsBaseUrl : "http://demonstrator.telespazio.com/sitools";
             var proxyUrl = configuration.global.proxyUrl ? configuration.global.proxyUrl : null;
             var proxyUse = configuration.global.proxyUse ? configuration.global.proxyUse : null;
-            var mizarBaseUrl = getMizarUrl();
             options = {};
             $.extend(options, configuration);
             options.global.sitoolsBaseUrl = sitoolsBaseUrl;
-            options.configuration.proxyUrl = proxyUrl;
-            options.configuration.proxyUse = proxyUse;
-            options.configuration.isMobile = isMobile;
-            options.configuration.mizarBaseUrl = getMizarUrl();
+            options.global.proxyUrl = proxyUrl;
+            options.global.proxyUse = proxyUse;
+            options.global.isMobile = isMobile;
             return options;
         }
 
         function RenderingGlobeFinished() {
+            console.log("OK");
+            mizarAPI.getActivatedContext().refresh();
             $('#loading').hide();
+
+        }
+
+        function fillMars() {
+            var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "mars" });
+            for (var i = 1; i < selectedCtx.description.length; i++) {
+                var layer = selectedCtx.description[i];
+                var layerID = mizarAPI.addLayer(layer);
+                if(layer.type === Constants.LAYER.WCSElevation) {
+                    mizarAPI.setBaseElevation(layer.name);
+                }
+            }
         }
 
         /**
@@ -272,12 +215,14 @@ define(["jquery", "underscore-min",
          * @constructor
          */
         var MizarWidgetAPI = function (div, userOptions, callbackInitMain) {
-            // Sky mode by default
-            this.mode = (!_.isEmpty(userOptions.configuration.mode)) ? userOptions.configuration.mode : "Sky";
+            var mizarBaseUrl = getMizarUrl();
+            userOptions.global.mizarBaseUrl = mizarBaseUrl;
+            userOptions.ctx = this._loadConfigFiles(mizarBaseUrl, userOptions.ctx);
 
             mizarDiv = (typeof div === "string") ? document.getElementById(div) : div;
 
             self = this;
+
 
             // Merge default options with user options
             this.options = createOptions(userOptions);
@@ -288,44 +233,62 @@ define(["jquery", "underscore-min",
 
             _applySharedParameters(options);
 
+
             mizarAPI = new Mizar({
                 canvas: $(mizarDiv).find('#GlobWebCanvas')[0],
-                configuration: this.options.configuration
+                configuration: {
+                    "mizarBaseUrl":this.options.global.mizarBaseUrl,
+                    "debug":this.options.gui.debug,
+                    "isMobile":this.options.gui.isMobile,
+                    "positionTracker":this.options.gui.positionTracker,
+                    "elevationTracker":this.options.gui.elevationTracker,
+                    "registry":this.options.gui.registry,
+                    "proxyUse":this.options.global.proxyUse,
+                    "proxyUrl":this.options.global.proxyUrl
+                }
             });
 
-            mizarAPI.createContext(Mizar.CONTEXT.Sky, this.options.skyCtx);
-
-            loadNoStandardSkyProviders();
-
-            // Get background surveys only
-            // Currently in background surveys there are not only background
-            // layers but also catalog ones
-            // TODO : Refactor it !
-
-            var layers = [];
-            //if (options.backgroundSurveys) {
-                // Use user defined background surveys
-            //    layers = options.backgroundSurveys;
-            //    callbackLayersLoaded(layers);
-            //} else {
-                layers = $.proxy(loadBackgroundLayersFromFile, this)(layers, this.options.skyCtx.layers, this.options.configuration.mizarBaseUrl + "/data/");
-            //}
-
-            // Load additionals layers
-            $.proxy(loadAdditionalLayersFromFile, this)(this.options.planetCtx.slice(), this.options.configuration.mizarBaseUrl + "/data/");
-
-            this.subscribeCtx("baseLayersReady", RenderingGlobeFinished);
+            var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === userOptions.defaultCtx });
+            this.mode = selectedCtx.mode;
+            mizarAPI.createContext(this.mode, selectedCtx.description[0]);
 
             this.mizarWidgetGui = new MizarWidgetGui(mizarDiv, {
                 mizarWidgetAPI: this,
                 options: this.options
             });
 
+
+
+
+            this.subscribeCtx("baseLayersReady", RenderingGlobeFinished);
+
+            loadNoStandardSkyProviders();
+            loadNoStandardPlanetProviders();
+
+            // Get background surveys only
+            // Currently in background surveys there are not only background
+            // layers but also catalog ones
+            // TODO : Refactor it !
+
+            //var layers = [];
+            //if (options.backgroundSurveys) {
+                // Use user defined background surveys
+            //    layers = options.backgroundSurveys;
+            //    callbackLayersLoaded(layers);
+            //} else {
+            //    layers = $.proxy(loadBackgroundLayersFromFile, this)(layers, this.options.skyCtx.layers, this.options.configuration.mizarBaseUrl + "/data/");
+            //}
+
+            // Load additionals layers
+            //$.proxy(loadAdditionalLayersFromFile, this)(this.options.planetCtx.slice(), this.options.configuration.mizarBaseUrl + "/data/");
+
+
+
             // Add stats
-            if (this.options.configuration.stats.visible) {
+            if (this.options.gui.stats.visible) {
                 mizarAPI.createStats({
                     element: $("#fps"),
-                    verbose: this.options.configuration.stats.verbose ? this.options.configuration.stats.verbose : false
+                    verbose: this.options.gui.stats.verbose ? this.options.gui.stats.verbose : false
                 });
                 $("#fps").show();
             }
@@ -371,6 +334,32 @@ define(["jquery", "underscore-min",
 
 
         /**************************************************************************************************************/
+
+        MizarWidgetAPI.prototype.init = function() {
+            var userOptions = this.options;
+            var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === userOptions.defaultCtx });
+            for (var i = 1; i < selectedCtx.description.length; i++) {
+                var layer = selectedCtx.description[i];
+                var layerID = mizarAPI.addLayer(layer);
+                if(layer.type === Constants.LAYER.WCSElevation) {
+                    mizarAPI.setBaseElevation(layer.name);
+                }
+            }
+        };
+
+
+        MizarWidgetAPI.prototype._loadConfigFiles = function(mizarUrl, configCtx){
+
+            var ctxObj = [];
+
+            for (var i=0; i<configCtx.length; i++) {
+                var ctx = configCtx[i];
+                var ctxResult = getUrl(mizarUrl+"/data/"+ctx.description);
+                ctx.description = JSON.parse(_removeComments(ctxResult));
+                ctxObj.push(ctx);
+            }
+            return ctxObj;
+        };
 
         MizarWidgetAPI.prototype.getMizarWidgetGui = function() {
             return this.mizarWidgetGui;
@@ -457,14 +446,13 @@ define(["jquery", "underscore-min",
          * @function addLayer
          * @memberof MizarWidgetAPI.prototype
          * @param {Object} layerDesc Layer description
-         * @param {Layer} planetLayer Planet layer, if described layer must be added to planet (optional)
          * @return {Layer}The created layer
          */
-        MizarWidgetAPI.prototype.addLayer = function (layerDesc, planetLayer) {
+        MizarWidgetAPI.prototype.addLayer = function (layerDesc) {
             if(layerDesc.coordinateSystem) {
                 layerDesc.coordinateSystem = {geoideName: layerDesc.coordinateSystem};
             }
-            return mizarAPI.addLayer(layerDesc, planetLayer);
+            return mizarAPI.addLayer(layerDesc);
         };
 
 
@@ -647,12 +635,52 @@ define(["jquery", "underscore-min",
             this.setSwitchTo2D(true);
         };
 
+        MizarWidgetAPI.prototype.createMarsContext = function() {
+            var userOptions = this.options;
+            var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "mars" });
+            //mizarAPI.createContext(this.mode, selectedCtx.description[0]);
+            mizarAPI.toggleContext(selectedCtx.description[0]);
+            for (var i = 1; i < selectedCtx.description.length; i++) {
+                var layer = selectedCtx.description[i];
+                var layerID = mizarAPI.addLayer(layer);
+                if(layer.type === Constants.LAYER.WCSElevation) {
+                    mizarAPI.setBaseElevation(layer.name);
+                }
+            }
+            self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
+            self.setAngleDistanceSkyGui(false);
+            self.setAngleDistancePlanetGui(true);
+            self.setSwitchTo2D(true);
+            self.setSampGui(false);
+            self.setShortenerUrlGui(false);
+            self.setMollweideMapGui(false);
+            self.setReverseNameResolverGui(false);
+            self.setNameResolverGui(true);
+            self.setCategoryGui(true);
+            self.setImageViewerGui(true);
+            self.setExportGui(false);
+        };
+
+        MizarWidgetAPI.prototype.toggleToSky = function() {
+            mizarAPI.toggleContext();
+            self.setAngleDistancePlanetGui(false);
+            self.setAngleDistanceSkyGui(true);
+            self.setSwitchTo2D(false);
+            self.setSampGui(true);
+            self.setShortenerUrlGui(true);
+            self.setMollweideMapGui(true);
+            self.setReverseNameResolverGui(true);
+            self.setNameResolverGui(true);
+            self.setCategoryGui(true);
+            self.setImageViewerGui(true);
+            self.setExportGui(true);
+        };
+
         /**
          * Toggle between planet and sky mode
          * @function toggleContext
          * @memberof MizarWidgetAPI.prototype
          * @param {Layer} gwLayer
-         * @param {Object} options
          */
         MizarWidgetAPI.prototype.toggleContext = function (gwLayer) {
             var self = this;
@@ -739,11 +767,6 @@ define(["jquery", "underscore-min",
 
         MizarWidgetAPI.prototype.setBackgroundLayer = function(name) {
             return mizarAPI.setBackgroundLayer(name);
-        };
-
-        MizarWidgetAPI.prototype.viewPlanet = function(planetName) {
-            var marsLayer = this.getLayerByName(planetName);
-            this.toggleContext(marsLayer,this.options);
         };
 
         MizarWidgetAPI.prototype.createLayerFromFits = function (name, fits) {
