@@ -188,7 +188,7 @@ require(["./MizarWidget"], function (MizarWidget) {
                 "description": "/earthCtx.json"
             }
         ],
-        "defaultCtx": "earth"
+        "defaultCtx": "moon"
     };
 
 
