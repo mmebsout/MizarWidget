@@ -190,10 +190,8 @@ define(["jquery", "underscore-min",
         }
 
         function RenderingGlobeFinished() {
-            console.log("OK");
-            mizarAPI.getActivatedContext().refresh();
-            $('#loading').hide();
-
+            $(mizarDiv).find('#loading').hide();
+            $(mizarDiv).find('#splash').hide();
         }
 
         function fillMars() {
@@ -220,7 +218,6 @@ define(["jquery", "underscore-min",
             userOptions.ctx = this._loadConfigFiles(mizarBaseUrl, userOptions.ctx);
 
             mizarDiv = (typeof div === "string") ? document.getElementById(div) : div;
-
             self = this;
 
 
@@ -230,7 +227,6 @@ define(["jquery", "underscore-min",
             // Create mizar core HTML
             var mizarContent = _.template(mizarCoreHTML, {});
             $(mizarContent).appendTo(mizarDiv);
-
             _applySharedParameters(options);
 
 

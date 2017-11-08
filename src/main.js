@@ -197,6 +197,5 @@ require(["./MizarWidget"], function (MizarWidget) {
 
     initGuiAndLayers(mizarWidgetAPI);
     mizarWidgetAPI.init();
-    //mizarWidgetAPI.viewPlanet("Earth");
 
 });
