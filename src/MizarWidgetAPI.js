@@ -632,6 +632,8 @@ define(["jquery", "underscore-min",
         };
 
         MizarWidgetAPI.prototype.createMarsContext = function() {
+            this.unsubscribeCtx("baseLayersReady", RenderingGlobeFinished);
+            $(mizarDiv).find('#loading').show();
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "mars" });
             //mizarAPI.createContext(this.mode, selectedCtx.description[0]);
@@ -643,6 +645,7 @@ define(["jquery", "underscore-min",
                     mizarAPI.setBaseElevation(layer.name);
                 }
             }
+            this.subscribeCtx("baseLayersReady", RenderingGlobeFinished);
             self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
             self.setAngleDistanceSkyGui(false);
             self.setAngleDistancePlanetGui(true);
@@ -763,6 +766,10 @@ define(["jquery", "underscore-min",
 
         MizarWidgetAPI.prototype.setBackgroundLayer = function(name) {
             return mizarAPI.setBackgroundLayer(name);
+        };
+
+        MizarWidgetAPI.prototype.hasSkyContext = function() {
+            return mizarAPI.getSkyContext() != null;
         };
 
         MizarWidgetAPI.prototype.createLayerFromFits = function (name, fits) {

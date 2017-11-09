@@ -162,7 +162,7 @@ define(["jquery", "underscore-min", "./DynamicImageView", "./PickingManager", ".
                 selectedLayer = layer;
 
                 // Show background loading spinner
-                $('#loading').show(300);
+                //$('#loading').show(300);
 
                 // Set shader callback for choosen layer
                 if (!_.isEmpty(backgroundDiv)) {
@@ -207,7 +207,7 @@ define(["jquery", "underscore-min", "./DynamicImageView", "./PickingManager", ".
                 // Back to sky button if in planet mode
                 var self = this;
 
-                if (mizarWidgetAPI.getMode() === mizarWidgetAPI.CONTEXT.Planet && !mizarWidgetAPI.getCrs().isFlat()) {
+                if (mizarWidgetAPI.getMode() === mizarWidgetAPI.CONTEXT.Planet && !mizarWidgetAPI.getCrs().isFlat() && mizarWidgetAPI.hasSkyContext()) {
                     $el.find('.backToSky').button().click(function (event) {
                         mizarWidgetAPI.toggleToSky();
                     });

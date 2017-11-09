@@ -9,6 +9,11 @@
     "layerName": "Mars",
     "continuousRendering": false,
     "coordinateSystem": {"geoideName":"IAU2000:49901"},
+    "nameResolver": {
+      "zoomFov": 1,
+      "jsObject": "gw/NameResolver/DictionaryNameResolver",
+      "baseUrl": "../data/mars_resolver.json"
+    },
     "navigation": {
       "initTarget": [85.2500, -45.4608],
       "updateViewMatrix" : false,
@@ -37,5 +42,19 @@
     "attribution": "Color background provided by <a href=\"http://www.mars.asu.edu/data/\" target=\"_blank\">Mars Dataset</a>",
     "visible": true,
     "category": "background"
+  },
+  {
+    "category": "Other",
+    "type": "GeoJSON",
+    "name": "Crater",
+    "data": {
+      "type": "crater",
+      "url" : "../data/mars_resolver.json"
+    },
+    "pointMaxSize":15,
+    "visible": true,
+    "opacity": 100,
+    "pickable": false,
+    "color": "white"
   }
 ]
