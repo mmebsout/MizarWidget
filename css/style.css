@@ -1,7 +1,7 @@
 @import url('jquery-ui.min.css');
 @import url('jquery-ui.structure.min.css');
 @import url('jquery-ui.theme.min.css');
-@import url('jquery-ui-timepicker-addon.min');
+/*@import url('jquery-ui-timepicker-addon.min');*/
 @import url('layerManager.css');
 @import url('nameResolver.css');
 @import url('reverseNameResolver.css');
@@ -156,10 +156,10 @@ body {
     width: 113px;
     height: 113px;
     background: url(images/pleaseWait.gif) no-repeat;
-    position: absolute;
-    left: 46%;
-    top: 40%;
-    z-index: 200;
+    position: relative;
+    bottom: -100px;
+    margin:auto;
+
 }
 
 #splash {
@@ -176,13 +176,13 @@ body {
     padding-top: 5%;
 }
 #splash-logo {
-    position:absolute;
-    display: block;
-    bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    left:35%;
-    width:30%;
+    position:relative;
+    background: url(images/logo_cnes.png) no-repeat;
+    bottom: -220px;
+    width: 539px;
+    height: 200px;
+    margin:auto;
+
 }
 
 /*** Navigation options block(nameResolver, compass) ***/

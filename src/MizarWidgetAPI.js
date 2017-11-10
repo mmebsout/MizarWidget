@@ -631,6 +631,14 @@ define(["jquery", "underscore-min",
             this.setSwitchTo2D(true);
         };
 
+        MizarWidgetAPI.prototype.isSkyContext = function() {
+            return mizarAPI.getMode() === Mizar.CONTEXT.Sky;
+        };
+
+        MizarWidgetAPI.prototype.isPlanetContext = function() {
+            return !this.isSkyContext();
+        };
+
         MizarWidgetAPI.prototype.createMarsContext = function() {
             this.unsubscribeCtx("baseLayersReady", RenderingGlobeFinished);
             $(mizarDiv).find('#loading').show();

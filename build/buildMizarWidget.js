@@ -45,8 +45,7 @@
 			"tracker" : 							"./gui/tracker",
 			"reverse_name_resolver": 	"./reverse_name_resolver",
 			"templates": 							"../templates",
-			"data":										"../data",
-			"MizarCore" : 						"./MizarCore"
+			"data":										"../data"
 	},
 	shim: {
 			'jquery': {

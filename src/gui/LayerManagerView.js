@@ -55,6 +55,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
 
             var files = evt.dataTransfer.files; // FileList object.
 
+
             // Files is a FileList of File objects.
             loadLayersFromFITSFile(files);
         }
