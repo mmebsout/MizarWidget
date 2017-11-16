@@ -1,0 +1,37 @@
+{
+  "init": {
+    "category": "Planets",
+    "type": "Planet",
+    "name": "Earth",
+    "coordinateSystem": {
+      "geoideName": "EPSG:4326"
+    },
+    "visible": false
+  },
+  "layers": [
+    {
+      "type": "WCSElevation",
+      "name": "Elevation",
+      "baseUrl": "http://demonstrator.telespazio.com/wcspub",
+      "coverage": "GTOPO",
+      "version": "1.0.0",
+      "minElevation": -32000,
+      "scale": 4
+    },
+    {
+      "type": "WMS",
+      "name": "Blue Marble",
+      "baseUrl": "http://demonstrator.telespazio.com/wmspub",
+      "layers": "BlueMarble",
+      "visible": true,
+      "background": true
+    },
+    {
+      "category": "Other",
+      "type": "TileWireframe",
+      "name": "Coordinates Grid",
+      "outline": true,
+      "visible": true
+    }
+  ]
+}

@@ -196,8 +196,8 @@ define(["jquery", "underscore-min",
 
         function fillMars() {
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "mars" });
-            for (var i = 1; i < selectedCtx.description.length; i++) {
-                var layer = selectedCtx.description[i];
+            for (var i = 0; i < selectedCtx.context.layers.length; i++) {
+                var layer = selectedCtx.context.layers[i];
                 var layerID = mizarAPI.addLayer(layer);
                 if(layer.type === Constants.LAYER.WCSElevation) {
                     mizarAPI.setBaseElevation(layer.name);
@@ -246,7 +246,7 @@ define(["jquery", "underscore-min",
 
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === userOptions.defaultCtx });
             this.mode = selectedCtx.mode;
-            mizarAPI.createContext(this.mode, selectedCtx.description[0]);
+            mizarAPI.createContext(this.mode, selectedCtx.context.init);
 
             this.mizarWidgetGui = new MizarWidgetGui(mizarDiv, {
                 mizarWidgetAPI: this,
@@ -334,8 +334,8 @@ define(["jquery", "underscore-min",
         MizarWidgetAPI.prototype.init = function() {
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === userOptions.defaultCtx });
-            for (var i = 1; i < selectedCtx.description.length; i++) {
-                var layer = selectedCtx.description[i];
+            for (var i = 0; i < selectedCtx.context.layers.length; i++) {
+                var layer = selectedCtx.context.layers[i];
                 var layerID = mizarAPI.addLayer(layer);
                 if(layer.type === Constants.LAYER.WCSElevation) {
                     mizarAPI.setBaseElevation(layer.name);
@@ -350,8 +350,8 @@ define(["jquery", "underscore-min",
 
             for (var i=0; i<configCtx.length; i++) {
                 var ctx = configCtx[i];
-                var ctxResult = getUrl(mizarUrl+"/data/"+ctx.description);
-                ctx.description = JSON.parse(_removeComments(ctxResult));
+                var ctxResult = getUrl(mizarUrl+"/conf/"+ctx.context);
+                ctx.context = JSON.parse(_removeComments(ctxResult));
                 ctxObj.push(ctx);
             }
             return ctxObj;
@@ -644,10 +644,9 @@ define(["jquery", "underscore-min",
             $(mizarDiv).find('#loading').show();
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "mars" });
-            //mizarAPI.createContext(this.mode, selectedCtx.description[0]);
-            mizarAPI.toggleContext(selectedCtx.description[0]);
-            for (var i = 1; i < selectedCtx.description.length; i++) {
-                var layer = selectedCtx.description[i];
+            mizarAPI.toggleContext(selectedCtx.context.init);
+            for (var i = 0; i < selectedCtx.context.layers.length; i++) {
+                var layer = selectedCtx.context.layers[i];
                 var layerID = mizarAPI.addLayer(layer);
                 if(layer.type === Constants.LAYER.WCSElevation) {
                     mizarAPI.setBaseElevation(layer.name);

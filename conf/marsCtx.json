@@ -1,0 +1,283 @@
+{
+  "init" : {
+    "category": "Planets",
+    "type": "Planet",
+    "name": "Mars",
+    "layerName": "Mars",
+    "continuousRendering": false,
+    "coordinateSystem": {
+      "geoideName": "IAU2000:49901"
+    },
+    "nameResolver": {
+      "zoomFov": 1,
+      "jsObject": "gw/NameResolver/DictionaryNameResolver",
+      "baseUrl": "data/mars_resolver.json"
+    },
+    "navigation": {
+      "initTarget": [
+        85.2500,
+        -45.4608
+      ],
+      "updateViewMatrix": false,
+      "inertia": true,
+      "mouse": {
+        "zoomOnDblClick": true
+      }
+    },
+    "visible": false
+  },
+  "layers":[
+    {
+      "type": "WCSElevation",
+      "name": "earthElevation",
+      "baseUrl": "http://idoc-wcsmars.ias.u-psud.fr/wcsmap",
+      "coverage": "MARSTOPO_16",
+      "version": "1.0.0",
+      "minElevation": -32000,
+      "scale": 1
+    },
+    {
+      "type": "WMS",
+      "name": "Viking",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "version": "1.1.1",
+      "layers": "viking",
+      "description": "Red planet",
+      "attribution": "Color background provided by <a href=\"http://www.mars.asu.edu/data/\" target=\"_blank\">Mars Dataset</a>",
+      "visible": true,
+      "category": "background"
+    },
+    {
+      "category": "Other",
+      "type": "GeoJSON",
+      "name": "Crater",
+      "data": {
+        "type": "crater",
+        "url": "data/mars_resolver.json"
+      },
+      "pointMaxSize": 15,
+      "visible": true,
+      "opacity": 100,
+      "pickable": false,
+      "color": "white"
+    },
+    {
+      "category": "Other",
+      "type": "Atmosphere",
+      "exposure": 1.4,
+      "wavelength": [
+        0.56,
+        0.66,
+        0.78
+      ],
+      "name": "Atmosphere",
+      "lightDir": [
+        0,
+        1,
+        0
+      ],
+      "visible": false
+    },
+    {
+      "category": "Other",
+      "type": "TileWireframe",
+      "name": "Coordinates Grid",
+      "outline": true,
+      "visible": false
+    },
+    {
+      "name": "Themis Day IR 100m",
+      "type": "WMS",
+      "category": "Background Layers",
+      "visible": false,
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "themis_day_ir_100m",
+      "format": "image/png",
+      "attribution": "Themis Day IR 100m"
+    },
+    {
+      "name": "Themis Night IR 100m",
+      "type": "WMS",
+      "category": "Background Layers",
+      "visible": false,
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "themis_night_ir_100m",
+      "format": "image/png",
+      "attribution": "Themis Day IR 100m"
+    },
+    {
+      "name": "Mars Mola Shaded Relief Color",
+      "type": "WMS",
+      "category": "Background Layers",
+      "visible": false,
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "mola_shaded_relief_color",
+      "format": "image/png",
+      "attribution": "Mars Marc Shaded Relief Color"
+    },
+    {
+      "name": "Mars Mola Shaded Relief",
+      "type": "WMS",
+      "category": "Background Layers",
+      "visible": false,
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "mola_shaded_relief",
+      "format": "image/png",
+      "attribution": "Mars Shaded Relief "
+    },
+    {
+      "name": "TES Albedo",
+      "type": "WMS",
+      "category": "Background Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "tes_albedo",
+      "description": "TES Albedo",
+      "format": "image/png"
+    },
+    {
+      "name": "OMEGA Solar Albedo",
+      "type": "WMS",
+      "category": "Background Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "OMEGA_solar_albedo",
+      "description": "omega solar albedo. Reference : http://www.sciencedirect.com/science/article/pii/S0019103514005764",
+      "format": "image/png",
+      "attribution": "Layer provided by IAS <br><img width='300' height='50' src=\"http://psup.ias.u-psud.fr/sitools/upload/scolorscale_albedo.png\" /> "
+    },
+    {
+      "name": "OMEGA Olivine SP1",
+      "type": "WMS",
+      "category": "Mineral Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "omega_olivine_sp1",
+      "description": "Olivine detections using the spectral parameter SP1 (Mg-rich and/or small grain-sized (<<100 <C2><B5>m) and/or a low-abundance (=<10%) olivine)",
+      "format": "image/png",
+      "attribution": "Layer provided by IAS "
+    },
+    {
+      "name": "OMEGA Olivine SP2",
+      "type": "WMS",
+      "category": "Mineral Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "omega_olivine_sp2",
+      "description": "Olivine detections using the spectral parameter SP2 (olivine with higher iron content and/or larger grain size and/or at higher abundance than SP1)",
+      "format": "image/png",
+      "attribution": "Layer provided by IAS "
+    },
+    {
+      "name": "OMEGA Olivine SP3",
+      "type": "WMS",
+      "category": "Mineral Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "omega_olivine_sp3",
+      "description": "Olivine detections using the spectral parameter SP3 (Fe-rich and/or large grain size (>100 <C2><B5>m) and/or large abundance (>30 %))",
+      "format": "image/png",
+      "attribution": "Layer provided by IAS "
+    },
+    {
+      "name": "OMEGA Ferric Fe3+",
+      "type": "WMS",
+      "category": "Mineral Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "omega_ferric_bd530",
+      "description": "Ferric phases identified from Fe3+ signature at 0.53 <C2><B5>m",
+      "format": "image/png",
+      "attribution": "Layer provided by IAS <br><img width='300' height='50' src=\"http://psup.ias.u-psud.fr/sitools/upload/Fe3plus_scale.png\" />"
+    },
+    {
+      "name": "OMEGA Ferric Nanophase",
+      "type": "WMS",
+      "category": "Mineral Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "omega_ferric_nnphs",
+      "description": "Nanophase ferric oxides (similar to TES dust cover)",
+      "format": "image/png",
+      "attribution": "Layer provided by IAS <br><img width='300' height='50' src=\"http://psup.ias.u-psud.fr/sitools/upload/Nano-scale.png\" />"
+    },
+    {
+      "name": "OMEGA Pyroxene",
+      "type": "WMS",
+      "category": "Mineral Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "omega_pyroxene_bd2000",
+      "description": "Pyroxenes from the 2 <C2><B5>m band",
+      "format": "image/png",
+      "attribution": "Layer provided by IAS <br><img width='300' height='50' src=\"http://psup.ias.u-psud.fr/sitools/upload/Pyro-scale.png\" />"
+    },
+    {
+      "name": "TES Dust Cover",
+      "type": "WMS",
+      "category": "Mineral Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "tes_dust_cover",
+      "description": "TES Dust Cover",
+      "format": "image/png"
+    },
+    {
+      "name": "TES High-Calcium Pyroxene Abundance",
+      "type": "WMS",
+      "category": "Mineral Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "tes_High-Ca_Pyroxene",
+      "description": "TES Clinopyroxene",
+      "format": "image/png"
+    },
+    {
+      "name": "TES Plagioclase",
+      "type": "WMS",
+      "category": "Mineral Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "tes_plagioclase",
+      "description": "TES Plagioclase",
+      "format": "image/png"
+    },
+    {
+      "name": "TES Low-Ca Pyroxene",
+      "type": "WMS",
+      "category": "Mineral Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "tes_Low-Ca_Pyroxene",
+      "description": "TES Low-Ca Pyroxene",
+      "format": "image/png"
+    },
+    {
+      "name": "TES Olivine",
+      "type": "WMS",
+      "category": "Mineral Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "tes_olivine",
+      "description": "TES Olivine",
+      "format": "image/png"
+    },
+    {
+      "name": "OMEGA Thermal Inertia",
+      "type": "WMS",
+      "category": "Background Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "thermal_inertia",
+      "description": "Global map of OMEGA-based thermal inertia",
+      "format": "image/png",
+      "attribution": "Layer provided by IAS <br><img width='300' height='50' src=\"http://psup.ias.u-psud.fr/sitools/upload/colorscale_ITcolor.png\" />"
+    },
+    {
+      "name": "OMEGA Surface hydration",
+      "type": "WMS",
+      "category": "Mineral Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "water_weight",
+      "description": "Global distribution of the surface hydration from the 3 <C2><B5>m band as seen by OMEGA",
+      "format": "image/png",
+      "attribution": "Layer provided by IAS <br><img width='300' height='50' src=\"http://psup.ias.u-psud.fr/sitools/upload/WP_color_vertical.png\" />"
+    },
+    {
+      "name": "OMEGA Surface Emissivity at 5<C2><B5>m",
+      "type": "WMS",
+      "category": "Background Layers",
+      "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
+      "layers": "surface_emissivity",
+      "description": "Global map of OMEGA-based surface emissivity at 5<C2><B5>m",
+      "format": "image/png",
+      "attribution": "Layer provided by IAS <br><img width='300' height='50' src=\"http://psup.ias.u-psud.fr/sitools/upload/colorscale_emi_color.png\" />"
+    }
+  ]
+}

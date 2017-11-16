@@ -169,22 +169,22 @@ require(["./MizarWidget"], function (MizarWidget) {
             {
                 "name": "sky",
                 "mode": "Sky",
-                "description": "./skyCtx.json"
+                "context": "./skyCtx.json"
             },
             {
                 "name": "mars",
                 "mode": "Planet",
-                "description": "./marsCtx.json"
+                "context": "./marsCtx.json"
             },
             {
                 "name": "moon",
                 "mode": "Planet",
-                "description": "./moonCtx.json"
+                "context": "./moonCtx.json"
             },
             {
                 "name": "earth",
                 "mode": "Planet",
-                "description": "/earthCtx.json"
+                "context": "/earthCtx.json"
             }
         ],
         "defaultCtx": "moon"
