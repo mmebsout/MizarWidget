@@ -211,7 +211,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
          *    Hide reverse name resolver popup handler
          */
         function _hidePopup(event) {
-            if ($reverseNameResolver.css('display') != 'none') {
+            if ($reverseNameResolver && $reverseNameResolver.hasOwnProperty("css") && $reverseNameResolver.css('display') != 'none') {
                 $reverseNameResolver.fadeOut(300);
             }
         }
@@ -257,7 +257,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
              */
             updateContext: function () {
                 // Activate reverese name resolver if base url is defined for the given layer
-                if (mizarWidgetAPI.getContext().getContextConfiguration().reverseNameResolver.baseUrl) {
+                if (mizarWidgetAPI.getContext().getContextConfiguration().reverseNameResolver && mizarWidgetAPI.getContext().getContextConfiguration().reverseNameResolver.baseUrl) {
                     if (mizarWidgetAPI.getContext())
                         self.deactivate();
                     self.activate();

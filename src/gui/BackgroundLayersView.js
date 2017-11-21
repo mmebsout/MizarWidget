@@ -207,17 +207,20 @@ define(["jquery", "underscore-min", "./DynamicImageView", "./PickingManager", ".
                 // Back to sky button if in planet mode
                 var self = this;
 
-                if(mizarWidgetAPI.isPlanetContext()) {
+                if(mizarWidgetAPI.isGroundContext()) {
+                    if(mizarWidgetAPI.hasPlanetContext()) {
+                        $el.find('.backToSky').button().click(function (event) {
+                            mizarWidgetAPI.toggleToSky();
+                        });
+                    } else {
+                        $el.find('.backToSky').hide();
+                    }
+                    $el.find("#backgroundOptions").hide();
+                } else if(mizarWidgetAPI.isPlanetContext()) {
                     if(mizarWidgetAPI.hasSkyContext()) {
-                        if(mizarWidgetAPI.getCrs().isFlat()) {
-                            // TODO : make development to allow coming back to sky when 2D planet is selected
-                            $el.find('.backToSky').hide();
-                        } else {
-                            // ok we there is a sky context, we can go back
-                            $el.find('.backToSky').button().click(function (event) {
-                                mizarWidgetAPI.toggleToSky();
-                            });
-                        }
+                        $el.find('.backToSky').button().click(function (event) {
+                            mizarWidgetAPI.toggleToSky();
+                        });
                     } else {
                         $el.find('.backToSky').hide();
                     }

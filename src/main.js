@@ -125,7 +125,7 @@ require(["./MizarWidget"], function (MizarWidget) {
             mizar.setCategoryGui(true);
             mizar.setImageViewerGui(true);
             mizar.setExportGui(true);
-        } else {
+        } else if (mizar.mode === mizar.CONTEXT.Planet) {
             // Set different GUIs
             mizar.setAngleDistanceSkyGui(false);
             mizar.setAngleDistancePlanetGui(true);
@@ -138,6 +138,20 @@ require(["./MizarWidget"], function (MizarWidget) {
             mizar.setCategoryGui(true);
             mizar.setImageViewerGui(true);
             mizar.setExportGui(false);
+        } else if (mizar.mode === mizar.CONTEXT.Ground) {
+            mizar.setAngleDistanceSkyGui(false);
+            mizar.setAngleDistancePlanetGui(false);
+            mizar.setSwitchTo2D(false);
+            mizar.setSampGui(false);
+            mizar.setShortenerUrlGui(false);
+            mizar.setMollweideMapGui(false);
+            mizar.setReverseNameResolverGui(false);
+            mizar.setNameResolverGui(false);
+            mizar.setCategoryGui(true);
+            mizar.setImageViewerGui(true);
+            mizar.setExportGui(false);
+        } else {
+            throw "Unable to find mizar.mode="+mizar.mode;
         }
     }
 
@@ -185,9 +199,14 @@ require(["./MizarWidget"], function (MizarWidget) {
                 "name": "earth",
                 "mode": "Planet",
                 "context": "/earthCtx.json"
+            },
+            {
+                "name": "curiosity",
+                "mode": "Ground",
+                "context": "/curiosityCtx.json"
             }
         ],
-        "defaultCtx": "moon"
+        "defaultCtx": "sky"
     };
 
 

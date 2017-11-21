@@ -34,7 +34,7 @@
       "coverage": "MARSTOPO_16",
       "version": "1.0.0",
       "minElevation": -32000,
-      "scale": 1
+      "scale": 2
     },
     {
       "type": "WMS",
@@ -278,6 +278,15 @@
       "description": "Global map of OMEGA-based surface emissivity at 5<C2><B5>m",
       "format": "image/png",
       "attribution": "Layer provided by IAS <br><img width='300' height='50' src=\"http://psup.ias.u-psud.fr/sitools/upload/colorscale_emi_color.png\" />"
+    },
+    {
+      "category": "Landers",
+      "type": "GeoJSON",
+      "name": "Landing sites",
+      "description": "landing site of previous landers/rovers",
+      "url": "data/landing_sites.json",
+      "visible": false,
+      "pickable" : true
     }
   ]
 }

@@ -22,6 +22,12 @@
                         <span class="ui-button-text">Go to Mars</span>
                     </button>
                     <%
+                } else if (selection[i].layer.name === "Landing sites" && selection[i].feature.properties.name === "MSL Curiosity") {
+                    %>
+                    <button id="goToCuriosityBtn" style="margin-top: 7px; font-size: 11px;">
+                        <span class="ui-button-text">See it on Mars</span>
+                    </button>
+                    <%
                 }
             }
             %>

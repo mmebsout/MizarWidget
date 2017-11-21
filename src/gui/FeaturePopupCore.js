@@ -89,12 +89,13 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
                 button.button().once().click(function () {
                     mizarWidgetAPI.createMarsContext();
                     $('#selectedFeatureDiv').hide();
-                    //var marsLayer = mizarWidgetAPI.getLayerByName("Mars");
-                    //if (marsLayer !== undefined) {
-                    //    mizarWidgetAPI.toggleContext(marsLayer);
-                    //    //mizarWidgetAPI.toggleContext(marsLayer, configuration.options);
-                    //    $('#selectedFeatureDiv').hide();
-                    //}
+                });
+            } else if (selection[0].layer.name === "Landing sites" && selection[0].feature.properties.name === "MSL Curiosity") {
+                var button = $('#goToCuriosityBtn');
+
+                button.button().once().click(function () {
+                    mizarWidgetAPI.createCuriosityContext();
+                    $('#selectedFeatureDiv').hide();
                 });
             }
         }

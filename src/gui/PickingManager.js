@@ -229,8 +229,8 @@ define(["jquery", "underscore-min",
              *    Update picking context
              */
             updateContext: function () {
-                if(currentContext)
-                    deactivate();
+                //if(currentContext)
+                //    deactivate();
                 currentContext = mizarWidgetAPI.getContext();
                 pickingManagerCore.updateContext(currentContext);
                 activate();
