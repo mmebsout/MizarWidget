@@ -175,7 +175,7 @@ require(["./MizarWidget"], function (MizarWidget) {
             },
             "debug": true,
             "registry": {
-                "hips" :"http://aladin.unistra.fr/hips/globalhipslist?fmt=json&dataproduct_subtype=color"
+                "hips" :"http://aladin.unistra.fr/hips/globalhipslist?fmt=json&hips_frame=equatorial&hips_frame=galactic"
             },
             "shortener": "${sitoolsBaseUrl}/shortener"
         },

@@ -2,16 +2,16 @@
   "init": {
     "continuousRendering": false,
     "coordinateSystem": {
-      "geoideName": "Equatorial"
+      "geoideName": "HorizontalLocal"
     },
     "navigation": {
       "initTarget": [
         0,
-        0
+        30
       ],
-      "initFov": 90,
+      "initFov": 40,
       "inertia": false,
-      "minFov": 5,
+      "minFov": 40,
       "zoomFactor": 0,
       "mouse": {
         "zoomOnDblClick": true
@@ -27,6 +27,13 @@
       "attribution": "produced by Malin Space Science Systems",
       "visible": true,
       "background": true
+    },
+    {
+      "category": "Other",
+      "type": "TileWireframe",
+      "name": "Coordinates Grid",
+      "outline": true,
+      "visible": true
     }
   ]
 }

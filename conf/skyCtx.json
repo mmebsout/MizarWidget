@@ -54,7 +54,7 @@
       "type": "GeoJSON",
       "name": "Constellations",
       "icon": "css/images/constellation_icon.png",
-      "attribution": "Constellation coming from <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><object width='24' height='16' data=\"../css/images/cds.svg\" type=\"image/svg+xml\"></object></a>",
+      "attribution": "Constellation coming from <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><object width='24' height='16' data=\"css/images/cds.svg\" type=\"image/svg+xml\"></object></a>",
       "description": "Constellation shapes from VizieR Catalogue",
       "data": {
         "type": "constellation",
@@ -170,18 +170,6 @@
       "visible": true,
       "background": true
     },
-    /**  FL to improve dev time {
-        "category": "Gaia",
-        "type": "HipsCat",
-        "dataType": "Point",
-        "name": "Gaia cat",
-        "serviceUrl": "http://axel.u-strasbg.fr/HiPSCatService/I/337/gaia",
-        "visible": true,
-        "minOrder": 3,
-        "icon": "../css/images/star16x16.png",
-        "pickable": true
-
-      },*/
     /**
      *    Healpix grid
      */
@@ -383,7 +371,7 @@
         "Moc",
         "XMatch"
       ],
-      "attribution": "<img width='28' height='16' src=\"http://172.17.0.2/sitools/upload/corot.svg\"> data provided by <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><img width='24' height='16' src=\"../css/images/cds.svg\" /></a>"
+      "attribution": "<img width='28' height='16' src=\"http://172.17.0.2/sitools/upload/corot.svg\"> data provided by <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><img width='24' height='16' src=\"css/images/cds.svg\" /></a>"
     },
     /**
      *    OpenSearch ConeSearch COROT exo
@@ -404,7 +392,7 @@
         "Moc",
         "XMatch"
       ],
-      "attribution": "<img width='28' height='16' src=\"http://172.17.0.2/sitools/upload/corot.svg\"> data provided by <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><img width='24' height='16' src=\"../css/images/cds.svg\" /></a>"
+      "attribution": "<img width='28' height='16' src=\"http://172.17.0.2/sitools/upload/corot.svg\"> data provided by <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><img width='24' height='16' src=\"css/images/cds.svg\" /></a>"
     }
   ]
 }
