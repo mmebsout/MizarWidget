@@ -145,7 +145,7 @@ require(["./MizarWidget"], function (MizarWidget) {
             mizar.setSampGui(false);
             mizar.setShortenerUrlGui(false);
             mizar.setMollweideMapGui(false);
-            mizar.setReverseNameResolverGui(false);
+            mizar.setReverseNameResolverGui(true);
             mizar.setNameResolverGui(false);
             mizar.setCategoryGui(true);
             mizar.setImageViewerGui(true);
@@ -206,7 +206,7 @@ require(["./MizarWidget"], function (MizarWidget) {
                 "context": "/curiosityCtx.json"
             }
         ],
-        "defaultCtx": "sky"
+        "defaultCtx": "mars"
     };
 
 

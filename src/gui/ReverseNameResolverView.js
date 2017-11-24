@@ -130,7 +130,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
             }
 
             // Use debug mode only for HEALPix tiling
-            if (mizarWidgetAPI.getContext().getContextConfiguration().debug && mizarWidgetAPI.getTileManager().tiling.findInsideTile) {
+            if (mizarWidgetAPI.options.gui.debug && mizarWidgetAPI.getTileManager().tiling.findInsideTile) {
                 var selectedTile = mizarWidgetAPI.getTileManager().getVisibleTile(geoPick[0], geoPick[1]);
                 $('#reverseSearchField #healpixInfo').html('<em>Healpix index/order: </em>&nbsp;&nbsp;&nbsp;&nbsp;' + selectedTile.pixelIndex + '/' + selectedTile.order);
             }

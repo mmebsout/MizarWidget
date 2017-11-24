@@ -66,6 +66,7 @@ define(["jquery", "jquery.ui"],
 
             };
 
+            $('a#elevationTrackingBtn').text('Calculate elevation');
             $('#elevationTrackingBtn').button()
                 .click($.proxy(self.displayPopupElevation, this));
 

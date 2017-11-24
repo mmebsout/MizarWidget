@@ -28,6 +28,20 @@
     },
     {
       "category": "Other",
+      "type": "GeoJSON",
+      "name": "Crater",
+      "data": {
+        "type": "crater",
+        "url": "external/Mizar/examples/data/europe.json"
+      },
+      "pointMaxSize": 15,
+      "visible": true,
+      "opacity": 100,
+      "pickable": true,
+      "color": "white"
+    },
+    {
+      "category": "Other",
       "type": "TileWireframe",
       "name": "Coordinates Grid",
       "outline": true,
