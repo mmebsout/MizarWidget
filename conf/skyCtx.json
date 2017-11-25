@@ -101,7 +101,7 @@
       "type": "GeoJSON",
       "name": "Brighten stars",
       "icon": "css/images/star_icon.png",
-      "attribution": "The most brighten stars coming from <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><object width='24' height='16' data=\"../css/images/cds.svg\" type=\"image/svg+xml\"></object></a>",
+      "attribution": "The most brighten stars coming from <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><object width='24' height='16' data=\"css/images/cds.svg\" type=\"image/svg+xml\"></object></a>",
       "description": "The most brighten stars from VizieR Catalogue",
       "data": {
         "type": "star",
