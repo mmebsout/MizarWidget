@@ -99,7 +99,6 @@ define(["jquery", "service/gui/OpenSearchService", "../service/gui/MocService", 
                     hide: {effect: "slideUp", duration: 300},
                     show: {effect: "slideDown", duration: 300}
                 });
-
                 OpenSearchService.init(mizar);
                 MocService.init(mizar);
                 XMatchService.init(mizar, configuration);
@@ -116,41 +115,35 @@ define(["jquery", "service/gui/OpenSearchService", "../service/gui/MocService", 
 
             show: function (layer) {
                 var service;
-
                 // Remove previous services
                 if (currentLayer) {
-                    for (var i = 0; i < currentLayer.availableServices.length; i++) {
-                        service = getServiceFromConf(currentLayer.availableServices[i]);
+                    Object.keys(currentLayer.getServices()).forEach(function (key) {
+                        service = getServiceFromConf(key);
                         if (service.removeLayer)
                             service.removeLayer(currentLayer);
-                        service.removeService(tabs, currentLayer.availableServices[i]);
-                    }
+                        service.removeService(tabs, key);
+                    });
                 }
-
-                for (var i = 0; i < layer.availableServices.length; i++) {
-                    service = getServiceFromConf(layer.availableServices[i]);
+                Object.keys(layer.getServices()).forEach(function (key) {
+                    service = getServiceFromConf(key);
                     if (service) {
                         if (service.addLayer) {
-                          console.log("Add layer",layer);
-                          service.addLayer(layer);
+                            service.addLayer(layer);
                         }
-                        console.log("Add Service",service);
-                        service.addService(tabs, layer.availableServices[i]);
+                        service.addService(tabs, key);
                         console.log("service added");
-                    }
-                    else {
+                    } else {
                         // Unrecognized service, remove it
                         console.error("Mapping doesn't exist, service must be = { OpenSearch, Moc, XMatch or HEALPixCut }");
-                        layer.availableServices.splice(i, 1);
+                        delete layer.getServices()[key];
                     }
-                }
+                });
                 currentLayer = layer;
 
                 tabs.tabs('refresh');
                 tabs.tabs("option", "active", 0);
 
-                $layerServiceView
-                    .dialog("open");
+                $layerServiceView.dialog("open");
             }
         }
 

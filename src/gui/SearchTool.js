@@ -154,7 +154,7 @@ define(["jquery", "underscore-min", "./PickingManager", "./LayerServiceView"],
         SearchTool.prototype.filterServicesAvailableOnLayers = function () {
             var availablelayers = [];
             _.each(layers, function (layer) {
-                if (!_.isEmpty(layer.availableServices)) {
+                if (!_.isEmpty(layer.services)) {
                     availablelayers.push(layer);
                 }
             });

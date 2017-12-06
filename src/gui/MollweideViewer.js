@@ -43,7 +43,7 @@ define(["jquery"],
         // Init image background
         var canvas = document.getElementById('mollweideCanvas');
         mizarWidgetAPI.subscribeCtx("modifiedCrs", MollweideViewerCore.updateGalaxyProjection);
-        MollweideViewerCore.updateGalaxyProjection(mizarWidgetAPI.getCrs());
+        MollweideViewerCore.updateGalaxyProjection(mizarWidgetAPI.getContext());
 
         /**********************************************************************************************/
 

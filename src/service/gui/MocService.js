@@ -37,13 +37,9 @@ define(["jquery", "underscore-min", "../../utils/UtilsCore", "text!templates/moc
          */
         function displayClickEvent() {
             var layer = $(this).parent().data("layer");
-
-            var serviceLayer;
-            if (!(UtilsCore.isMocLayer(layer)))
-                serviceLayer = mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MocBase).findMocSublayer(layer);
-            else
-                serviceLayer = layer;
-
+            var IDs = layer.split("#",2);
+            var serviceLayerID = IDs[1];
+            var serviceLayer = mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MocBase).findMocSublayer(serviceLayerID);
             // Change visibility
             if (serviceLayer) {
                 if (this.checked) {
@@ -62,13 +58,12 @@ define(["jquery", "underscore-min", "../../utils/UtilsCore", "text!templates/moc
          */
         function addHTMLMocLayer(layer) {
             var content = mocServiceTemplate({layer: layer, display: true});
-            var serviceLayer = mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MocBase).findMocSublayer(layer);
             $(content)
                 .appendTo('#MocService .mocLayers')
                 .data("layer", layer)
                 .find('input[type="checkbox"]')
-                .attr("checked", (serviceLayer && serviceLayer.isVisible()) ? true : false)
-                .attr("disabled", (serviceLayer) ? false : true)
+                .attr("checked", (layer && layer.visible) ? true : false)
+                .attr("disabled", (layer) ? false : true)
                 .button()
                 .click(displayClickEvent);
         }
@@ -85,29 +80,29 @@ define(["jquery", "underscore-min", "../../utils/UtilsCore", "text!templates/moc
 
             /**
              *    Add layer to the service
+             *    TODO : remove the layers and the MOC in mizarAPI
              */
             addLayer: function (layer) {
-                layers.push(layer);
-
-                if (!layer.subLayers) {
-                    layer.subLayers = [];
-                }
-
-                var serviceLayer = mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MocBase).findMocSublayer(layer);
-
+                var mocDescribe = layer.getServices().Moc;
                 // Create if doesn't exist
-                if (!serviceLayer) {
-                    mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MocBase).createMocSublayer(layer, function (layer) {
-                        $("#MocService #mocLayer_" + layer.id).find('input[type="checkbox"]').removeAttr("disabled").button("refresh");
-                        $("#MocService #mocLayer_" + layer.id).find('.mocCoverage').html("Sky coverage: " + layer.coverage);
+                if (mocDescribe && !_.find(layers, function(itemLayer){
+                        var layerID = layer.ID;
+                        return itemLayer.startsWith(layerID);
+                    })) {
+                    var serviceID = mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MocBase).createMocSublayer(mocDescribe,
+                        function (layer) {
+                            $("#MocService #mocLayer_" + layer.ID).find('input[type="checkbox"]').removeAttr("disabled").button("refresh");
+                            $("#MocService #mocLayer_" + layer.ID).find('.mocCoverage').html("Sky coverage: " + layer.coverage);
 
                     }, function (layer) {
-                        $("#MocService #mocLayer_" + layer.id).find('.mocCoverage').html("Sky coverage: Not available").end()
+                        $("#MocService #mocLayer_" + layer.ID).find('.mocCoverage').html("Sky coverage: Not available").end()
                             .find('.mocStatus').html('(Not found)');
                     });
-                }
 
-                addHTMLMocLayer(layer);
+                    layers.push(layer.ID+"#"+serviceID);
+                    var mocLayer = mizarWidgetAPI.getLayerByID(serviceID);
+                    addHTMLMocLayer(layer);
+                }
             },
 
             /**************************************************************************************************************/

@@ -198,12 +198,12 @@ require(["./MizarWidget"], function (MizarWidget) {
             {
                 "name": "earth",
                 "mode": "Planet",
-                "context": "/earthCtx.json"
+                "context": "./earthCtx.json"
             },
             {
                 "name": "curiosity",
                 "mode": "Ground",
-                "context": "/curiosityCtx.json"
+                "context": "./curiosityCtx.json"
             }
         ],
         "defaultCtx": "sky"

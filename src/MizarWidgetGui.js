@@ -328,12 +328,14 @@ define(["jquery", "underscore-min",
             if (visible) {
                 if(!NameResolverView.isInitialized())
                     NameResolverView.init(mizarWidgetAPI);
-            } else {
-                NameResolverView.remove();
-            }
+            } //else {
+                // Mizar can hide the component.
+                // If we remove it, mizar cannot show up anymore.
+                //NameResolverView.remove();
+            //}
             this.activatedContext.setComponentVisibility("searchDiv", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("searchDiv", visible);
+            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(mizarWidgetAPI) {
+            //    mizarWidgetAPI.setComponentVisibility("searchDiv", visible);
             //});
         };
 
@@ -346,26 +348,14 @@ define(["jquery", "underscore-min",
             if (visible) {
                 if(!LayerManagerView.isInitialized())
                     LayerManagerView.init(mizarWidgetAPI, $.extend({element: $(mizarDiv).find("#categoryDiv")}, options));
-            } else {
-                LayerManagerView.remove();
-            }
+            } //else {
+              //  LayerManagerView.remove();
+            //}
             this.activatedContext.setComponentVisibility("categoryDiv", visible);
             //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
             //    context.setComponentVisibility("categoryDiv", visible);
             //});
         };
-
-        /**
-         * refresh layer manager view (when a layer is loaded)
-         * @param visible
-         */
-        //TODO décrire visibles
-        MizarWidgetGui.prototype.refreshCategoryGui = function () {
-              LayerManagerView.remove();
-              LayerManagerView.init(mizarWidgetAPI, $.extend({element: $(mizarDiv).find("#categoryDiv")}, options));
-              this.activatedContext.setComponentVisibility("categoryDiv", true);
-        };
-
 
         /**
          * Adds/removes image viewer GUI
@@ -377,9 +367,9 @@ define(["jquery", "underscore-min",
                 if (visible) {
                     if(!ImageViewer.isInitialized())
                         ImageViewer.init(mizarWidgetAPI);
-                } else {
-                    ImageViewer.remove();
-                }
+                } //else {
+                  //  ImageViewer.remove();
+                //}
                 this.activatedContext.setComponentVisibility("imageViewerDiv", visible);
                 //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
                 //    context.setComponentVisibility("imageViewerDiv", visible);

@@ -53,7 +53,7 @@ define(["jquery", "underscore-min", "./DynamicImageView", "./PickingManager", ".
                 }
 
                 var $layerServices = $el.find('.layerServices');
-                if (!layer.availableServices) {
+                if (!layer.services) {
                     $layerServices.attr('disabled', 'disabled').button('refresh');
                 }
                 else {

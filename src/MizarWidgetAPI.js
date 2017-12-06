@@ -194,16 +194,11 @@ define(["jquery", "underscore-min",
             $(mizarDiv).find('#splash').hide();
         }
 
-        function fillMars() {
-            var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "mars" });
-            for (var i = 0; i < selectedCtx.context.layers.length; i++) {
-                var layer = selectedCtx.context.layers[i];
-                var layerID = mizarAPI.addLayer(layer);
-                if(layer.type === Constants.LAYER.WCSElevation) {
-                    mizarAPI.setBaseElevation(layer.name);
-                }
-            }
-        }
+        var getUniqueId = function (prefix) {
+            var d = new Date().getTime();
+            d += (parseInt(Math.random() * 100)).toString();
+            return d;
+        };
 
         /**
          * Entry point to manage Mizar Widget.
@@ -344,10 +339,11 @@ define(["jquery", "underscore-min",
         MizarWidgetAPI.prototype._loadConfigFiles = function(mizarUrl, configCtx){
 
             var ctxObj = [];
-
+            var uid = getUniqueId();
             for (var i=0; i<configCtx.length; i++) {
                 var ctx = configCtx[i];
-                var ctxResult = getUrl(mizarUrl+"/conf/"+ctx.context);
+                // generate a unique identifier to avoid the web server puts the configuration file in cache.
+                var ctxResult = getUrl(mizarUrl+"/conf/"+ctx.context+"?uid="+uid);
                 ctx.context = JSON.parse(_removeComments(ctxResult));
                 ctxObj.push(ctx);
             }
@@ -649,7 +645,7 @@ define(["jquery", "underscore-min",
                 throw "Unable to get the Mars context"
             }
             mizarAPI.createContext(Mizar.CONTEXT.Planet, selectedCtx.context.init);
-            mizarAPI.toggleToContext(mizarAPI.getPlanetContext());
+            mizarAPI.toggleToContext(mizarAPI.getPlanetContext(), {"mustBeHidden":true});
             loadNoStandardPlanetProviders();
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
@@ -679,7 +675,7 @@ define(["jquery", "underscore-min",
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "curiosity" });
             mizarAPI.createContext(Mizar.CONTEXT.Ground, selectedCtx.context.init);
-            mizarAPI.toggleToContext(mizarAPI.getGroundContext());
+            mizarAPI.toggleToContext(mizarAPI.getGroundContext(),{"mustBeHidden":true});
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
                 var layerID = mizarAPI.addLayer(layer);
@@ -744,6 +740,10 @@ define(["jquery", "underscore-min",
 
         MizarWidgetAPI.prototype.getLayerByName = function(name) {
             return mizarAPI.getLayerByName(name);
+        };
+
+        MizarWidgetAPI.prototype.getLayerByID = function(ID) {
+            return mizarAPI.getLayerByID(ID);
         };
 
         MizarWidgetAPI.prototype.setBackgroundLayer = function(name) {

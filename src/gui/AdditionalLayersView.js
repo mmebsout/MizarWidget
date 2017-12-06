@@ -390,7 +390,7 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
          *    Create HTML for the given layer
          */
         function addView(gwLayer) {
-            if(gwLayer.type === "WCSElevation" || gwLayer.type === "WMSElevation") {
+            if(gwLayer.type === "WCSElevation" || gwLayer.type === "WMSElevation" || gwLayer.type === "Moc") {
                 // skip it
             } else {
                 var category = gwLayer.category;
