@@ -35,7 +35,7 @@
         %>
         <input type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> class="datetimepicker">
         <%
-        finalScript += "$(\"#p_"+parameter.name+"\" ).datepicker({showSecond: true,separator: 'T',timeSuffix: 'Z',timeFormat: 'HH:mm:ss'});";
+        finalScript += "$(\"#p_"+parameter.name+"\" ).datetimepicker({showSecond: true,separator: 'T',timeSuffix: 'Z',timeFormat: 'HH:mm:ss'});";
         
       } else {
     %>

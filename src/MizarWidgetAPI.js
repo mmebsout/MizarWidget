@@ -728,8 +728,9 @@ define(["jquery", "underscore-min",
                 visible:true
             });
             var layer =  mizarAPI.getLayerByID(layerID);
-
+            console.log("layer created",GeoJson);
             layer.addFeatureCollection(GeoJson);
+            console.log("layer added",GeoJson);
         };
 
         MizarWidgetAPI.prototype.getLayers = function() {

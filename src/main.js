@@ -206,7 +206,7 @@ require(["./MizarWidget"], function (MizarWidget) {
                 "context": "/curiosityCtx.json"
             }
         ],
-        "defaultCtx": "sky"
+        "defaultCtx": "mars"
     };
 
 

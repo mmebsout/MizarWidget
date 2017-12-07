@@ -62,6 +62,7 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
          *    Add OpenSearch form and handle jQuery stuff(events & widgets)
          */
         function handleForm(layer) {
+            console.log("FORM",$('#osForm_' + layer.id).find(".datetimepicker"));
             $('#osForm_' + layer.id)
                 .html(layer.openSearchForm ? layer.openSearchForm : "Loading...")
                 .find('.openSearchForm')
@@ -170,6 +171,7 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
 
                 var openSearchService = openSearchServiceTemplate({layers: layers});
 
+                console.log("FORM",$(openSearchService).find(".datetimepicker"));
                 $(openSearchService)
                     .appendTo('#OpenSearchService')
                     .tabs({
