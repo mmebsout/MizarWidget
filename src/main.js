@@ -111,49 +111,6 @@ require.config({
  * Mizar widget Global main
  */
 require(["./MizarWidget"], function (MizarWidget) {
-    function initGuiAndLayers(mizar) {
-        if (mizar.mode === mizar.CONTEXT.Sky) {
-            // Set different GUIs
-            mizar.setAngleDistancePlanetGui(false);
-            mizar.setAngleDistanceSkyGui(true);
-            mizar.setSwitchTo2D(false);
-            mizar.setSampGui(true);
-            mizar.setShortenerUrlGui(true);
-            mizar.setMollweideMapGui(true);
-            mizar.setReverseNameResolverGui(true);
-            mizar.setNameResolverGui(true);
-            mizar.setCategoryGui(true);
-            mizar.setImageViewerGui(true);
-            mizar.setExportGui(true);
-        } else if (mizar.mode === mizar.CONTEXT.Planet) {
-            // Set different GUIs
-            mizar.setAngleDistanceSkyGui(false);
-            mizar.setAngleDistancePlanetGui(true);
-            mizar.setSwitchTo2D(true);
-            mizar.setSampGui(false);
-            mizar.setShortenerUrlGui(false);
-            mizar.setMollweideMapGui(false);
-            mizar.setReverseNameResolverGui(false);
-            mizar.setNameResolverGui(true);
-            mizar.setCategoryGui(true);
-            mizar.setImageViewerGui(true);
-            mizar.setExportGui(false);
-        } else if (mizar.mode === mizar.CONTEXT.Ground) {
-            mizar.setAngleDistanceSkyGui(false);
-            mizar.setAngleDistancePlanetGui(false);
-            mizar.setSwitchTo2D(false);
-            mizar.setSampGui(false);
-            mizar.setShortenerUrlGui(false);
-            mizar.setMollweideMapGui(false);
-            mizar.setReverseNameResolverGui(true);
-            mizar.setNameResolverGui(false);
-            mizar.setCategoryGui(true);
-            mizar.setImageViewerGui(true);
-            mizar.setExportGui(false);
-        } else {
-            throw "Unable to find mizar.mode="+mizar.mode;
-        }
-    }
 
     var widgetOptions = {
         "global": {
@@ -204,6 +161,11 @@ require(["./MizarWidget"], function (MizarWidget) {
                 "name": "curiosity",
                 "mode": "Ground",
                 "context": "./curiosityCtx.json"
+            },
+            {
+                "name": "sun",
+                "mode": "Planet",
+                "context": "./sunCtx.json"
             }
         ],
         "defaultCtx": "sky"
@@ -212,8 +174,6 @@ require(["./MizarWidget"], function (MizarWidget) {
 
     var mizarWidget = new MizarWidget('mizarWidget-div', widgetOptions);
     var mizarWidgetAPI = mizarWidget.getMizarWidgetAPI();
-
-    initGuiAndLayers(mizarWidgetAPI);
     mizarWidgetAPI.init();
 
 });
