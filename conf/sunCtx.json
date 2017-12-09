@@ -1,0 +1,112 @@
+{
+  "init":{
+    "category": "Planets",
+    "type": "Planet",
+    "name": "Sun",
+    "continuousRendering": false,
+    "coordinateSystem": {
+      "geoideName": "IAU:Sun"
+    },
+    "navigation": {
+      "initTarget": [
+        0,
+        0
+      ],
+      "updateViewMatrix": false,
+      "inertia": true,
+      "mouse": {
+        "zoomOnDblClick": true
+      }
+    }
+  },
+  "layers":[
+    {
+      "type": "WMS",
+      "name": "AIA-171",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
+      "layers": "AIA-171",
+      "visible": true,
+      "category": "background"
+    },
+    {
+      "type": "WMS",
+      "name": "AIA-1700",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
+      "layers": "AIA-1700",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "AIA-193",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
+      "layers": "AIA-193",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "AIA-211",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
+      "layers": "AIA-211",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "AIA-304",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
+      "layers": "AIA-304",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "AIA-335",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
+      "layers": "AIA-335",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "AIA-94",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
+      "layers": "AIA-94",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "HMI-ic",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
+      "layers": "HMI-ic",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "HMI-magnetogram",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
+      "layers": "HMI-magnetogram",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "WMS-Time",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/stereoab/stereo.map",
+      "layers": "SYN_195",
+      "visible": false
+    },
+    {
+      "category": "Other",
+      "type": "TileWireframe",
+      "name": "Coordinates Grid",
+      "outline": true,
+      "visible": true
+    }
+  ]
+}

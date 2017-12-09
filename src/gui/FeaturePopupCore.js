@@ -97,9 +97,15 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
                     mizarWidgetAPI.createCuriosityContext();
                     $('#selectedFeatureDiv').hide();
                 });
+            } else if (selection[0].layer.name === "Planets" && selection[0].feature.properties.name === "Sun") {
+                var button = $('#goToSunBtn');
+
+                button.button().once().click(function () {
+                    mizarWidgetAPI.createSunContext();
+                    $('#selectedFeatureDiv').hide();
+                });
             }
         }
-
         /**********************************************************************************************/
 
         /**
