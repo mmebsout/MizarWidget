@@ -54,7 +54,7 @@ define(["jquery", "underscore-min",
         "./gui/IFrame",
         "./gui/MollweideViewer", "./gui/ImageViewer",
         "./gui/AdditionalLayersView", "./gui/ImageManager",
-        "./gui/MeasureToolSky", "./gui/MeasureToolPlanet",
+        "./gui/MeasureToolSky", "./gui/MeasureToolPlanet", "./gui/DistanceNavigationView",
         "./gui/SwitchTo2D", "./gui/ExportTool",
         "gui/dialog/AboutDialog",
         "gui/dialog/ErrorDialog",
@@ -75,7 +75,7 @@ define(["jquery", "underscore-min",
               IFrame,
               MollweideViewer, ImageViewer,
               AdditionalLayersView, ImageManager,
-              MeasureToolSky, MeasureToolPlanet,
+              MeasureToolSky, MeasureToolPlanet,DistanceNavigationView,
               SwitchTo2D, ExportTool,
               AboutDialog, ErrorDialog,
               Share, Samp, UtilsCore) {
@@ -317,6 +317,18 @@ define(["jquery", "underscore-min",
             } else {
                 ReverseNameResolverView.remove();
             }
+        };
+
+        MizarWidgetGui.prototype.setDistanceGui = function (visible) {
+            if (visible) {
+                if (!DistanceNavigationView.isInitialized())
+                    DistanceNavigationView.init(mizarWidgetAPI, "distTracker");
+                else
+                    DistanceNavigationView.update(mizarWidgetAPI);
+            } else {
+                DistanceNavigationView.remove();
+            }
+            this.activatedContext.setComponentVisibility("distanceDiv", visible);
         };
 
         /**
