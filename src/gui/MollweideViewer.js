@@ -42,7 +42,7 @@ define(["jquery"],
 
         // Init image background
         var canvas = document.getElementById('mollweideCanvas');
-        mizarWidgetAPI.subscribeCtx("modifiedCrs", MollweideViewerCore.updateGalaxyProjection);
+        mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.CRS_MODIFIED, MollweideViewerCore.updateGalaxyProjection);
         MollweideViewerCore.updateGalaxyProjection(mizarWidgetAPI.getContext());
 
         /**********************************************************************************************/
@@ -90,7 +90,7 @@ define(["jquery"],
                 $(this).css('background-position', '0px 0px');
                 $(this).parent().animate({left: '0px'}, 300);
                 // Update fov when navigation modified
-                mizarWidgetAPI.subscribeCtx("modifiedNavigation", MollweideViewerCore.updateMollweideFov);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_MODIFIED, MollweideViewerCore.updateMollweideFov);
                 MollweideViewerCore.updateMollweideFov(MollweideViewerCore.getImageObj());
             }
             else {
@@ -98,7 +98,7 @@ define(["jquery"],
                 $('#mollweideContent').css({boxShadow: "none"});
                 $(this).css('background-position', '0px -20px');
                 $(this).parent().animate({left: '-266px'}, 300);
-                mizarWidgetAPI.unsubscribeCtx("modifiedNavigation", MollweideViewerCore.updateMollweideFov);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_MODIFIED, MollweideViewerCore.updateMollweideFov);
             }
         });
 

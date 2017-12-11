@@ -175,9 +175,9 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 BackgroundLayersView.init({mizar: mizarWidgetAPI, configuration: configuration});
                 AdditionalLayersView.init({mizar: mizarWidgetAPI, configuration: configuration});
 
-                mizarWidgetAPI.subscribeCtx("backgroundLayer:add", BackgroundLayersView.addView);
-                mizarWidgetAPI.subscribeCtx("additionalLayer:add", AdditionalLayersView.addView);
-                mizarWidgetAPI.subscribeMizar("mizarMode:toggle", this.toggleMode);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_BACKGROUND_ADDED, BackgroundLayersView.addView);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_ADDITIONAL_ADDED, AdditionalLayersView.addView);
+                mizarWidgetAPI.subscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, this.toggleMode);
 
                 // Necessary to drag&drop option while using jQuery
                 $.event.props.push('dataTransfer');
@@ -230,9 +230,9 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 LayerServiceView.remove();
                 $(parentElement).empty();
 
-                mizarWidgetAPI.unsubscribeCtx("backgroundLayer:add", BackgroundLayersView.addView);
-                mizarWidgetAPI.unsubscribeCtx("additionalLayer:add", AdditionalLayersView.addView);
-                mizarWidgetAPI.unsubscribeMizar("mizarMode:toggle", this.toggleMode);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_BACKGROUND_ADDED, BackgroundLayersView.addView);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_ADDITIONAL_ADDED, AdditionalLayersView.addView);
+                mizarWidgetAPI.unsubscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, this.toggleMode);
 
                 $('canvas').off('dragover', handleDragOver);
                 $('canvas').off('drop', handleDrop);
@@ -250,8 +250,8 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 BackgroundLayersView.init({mizar: mizarWidgetAPI, configuration: configuration});
                 AdditionalLayersView.init({mizar: mizarWidgetAPI, configuration: configuration});
                 initLayers(context);
-                mizarWidgetAPI.subscribeCtx("backgroundLayer:add", BackgroundLayersView.addView);
-                mizarWidgetAPI.subscribeCtx("additionalLayer:add", AdditionalLayersView.addView);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_BACKGROUND_ADDED, BackgroundLayersView.addView);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_ADDITIONAL_ADDED, AdditionalLayersView.addView);
                 $el.accordion("option", "active", 0).accordion("refresh");
             },
 

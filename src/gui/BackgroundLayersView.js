@@ -21,7 +21,7 @@
 /**
  * BackgroundLayersView module
  */
-define(["jquery", "underscore-min", "./DynamicImageView", "./PickingManager", "./LayerServiceView", "service/Samp", "./dialog/ErrorDialog", "../utils/UtilsCore", "text!templates/backgroundLayers.html", "jquery.ui"],
+define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./LayerServiceView", "service/Samp", "./dialog/ErrorDialog", "../utils/UtilsCore", "text!templates/backgroundLayers.html", "jquery.ui"],
     function ($, _, DynamicImageView, PickingManager, LayerServiceView, Samp, ErrorDialog, UtilsCore, backgroundLayersHTML) {
 
         var nbBackgroundLayers = 0; // required because background id is always equal to 0
@@ -132,14 +132,14 @@ define(["jquery", "underscore-min", "./DynamicImageView", "./PickingManager", ".
                 this.updateUI();
 
                 // Background spinner events
-                mizarWidgetAPI.subscribeCtx("startBackgroundLoad", onLoadStart);
-                mizarWidgetAPI.subscribeCtx("endBackgroundLoad", onLoadEnd);
-                mizarWidgetAPI.subscribeCtx("backgroundLayer:change", this.selectLayer);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_START_BACKGROUND_LOAD, onLoadStart);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_END_BACKGROUND_LOAD, onLoadEnd);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_BACKGROUND_CHANGED, this.selectLayer);
             },
             remove: function () {
-                mizarWidgetAPI.unsubscribeCtx("startBackgroundLoad", onLoadStart);
-                mizarWidgetAPI.unsubscribeCtx("endBackgroundLoad", onLoadEnd);
-                mizarWidgetAPI.unsubscribeCtx("backgroundLayer:change", this.selectLayer);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_START_BACKGROUND_LOAD, onLoadStart);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_END_BACKGROUND_LOAD, onLoadEnd);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_BACKGROUND_CHANGED, this.selectLayer);
                 $('#backgroundDiv').dialog("destroy").remove();
                 $el.remove();
                 nbBackgroundLayers = 0;

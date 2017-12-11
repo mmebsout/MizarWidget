@@ -310,9 +310,11 @@ define(["jquery", "underscore-min",
 
                 initGUI(this, this.mode);
 
-
-                this.subscribeCtx("baseLayersReady", RenderingGlobeFinished);
-                this.subscribeMizar("mizarMode:toggle", RenderingGlobeFinished);
+                // Removes the spinner when background layers are loaded
+                this.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
+                // Removes the spinner when we come back to a previous context (it was not destroyed, then
+                // no baseLayersReady event is sent.
+                this.subscribeMizar(Mizar.EVENT_MSG.MIZAR_MODE_TOGGLE, RenderingGlobeFinished);
 
                 loadNoStandardSkyProviders();
                 loadNoStandardPlanetProviders();
@@ -514,6 +516,9 @@ define(["jquery", "underscore-min",
 
         MizarWidgetAPI.prototype.LAYER = Mizar.LAYER;
 
+        MizarWidgetAPI.prototype.EVENT_MSG = Mizar.EVENT_MSG;
+
+
         /**
          * Show/hide angle distance GUI
          * @function setAngleDistanceSkyGui
@@ -701,7 +706,7 @@ define(["jquery", "underscore-min",
 
 
         MizarWidgetAPI.prototype.createMarsContext = function() {
-            this.unsubscribeCtx("baseLayersReady", RenderingGlobeFinished);
+            this.unsubscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
             $(mizarDiv).find('#loading').show();
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "mars" });
@@ -712,7 +717,7 @@ define(["jquery", "underscore-min",
             var self = this;
             mizarAPI.toggleToContext(mizarAPI.getPlanetContext(), {"mustBeHidden":true,"callback":function(){
                 initGUI(self, self.getMode());
-                self.subscribeCtx("baseLayersReady", RenderingGlobeFinished);
+                self.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
             }});
             loadNoStandardPlanetProviders();
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
@@ -726,7 +731,7 @@ define(["jquery", "underscore-min",
         };
 
         MizarWidgetAPI.prototype.createCuriosityContext = function() {
-            this.unsubscribeCtx("baseLayersReady", RenderingGlobeFinished);
+            this.unsubscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
             $(mizarDiv).find('#loading').show();
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "curiosity" });
@@ -734,7 +739,7 @@ define(["jquery", "underscore-min",
             var self = this;
             mizarAPI.toggleToContext(mizarAPI.getGroundContext(),{"mustBeHidden":true, "callback":function() {
                 initGUI(self, self.getMode());
-                self.subscribeCtx("baseLayersReady", RenderingGlobeFinished);
+                self.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
             }});
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
@@ -747,7 +752,7 @@ define(["jquery", "underscore-min",
         };
 
         MizarWidgetAPI.prototype.createSunContext = function() {
-            this.unsubscribeCtx("baseLayersReady", RenderingGlobeFinished);
+            this.unsubscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
             $(mizarDiv).find('#loading').show();
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "sun" });
@@ -755,7 +760,7 @@ define(["jquery", "underscore-min",
             var self = this;
             mizarAPI.toggleToContext(mizarAPI.getPlanetContext(),{"mustBeHidden":true, "callback":function() {
                 initGUI(self, self.getMode());
-                self.subscribeCtx("baseLayersReady", RenderingGlobeFinished);
+                self.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
             }});
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];

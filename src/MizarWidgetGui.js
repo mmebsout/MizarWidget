@@ -265,9 +265,6 @@ define(["jquery", "underscore-min",
         MizarWidgetGui.prototype.setSampGui = function (visible) {
             if (!options.isMobile) {
                 this.activatedContext.setComponentVisibility("sampContainer", visible);
-                //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-                //    context.setComponentVisibility("sampContainer", visible);
-                //});
             }
         };
 
@@ -278,9 +275,6 @@ define(["jquery", "underscore-min",
         //TODO décrire visible
         MizarWidgetGui.prototype.setShortenerUrlGui = function (visible) {
             this.activatedContext.setComponentVisibility("shareContainer", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("shareContainer", visible);
-            //});
         };
 
         /**************************************************************************************************************/
@@ -300,9 +294,6 @@ define(["jquery", "underscore-min",
                 });
             }
             this.activatedContext.setComponentVisibility("2dMapContainer", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("2dMapContainer", visible);
-            //});
         };
 
         /**
@@ -314,19 +305,17 @@ define(["jquery", "underscore-min",
             if (visible) {
                 if (!ReverseNameResolverView.isInitialized())
                     ReverseNameResolverView.init(mizarWidgetAPI);
-            } else {
-                ReverseNameResolverView.remove();
             }
         };
 
         MizarWidgetGui.prototype.setDistanceGui = function (visible) {
             if (visible) {
-                if (!DistanceNavigationView.isInitialized())
-                    DistanceNavigationView.init(mizarWidgetAPI, "distTracker");
-                else
+                if (DistanceNavigationView.isInitialized())
                     DistanceNavigationView.update(mizarWidgetAPI);
+                else
+                    DistanceNavigationView.init(mizarWidgetAPI, "distTracker");
             } else {
-                DistanceNavigationView.remove();
+                DistanceNavigationView.unregisterEvents();
             }
             this.activatedContext.setComponentVisibility("distanceDiv", visible);
         };
@@ -340,15 +329,8 @@ define(["jquery", "underscore-min",
             if (visible) {
                 if(!NameResolverView.isInitialized())
                     NameResolverView.init(mizarWidgetAPI);
-            } //else {
-                // Mizar can hide the component.
-                // If we remove it, mizar cannot show up anymore.
-                //NameResolverView.remove();
-            //}
+            }
             this.activatedContext.setComponentVisibility("searchDiv", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(mizarWidgetAPI) {
-            //    mizarWidgetAPI.setComponentVisibility("searchDiv", visible);
-            //});
         };
 
         /**
@@ -364,9 +346,6 @@ define(["jquery", "underscore-min",
               //  LayerManagerView.remove();
             //}
             this.activatedContext.setComponentVisibility("categoryDiv", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("categoryDiv", visible);
-            //});
         };
 
         /**
@@ -383,9 +362,6 @@ define(["jquery", "underscore-min",
                   //  ImageViewer.remove();
                 //}
                 this.activatedContext.setComponentVisibility("imageViewerDiv", visible);
-                //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-                //    context.setComponentVisibility("imageViewerDiv", visible);
-                //});
             }
         };
 
@@ -403,9 +379,6 @@ define(["jquery", "underscore-min",
                 }
             }
             this.activatedContext.setComponentVisibility("exportContainer", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("exportContainer", visible);
-            //});
         };
 
         /**
@@ -415,16 +388,10 @@ define(["jquery", "underscore-min",
         //TODO décrire visible
         MizarWidgetGui.prototype.setPositionTrackerGui = function (visible) {
             this.activatedContext.setComponentVisibility("posTracker", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("posTracker", visible);
-            //});
         };
 
         MizarWidgetGui.prototype.setElevationTrackerGui = function (visible) {
             this.activatedContext.setComponentVisibility("elevTracker", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("elevTracker", visible);
-            //});
         };
 
         /**

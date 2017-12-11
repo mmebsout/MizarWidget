@@ -59,21 +59,28 @@ define(["jquery"],
                 var initNav = ctx.getNavigation();
                 var initDistance = initNav.getDistance();
                 document.getElementById(elt).innerHTML = _formatDistance(initDistance);
-                ctx.subscribe("navigation:changedDistance", _distanceEvent)
+                ctx.subscribe(mizarWidgetAPI.EVENT_MSG.NAVIGATION_CHANGED_DISTANCE, _distanceEvent);
             },
             isInitialized: function() {
                 return mizarWidgetAPI ? true : false
             },
             update : function(m) {
+                this.unregisterEvents();
                 mizarWidgetAPI = m;
                 var ctx = mizarWidgetAPI.getContext();
-                ctx.subscribe("navigation:changedDistance", _distanceEvent)
+                ctx.subscribe(mizarWidgetAPI.EVENT_MSG.NAVIGATION_CHANGED_DISTANCE, _distanceEvent)
             },
-            remove: function() {
+            unregisterEvents: function() {
                 if(mizarWidgetAPI) {
                     var ctx = mizarWidgetAPI.getContext();
-                    ctx.unsubscribe("navigation:changedDistance", _distanceEvent);
+                    ctx.unsubscribe(mizarWidgetAPI.EVENT_MSG.NAVIGATION_CHANGED_DISTANCE, _distanceEvent);
                 }
+            },
+            remove: function() {
+                this.unregisterEvents();
+                elt = null;
+                opts = null;
+                mizarWidgetAPI = null;
             }
 
         };
