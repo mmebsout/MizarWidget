@@ -33,7 +33,196 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
         var selectedLayer;
         var mizarWidgetAPI;
 
+
         /**************************************************************************************************************/
+
+
+        function createBackgroundItemList() {
+            $.widget("custom.iconselectmenu", $.ui.selectmenu, {
+                _renderItem: function (ul, item) {
+                    var li = $("<li>", {text: item.label});
+
+                    if (item.disabled) {
+                        li.addClass("ui-state-disabled");
+                    }
+
+                    $("<span>", {
+                        style: item.element.attr("data-style"),
+                        "class": "ui-icon " + item.element.attr("data-class")
+                    }).appendTo(li);
+
+                    return li.appendTo(ul);
+                }
+            });
+        }
+
+        function createBackToSkyButtonFromPlanet() {
+            if(mizarWidgetAPI.hasSkyContext()) {
+                $el.find('.backToSky').button().click(function (event) {
+                    mizarWidgetAPI.toggleToSky();
+                });
+            } else {
+                $el.find('.backToSky').hide();
+            }
+            $el.find("#backgroundOptions").hide();
+        }
+
+        function createBackToSkyButtonFromGround() {
+            if(mizarWidgetAPI.hasPlanetContext()) {
+                $el.find('.backToSky').button().click(function (event) {
+                    mizarWidgetAPI.toggleToSky();
+                });
+            } else {
+                $el.find('.backToSky').hide();
+            }
+            $el.find("#backgroundOptions").hide();
+        }
+
+        function createServiceButton() {
+            $el.find('.layerServices').button({
+                text: false,
+                icons: {
+                    primary: "ui-icon-wrench"
+                }
+            }).click(function (event) {
+                LayerServiceView.show(selectedLayer);
+            });
+        }
+
+        function createExportSampButton() {
+            $el.find('.exportLayer').button({
+                text: false,
+                icons: {
+                    primary: "ui-icon-extlink"
+                }
+            }).click(function (event) {
+                if (Samp.isConnected()) {
+                    var healpixLayer = sky.baseImagery;
+                    for (var i = 0; i < sky.tileManager.tilesToRender.length; i++) {
+                        var tile = sky.tileManager.tilesToRender[i];
+                        var url = healpixLayer.getUrl(tile);
+                        Samp.sendImage(url);
+                    }
+                }
+                else {
+                    ErrorDialog.open('You must be connected to SAMP Hub');
+                }
+            });
+        }
+
+        function createImageProcessingButton() {
+            var dialogId = "backgroundDiv";
+
+            var $dialog = $('<div id="' + dialogId + '"></div>').appendTo('body').dialog({
+                title: 'Image processing',
+                autoOpen: false,
+                show: {
+                    effect: "fade",
+                    duration: 300
+                },
+                hide: {
+                    effect: "fade",
+                    duration: 300
+                },
+                width: 400,
+                resizable: false,
+                minHeight: 'auto',
+                close: function (event, ui) {
+                    $('#fitsView').removeAttr("checked").button("refresh");
+                    $(this).dialog("close");
+                }
+            });
+            backgroundDiv = new DynamicImageView(dialogId, {
+                id: 'backgroundFitsView',
+                mizar: mizarWidgetAPI
+            });
+            mizarWidgetAPI.subscribeCtx("baseLayersReady", function(imageryProvider) {
+                if(imageryProvider.format === "fits") {
+                    backgroundDiv.setImage(imageryProvider.levelZeroImage);
+                    mizarWidgetAPI.publishCtx("image:set", imageryProvider.levelZeroImage);
+                }
+            });
+
+            // Show/hide Dynamic image service
+            $el.find('#fitsView').button({
+                text: false,
+                icons: {
+                    primary: "ui-icon-image"
+                }
+            }).click(function (event) {
+
+                if ($dialog.dialog("isOpen")) {
+                    $dialog.dialog("close");
+                }
+                else {
+                    $dialog.dialog("open");
+                }
+            });
+
+        }
+
+        function createFitsButton() {
+            $el.find('#fitsType')
+                .button()
+                .click(function () {
+
+                    var isFits = $(this).is(':checked');
+
+                    //selectedLayer.format = isFits ? 'fits' : 'jpg';
+                    if (!isFits) {
+                        $('#fitsView').button('disable');
+                    } else {
+                        $('#fitsView').button('enable');
+                        console.log(selectedLayer);
+                        var hipsMetadata = selectedLayer.getHipsMetadata();
+                        var mizarAPI = mizarWidgetAPI.getMizarAPI();
+                        var options = {};
+                        options.hipsMetadata = hipsMetadata;
+                        options.type = "Hips";
+                        options.format = "fits";
+                        var layer = mizarAPI.LayerFactory.create(options);
+                        layer.name = layer.name+"_fits";
+                        mizarAPI.getActivatedContext().globe.setBaseImagery(layer);
+                        layer.setVisible(true);
+                        selectedLayer = layer;
+                        mizarAPI.getActivatedContext().publish("backgroundLayer:change", layer);
+                    }
+
+                    //mizarWidgetAPI.setBackgroundLayer(selectedLayer.name);
+                    //sky.setBaseImagery(null);
+                    //sky.setBaseImagery(selectedLayer);
+                    $('#loading').show();
+                });
+        }
+
+        function createBackgroundButtons() {
+            if(mizarWidgetAPI.isGroundContext()) {
+                createBackToSkyButtonFromGround();
+            } else if(mizarWidgetAPI.isPlanetContext()) {
+                createBackToSkyButtonFromPlanet();
+            } else {
+                // we are in skyContext
+                $el.find('.backToSky').hide();
+                //$el.find('.toggleDimension').hide();
+
+                createServiceButton();
+                createExportSampButton();
+                createImageProcessingButton();
+                createFitsButton();
+            }
+        }
+
+        function selectBackgroundItem() {
+            $el.find('#backgroundLayersSelect').iconselectmenu({
+                select: function (event, ui) {
+                    var index = ui.item.index;
+                    var layer = $(this).children().eq(index).data("layer");
+                    if (layer !== mizarWidgetAPI.getContext().globe.baseImagery) {
+                        mizarWidgetAPI.setBackgroundLayer(layer.name);
+                    }
+                }
+            }).iconselectmenu("menuWidget").addClass("ui-menu-icons customicons");
+        }
 
         /**
          *    Update layout of background layer options (HEALPixFITSLayer only for now)
@@ -42,12 +231,7 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
             if ($el.find("#backgroundOptions").is(":visible")) {
                 if (UtilsCore.isHipsFitsLayer(layer)) {
                     $el.find("#fitsType").removeAttr('disabled').removeAttr('checked').button("refresh");
-                    // Dynamic image view button visibility
-                    if (layer.format === 'jpeg') {
-                        $el.find('#fitsView').button("disable");
-                    }
-                }
-                else {
+                } else {
                     $el.find("#fitsType").attr('disabled', 'disabled').button("refresh");
                     $el.find('#fitsView').button("disable");
                 }
@@ -55,8 +239,7 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
                 var $layerServices = $el.find('.layerServices');
                 if (!layer.services) {
                     $layerServices.attr('disabled', 'disabled').button('refresh');
-                }
-                else {
+                } else {
                     $layerServices.removeAttr('disabled').button('refresh');
                 }
             }
@@ -82,18 +265,13 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
                 }
                 else {
                     // Use default style for icon
-                    $layerDiv.addClass('backgroundLayer_' + nbBackgroundLayers)
-                        .attr("data-class", "unknown");
+                    $layerDiv.addClass('backgroundLayer_' + nbBackgroundLayers).attr("data-class", "unknown");
                 }
-                //if (gwLayer.isVisible()) {
-                //    // Update background options layout
-                //    updateBackgroundOptions(gwLayer);
-                //    selectedLayer = gwLayer;
-                //    if (gwLayer !== mizarWidgetAPI.getContext().globe.baseImagery) {
-                //        //LayerManager.setBackgroundSurvey(gwLayer.name);
-                //        mizarWidgetAPI.setBackgroundLayer(gwLayer.name);
-                //    }
-                //}
+                if (gwLayer.isVisible()) {
+                    selectedLayer = gwLayer;
+                    updateBackgroundOptions(gwLayer);
+                    mizarWidgetAPI.setBackgroundLayer(gwLayer.name);
+                }
                 $el.find('#backgroundLayersSelect').iconselectmenu("refresh");
                 nbBackgroundLayers++;
             }
@@ -126,6 +304,7 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
              *    Initialization options
              */
             init: function (options) {
+
                 mizarWidgetAPI = options.mizar;
                 sky = mizarWidgetAPI.getContext().globe;
                 parentElement = options.configuration.element;
@@ -147,11 +326,9 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
             addView: createHtmlForBackgroundLayer,
 
             /**
-             *    Select the give
-             *    n layer
+             *    Select the given layer
              */
             selectLayer: function (layer) {
-
                 // Update selectmenu ui by choosen layer(if called programmatically)
                 $el.children().removeAttr("selected");
                 var option = _.find($el.children(), function (item) {
@@ -187,147 +364,9 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
             updateUI: function () {
                 $el = $(backgroundLayersHTML).prependTo($(parentElement));
                 // Add custion icon select menu
-                $.widget("custom.iconselectmenu", $.ui.selectmenu, {
-                    _renderItem: function (ul, item) {
-                        var li = $("<li>", {text: item.label});
-
-                        if (item.disabled) {
-                            li.addClass("ui-state-disabled");
-                        }
-
-                        $("<span>", {
-                            style: item.element.attr("data-style"),
-                            "class": "ui-icon " + item.element.attr("data-class")
-                        }).appendTo(li);
-
-                        return li.appendTo(ul);
-                    }
-                });
-
-                // Back to sky button if in planet mode
-                var self = this;
-
-                if(mizarWidgetAPI.isGroundContext()) {
-                    if(mizarWidgetAPI.hasPlanetContext()) {
-                        $el.find('.backToSky').button().click(function (event) {
-                            mizarWidgetAPI.toggleToSky();
-                        });
-                    } else {
-                        $el.find('.backToSky').hide();
-                    }
-                    $el.find("#backgroundOptions").hide();
-                } else if(mizarWidgetAPI.isPlanetContext()) {
-                    if(mizarWidgetAPI.hasSkyContext()) {
-                        $el.find('.backToSky').button().click(function (event) {
-                            mizarWidgetAPI.toggleToSky();
-                        });
-                    } else {
-                        $el.find('.backToSky').hide();
-                    }
-                    $el.find("#backgroundOptions").hide();
-                } else {
-                    // we are in skyContext
-                    $el.find('.backToSky').hide();
-                    //$el.find('.toggleDimension').hide();
-
-                    $el.find('.layerServices').button({
-                        text: false,
-                        icons: {
-                            primary: "ui-icon-wrench"
-                        }
-                    }).click(function (event) {
-                        LayerServiceView.show(selectedLayer);
-                    });
-
-                    $el.find('.exportLayer').button({
-                        text: false,
-                        icons: {
-                            primary: "ui-icon-extlink"
-                        }
-                    }).click(function (event) {
-                        if (Samp.isConnected()) {
-                            var healpixLayer = sky.baseImagery;
-                            for (var i = 0; i < sky.tileManager.tilesToRender.length; i++) {
-                                var tile = sky.tileManager.tilesToRender[i];
-                                var url = healpixLayer.getUrl(tile);
-                                Samp.sendImage(url);
-                            }
-                        }
-                        else {
-                            ErrorDialog.open('You must be connected to SAMP Hub');
-                        }
-                    });
-
-                    var dialogId = "backgroundDiv";
-                    var $dialog = $('<div id="' + dialogId + '"></div>').appendTo('body').dialog({
-                        title: 'Image processing',
-                        autoOpen: false,
-                        show: {
-                            effect: "fade",
-                            duration: 300
-                        },
-                        hide: {
-                            effect: "fade",
-                            duration: 300
-                        },
-                        width: 400,
-                        resizable: false,
-                        minHeight: 'auto',
-                        close: function (event, ui) {
-                            $('#fitsView').removeAttr("checked").button("refresh");
-                            $(this).dialog("close");
-                        }
-                    });
-
-                    // Show/hide Dynamic image service
-                    $el.find('#fitsView').button({
-                        text: false,
-                        icons: {
-                            primary: "ui-icon-image"
-                        }
-                    }).click(function (event) {
-
-                        if ($dialog.dialog("isOpen")) {
-                            $dialog.dialog("close");
-                        }
-                        else {
-                            $dialog.dialog("open");
-                        }
-                    });
-
-                    backgroundDiv = new DynamicImageView(dialogId, {
-                        id: 'backgroundFitsView',
-                        mizar: mizarWidgetAPI
-                    });
-
-                    $el.find('#fitsType')
-                        .button()
-                        .click(function () {
-
-                            var isFits = $(this).is(':checked');
-
-                            selectedLayer.format = isFits ? 'fits' : 'jpg';
-                            if (!isFits) {
-                                $('#fitsView').button('disable');
-                            }
-
-                            mizarWidgetAPI.setBackgroundLayer(selectedLayer.name);
-                            //sky.setBaseImagery(null);
-                            //sky.setBaseImagery(selectedLayer);
-                            $('#loading').show();
-                        });
-                }
-
-                $el.find('#backgroundLayersSelect').iconselectmenu({
-                    select: function (event, ui) {
-                        var index = ui.item.index;
-                        var layer = $(this).children().eq(index).data("layer");
-                        if (layer !== mizarWidgetAPI.getContext().globe.baseImagery) {
-                            mizarWidgetAPI.setBackgroundLayer(layer.name);
-                        }
-                    }
-                }).iconselectmenu("menuWidget")
-                    .addClass("ui-menu-icons customicons");
+                createBackgroundItemList();
+                createBackgroundButtons();
+                selectBackgroundItem();
             },
             getDiv: function () {
                 return backgroundDiv;

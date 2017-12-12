@@ -553,12 +553,12 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             // TODO: make reset function ?
             // layer.setFormat( format );
 
-            var prevId = layer.id;
+            var prevId = layer.ID;
             globe.removeLayer(layer);
             globe.addLayer(layer);
 
             // HACK : Layer id will be changed by remove/add so we need to change the html id
-            $('#addLayer_' + prevId).attr('id', 'addLayer_' + layer.id);
+            $('#addLayer_' + prevId).attr('id', 'addLayer_' + layer.ID);
         }
 
         /**************************************************************************************************************/
@@ -686,10 +686,10 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             addView: addView,
             removeView: removeView,
             hideView: function (layer) {
-                $('#addLayer_' + layer.id).hide();
+                $('#addLayer_' + layer.ID).hide();
             },
             showView: function (layer) {
-                $('#addLayer_' + layer.id).show();
+                $('#addLayer_' + layer.ID).show();
             }
         };
 
