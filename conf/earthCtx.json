@@ -32,6 +32,15 @@
       "name": "Coordinates Grid",
       "outline": true,
       "visible": true
+    },
+    {
+      "category": "PEPS",
+      "type": "OpenSearch",
+      "availableServices": [
+        "OpenSearch"
+      ],
+      "name": "Peps",
+      "getCapabilities":"https://peps.cnes.fr/resto/api/collections/S1/describe.xml"
     }
   ]
 }
