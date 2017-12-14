@@ -54,5 +54,5 @@
       "context": "./sunCtx.json"
     }
   ],
-  "defaultCtx": "moon"
+  "defaultCtx": "mars"
 }

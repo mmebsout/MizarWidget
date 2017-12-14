@@ -380,7 +380,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             updateButtonsUI($layerDiv);
 
             if (UtilsCore.isHipsFitsLayer(gwLayer) && !isMobile) {
-                createDynamicImageDialog(gwLayer);
+                //createDynamicImageDialog(gwLayer);
             }
         }
 

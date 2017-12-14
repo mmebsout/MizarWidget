@@ -136,10 +136,10 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
                 id: 'backgroundFitsView',
                 mizar: mizarWidgetAPI
             });
+            var self = this;
             mizarWidgetAPI.subscribeCtx("baseLayersReady", function(imageryProvider) {
                 if(imageryProvider.format === "fits") {
                     backgroundDiv.setImage(imageryProvider.levelZeroImage);
-                    mizarWidgetAPI.publishCtx("image:set", imageryProvider.levelZeroImage);
                 }
             });
 
@@ -158,42 +158,34 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
                     $dialog.dialog("open");
                 }
             });
-
+            return $dialog;
         }
 
-        function createFitsButton() {
+        function createFitsButton($dialog) {
             $el.find('#fitsType')
                 .button()
                 .click(function () {
-
-                    var isFits = $(this).is(':checked');
-
-                    //selectedLayer.format = isFits ? 'fits' : 'jpg';
-                    if (!isFits) {
-                        $('#fitsView').button('disable');
-                    } else {
+                    var isFits = $('#fitsType').is(':checked');
+                    var fitsHipsService = mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.FitsHips);
+                    var mizarAPI = mizarWidgetAPI.getMizarAPI();
+                    fitsHipsService.init(mizarAPI, {});
+                    if (isFits) {
+                        $('#fitsType').removeAttr(":checked").button("refresh");
+                        fitsHipsService.createFitsLayer(selectedLayer);
                         $('#fitsView').button('enable');
-                        console.log(selectedLayer);
-                        var hipsMetadata = selectedLayer.getHipsMetadata();
-                        var mizarAPI = mizarWidgetAPI.getMizarAPI();
-                        var options = {};
-                        options.hipsMetadata = hipsMetadata;
-                        options.type = "Hips";
-                        options.format = "fits";
-                        var layer = mizarAPI.LayerFactory.create(options);
-                        layer.name = layer.name+"_fits";
-                        mizarAPI.getActivatedContext().globe.setBaseImagery(layer);
-                        layer.setVisible(true);
-                        selectedLayer = layer;
-                        mizarAPI.getActivatedContext().publish("backgroundLayer:change", layer);
+                    } else {
+                        $('#fitsType').attr(':checked', true).button("refresh");
+                        fitsHipsService.removeFitsLayer(selectedLayer.ID);
+                        if ($dialog.dialog("isOpen")) {
+                            $dialog.dialog("close");
+                            $('#fitsView').removeAttr("checked").button("refresh");
+                        }
+                        $('#fitsView').button('disable');
                     }
-
-                    //mizarWidgetAPI.setBackgroundLayer(selectedLayer.name);
-                    //sky.setBaseImagery(null);
-                    //sky.setBaseImagery(selectedLayer);
                     $('#loading').show();
                 });
         }
+
 
         function createBackgroundButtons() {
             if(mizarWidgetAPI.isGroundContext()) {
@@ -207,8 +199,8 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
 
                 createServiceButton();
                 createExportSampButton();
-                createImageProcessingButton();
-                createFitsButton();
+                var $dialog = createImageProcessingButton();
+                createFitsButton($dialog);
             }
         }
 
@@ -230,7 +222,9 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
         function updateBackgroundOptions(layer) {
             if ($el.find("#backgroundOptions").is(":visible")) {
                 if (UtilsCore.isHipsFitsLayer(layer)) {
-                    $el.find("#fitsType").removeAttr('disabled').removeAttr('checked').button("refresh");
+                    if(layer.format!=="fits") {
+                        $el.find("#fitsType").removeAttr('disabled').removeAttr('checked').button("refresh");
+                    }
                 } else {
                     $el.find("#fitsType").attr('disabled', 'disabled').button("refresh");
                     $el.find('#fitsView').button("disable");
