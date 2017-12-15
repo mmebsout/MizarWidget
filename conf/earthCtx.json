@@ -40,7 +40,8 @@
         "OpenSearch"
       ],
       "name": "Peps",
-      "getCapabilities":"https://peps.cnes.fr/resto/api/collections/S1/describe.xml"
+      "getCapabilities":"https://peps.cnes.fr/resto/api/collections/S1/describe.xml",
+      "color": "yellow"
     }
   ]
 }
