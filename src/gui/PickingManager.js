@@ -161,7 +161,7 @@ define(["jquery", "underscore-min",
             }
 
             // Hide popup and blur selection when pan/zoom or animation
-            mizarWidgetAPI.subscribeCtx("modifiedNavigation", function () {
+            mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_MODIFIED, function () {
                 pickingManagerCore.clearSelection();
                 FeaturePopup.hide();
             });
@@ -182,7 +182,7 @@ define(["jquery", "underscore-min",
             }
 
             // Hide popup and blur selection when pan/zoom or animation
-            mizarWidgetAPI.unsubscribeCtx("modifiedNavigation", function () {
+            mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_MODIFIED, function () {
                 pickingManagerCore.clearSelection();
                 FeaturePopup.hide();
             });
@@ -210,8 +210,8 @@ define(["jquery", "underscore-min",
 
                 activate();
 
-                mizarWidgetAPI.subscribeMizar("mizarMode:toggle", this.updateContext);
-                mizarWidgetAPI.subscribeCtx("modifiedCrs", this.updateContext);
+                mizarWidgetAPI.subscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, this.updateContext);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.CRS_MODIFIED, this.updateContext);
 
                 // Initialize the fits manager
                 ImageManager.init(mizarWidgetAPI, configuration);

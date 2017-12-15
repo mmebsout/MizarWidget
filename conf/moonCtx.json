@@ -40,6 +40,7 @@
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon.map",
       "layers": "LRO_1M",
+      "format" : "image/png",
       "visible": false
     },
     {

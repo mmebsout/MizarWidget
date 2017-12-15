@@ -36,10 +36,10 @@ define(["jquery", "underscore-min", "../../utils/UtilsCore", "text!templates/moc
          *    Event for display button
          */
         function displayClickEvent() {
-            var layer = $(this).parent().data("layer");
-            var IDs = layer.split("#",2);
-            var serviceLayerID = IDs[1];
-            var serviceLayer = mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MocBase).findMocSublayer(serviceLayerID);
+            var serviceLayer = $(this).parent().data("layer");
+            //var IDs = layer.split("#",2);
+            //var serviceLayerID = IDs[1];
+            //var serviceLayer = mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MocBase).findMocSublayer(serviceLayerID);
             // Change visibility
             if (serviceLayer) {
                 if (this.checked) {
@@ -49,6 +49,10 @@ define(["jquery", "underscore-min", "../../utils/UtilsCore", "text!templates/moc
                     serviceLayer.setVisible(false);
                 }
             }
+        }
+
+        function convertToIDJquery(str) {
+            return str.replace(/\:/g, "_");
         }
 
         /**************************************************************************************************************/
@@ -91,17 +95,17 @@ define(["jquery", "underscore-min", "../../utils/UtilsCore", "text!templates/moc
                     })) {
                     var serviceID = mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MocBase).createMocSublayer(mocDescribe,
                         function (layer) {
-                            $("#MocService #mocLayer_" + layer.ID).find('input[type="checkbox"]').removeAttr("disabled").button("refresh");
-                            $("#MocService #mocLayer_" + layer.ID).find('.mocCoverage').html("Sky coverage: " + layer.coverage);
-
+                            $("#MocService #mocLayer_" + convertToIDJquery(layer.ID)).find('input[type="checkbox"]').removeAttr("disabled").button("refresh");
+                            $("#MocService #mocLayer_" + convertToIDJquery(layer.ID)).find('.mocCoverage').html("Sky coverage: " + layer.coverage);
                     }, function (layer) {
-                        $("#MocService #mocLayer_" + layer.ID).find('.mocCoverage').html("Sky coverage: Not available").end()
+                        $("#MocService #mocLayer_" + convertToIDJquery(layer.ID)).find('.mocCoverage').html("Sky coverage: Not available").end()
                             .find('.mocStatus').html('(Not found)');
                     });
 
                     layers.push(layer.ID+"#"+serviceID);
                     var mocLayer = mizarWidgetAPI.getLayerByID(serviceID);
-                    addHTMLMocLayer(layer);
+                    mocLayer.name = layer.name+" MOC";
+                    addHTMLMocLayer(mocLayer);
                 }
             },
 
@@ -111,13 +115,17 @@ define(["jquery", "underscore-min", "../../utils/UtilsCore", "text!templates/moc
              *    Remove layer from the service
              */
             removeLayer: function (layer) {
+                var serviceID="";
                 for (var i = 0; i < layers.length; i++) {
-                    if (layers[i].id == layer.id) {
+                    var registeredLayer = layers[i];
+                    var IDs = registeredLayer.split("#",2);
+                    if (IDs[0] === layer.ID) {
                         layers.splice(i, 1);
+                        serviceID = IDs[1];
+                        break;
                     }
                 }
-
-                $("#MocService #mocLayer_" + layer.id).remove();
+                $("#MocService #mocLayer_" + convertToIDJquery(serviceID)).remove();
             },
 
             /**************************************************************************************************************/
@@ -139,7 +147,8 @@ define(["jquery", "underscore-min", "../../utils/UtilsCore", "text!templates/moc
 					</div>');
 
                 for (var i = 0; i < layers.length; i++) {
-                    var layer = layers[i];
+                    var layerIDs = layers[i].split("#",2);
+                    var layer = mizarWidgetAPI.getLayerByID(layerIDs[1]);
                     addHTMLMocLayer(layer);
                 }
             },

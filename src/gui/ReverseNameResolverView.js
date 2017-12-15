@@ -21,7 +21,7 @@
 /**
  * Reverse name resolver view using ReverseNameResolver services
  */
-define(["jquery", "underscore-min", "../utils/UtilsCore", 
+define(["jquery", "underscore-min", "../utils/UtilsCore",
         "./IFrame", "./dialog/ErrorDialog",
         "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "jquery.ui"],
     function ($, _, UtilsCore,
@@ -245,7 +245,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
 
                     // External link event
                     $reverseNameResolver.on("click", '.propertiesTable a', _showIFrame);
-                    mizarWidgetAPI.subscribeMizar("mizarAPIMode:toggle", self.updateContext);
+                    mizarWidgetAPI.subscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, self.updateContext);
                     this.updateContext();
                 } else {
                     console.error("Reverse name resolver is already initialized");
@@ -281,7 +281,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                     mizarWidgetAPI.getRenderContext().canvas.addEventListener("touchend", _handleMouseUp);
                 }
 
-                mizarWidgetAPI.subscribeCtx("modifiedNavigation", _hidePopup);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_MODIFIED, _hidePopup);
             },
 
             /**
@@ -296,7 +296,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                     mizarWidgetAPI.getRenderContext().canvas.removeEventListener("touchend", _handleMouseUp);
                 }
 
-                mizarWidgetAPI.unsubscribeCtx("modifiedNavigation", _hidePopup);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_MODIFIED, _hidePopup);
             },
 
             /**
@@ -306,7 +306,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 this.deactivate();
                 // External link event
                 $reverseNameResolver.off("click", '.propertiesTable a', _showIFrame);
-                mizarWidgetAPI.unsubscribeMizar("mizarAPIMode:toggle", self.updateContext);
+                mizarWidgetAPI.unsubscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, self.updateContext);
             },
 
             /**
