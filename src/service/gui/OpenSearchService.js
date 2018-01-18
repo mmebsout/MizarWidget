@@ -62,19 +62,19 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
          *    Add OpenSearch form and handle jQuery stuff(events & widgets)
          */
         function handleForm(layer) {
-            console.log("FORM",$('#osForm_' + layer.id).find(".datetimepicker"));
+            //console.log("FORM",$('#osForm_' + layer.id).find(".datetimepicker"));
             $('#osForm_' + layer.id)
                 .html(layer.openSearchForm ? layer.openSearchForm : "Loading...")
                 .find('.openSearchForm')
                 .data("layer", layer)
                 .submit(handleSubmit).end()
-                .find(".datetimepicker").datetimepicker({
+                /*.find(".datetimepicker").datetimepicker({
                 showSecond: true,
                 separator: 'T',
                 timeSuffix: 'Z',
                 dateFormat: "yy-mm-dd",
                 timeFormat: 'HH:mm:ss'
-            })
+                })*/;
             $('#openSearchTabs').tabs("refresh");
         }
 
@@ -129,7 +129,8 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
             addLayer: function (layer) {
               layers.push(layer);
 
-                if (!layer.openSearchForm)
+              // Specific to OpenSearch => recreate form each time to take into account value changes
+//                if (!layer.openSearchForm)
                     attachForm(layer);
 
                 if ((typeof $("#osForm_" + layer.id).length === "number") && ($("#osForm_" + layer.id).length  === 0)) {
@@ -171,7 +172,7 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
 
                 var openSearchService = openSearchServiceTemplate({layers: layers});
 
-                console.log("FORM",$(openSearchService).find(".datetimepicker"));
+                //console.log("FORM",$(openSearchService).find(".datetimepicker"));
                 $(openSearchService)
                     .appendTo('#OpenSearchService')
                     .tabs({
@@ -181,13 +182,13 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
                     })
                     .find('.openSearchForm')
                     .submit(handleSubmit).end()
-                    .find('.datetimepicker').datetimepicker({
+                    /*.find('.datetimepicker').datetimepicker({
                     showSecond: true,
                     separator: 'T',
                     timeSuffix: 'Z',
                     dateFormat: "yy-mm-dd",
                     timeFormat: 'HH:mm:ss'
-                });
+                })*/;
               }
 
             },

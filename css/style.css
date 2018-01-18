@@ -326,6 +326,14 @@ body {
     bottom: 0;
 }
 
+/*** Position result navigation on bottom ***/
+#resultNavigation {
+    position: absolute;
+    left: 77%;
+    color: white;
+    bottom: 24px;
+}
+
 /*** Position tracker on bottom ***/
 #posTracker {
     position: relative;

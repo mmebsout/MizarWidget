@@ -2,6 +2,7 @@
     <table>
     <tr>
     <%
+    console.log("Creation");
     var finalScript = "";
     for(var i=0; i<layer.formDescription.parameters.length; i++)
     {
@@ -21,7 +22,7 @@
         for(var j=0; j<parameter.options.length; j++)
         {
         %>
-        <option value="<%= parameter.options[j]  %>"><%= parameter.options[j] %></option>
+        <option <% if ( parameter.options[j] === parameter.currentValue ){ %>selected <%}%> value="<%= parameter.options[j] %>"><%= parameter.options[j] %></option>
         <%
         }
         %>
@@ -29,9 +30,9 @@
         <%
       } else if (parameter.type === "number") {
         %>
-        <input size="8" type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> name="<%= parameter.name %>">
+        <input size="8" type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> name="<%= parameter.name %>" value="<%= parameter.currentValue %>">
         <%
-      } else if (parameter.type === "datetime") {
+      } else if (parameter.type === "datetimeTODOHEREDONOTFORGET") {
         %>
         <input type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> class="datetimepicker">
         <%
@@ -39,7 +40,7 @@
         
       } else {
     %>
-      <input size="16" type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> name="<%= parameter.name %>">
+      <input size="16" type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> name="<%= parameter.name %>" value="<%= parameter.currentValue %>">
     <%
       }
       %>
@@ -57,7 +58,7 @@
       </tr>
     </table>
 
-    <input onclick="apply()" class="submit" type="button" id="submit" value="Save parameters"/>
+    <input onclick="document.currentOpenSearchLayer.submit()" class="submit" type="button" id="submit" value="Save parameters"/>
     <script>
     function apply() {
       var res = [];
