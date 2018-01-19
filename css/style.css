@@ -16,6 +16,7 @@
 @import url('images/compass.css');
 @import url('layerManager.css');
 @import url('service.css');
+@import url('../node_modules/jquery-datetimepicker/jquery.datetimepicker.css');
 
 em {
     color: #6BCAFF;

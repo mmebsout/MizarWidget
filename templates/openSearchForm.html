@@ -2,7 +2,6 @@
     <table>
     <tr>
     <%
-    console.log("Creation");
     var finalScript = "";
     for(var i=0; i<layer.formDescription.parameters.length; i++)
     {
@@ -32,12 +31,11 @@
         %>
         <input size="8" type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> name="<%= parameter.name %>" value="<%= parameter.currentValue %>">
         <%
-      } else if (parameter.type === "datetimeTODOHEREDONOTFORGET") {
+      } else if (parameter.type === "datetime") {
         %>
         <input type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> class="datetimepicker">
         <%
-        finalScript += "$(\"#p_"+parameter.name+"\" ).datetimepicker({showSecond: true,separator: 'T',timeSuffix: 'Z',timeFormat: 'HH:mm:ss'});";
-        
+        finalScript += "$(\"#p_"+parameter.name+"\" ).datetimepicker({yearOffset:222,lang:'ch',timepicker:false,format:'d/m/Y',formatDate:'Y/m/d',minDate:'-1970/01/02',maxDate:'+1970/01/02'});";
       } else {
     %>
       <input size="16" type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> name="<%= parameter.name %>" value="<%= parameter.currentValue %>">
