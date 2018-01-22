@@ -69,22 +69,10 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
                 .data("layer", layer)
                 .submit(handleSubmit).end()
                 .find(".datetimepicker").datetimepicker({
-                    yearOffset:222,
                     lang:'en',
-                    timepicker:false,
-                    format:'d/m/Y',
-                    formatDate:'Y/m/d',
-                    minDate:'-1970/01/02', // yesterday is minimum date
-                    maxDate:'+1970/01/02' // and tommorow is maximum date calendar
+                    timepicker:true,
+                    format:'Y-m-d H:i'
                 });
-
-                /*    {
-                showSecond: true,
-                separator: 'T',
-                timeSuffix: 'Z',
-                dateFormat: "yy-mm-dd",
-                timeFormat: 'HH:mm:ss'
-                });*/
             $('#openSearchTabs').tabs("refresh");
         }
 
@@ -193,22 +181,10 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
                     .find('.openSearchForm')
                     .submit(handleSubmit).end()
                     .find(".datetimepicker").datetimepicker({
-                        dayOfWeekStart : 1,
                         lang:'en',
-                        disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
-                        startDate:	'1986/01/05'
-                        })
-                    .find(".datetimepicker").datetimepicker({
-                        value:'2015/04/15 05:03',
-                        step:10
-
+                        timepicker:true,
+                        format:'Y-m-d H:i'
                     });
-                    /*showSecond: true,
-                    separator: 'T',
-                    timeSuffix: 'Z',
-                    dateFormat: "yy-mm-dd",
-                    timeFormat: 'HH:mm:ss'
-                });*/
               }
 
             },
