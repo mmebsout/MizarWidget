@@ -103,16 +103,16 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                         else {
                             // Handle as json if possible
                             var response;
-                            try {
+                            //try {
                                 response = $.parseJSON(this.result);
                                 mizarWidgetAPI.addLayerByDragNDrop(name, response);
                                 $('#loading').hide();
-                            } catch (e) {
+                            /*} catch (e) {
                                 var message = (e.type) ? e.type : e;
                                 ErrorDialog.open("JSON parsing error : " + message + "<br/> For more details see http://jsonlint.com/.");
                                 $('#loading').hide();
                                 return false;
-                            }
+                            }*/
                         }
                     };
                     reader.readAsText(f);

@@ -3,9 +3,12 @@
     <tr>
     <%
     var finalScript = "";
+    cpt = -1;
     for(var i=0; i<layer.formDescription.parameters.length; i++)
     {
     var parameter = layer.formDescription.parameters[i];
+    if (parameter.isDisplayed === true) {
+      cpt++;
     %>
     <td><label <%= parameter.titleAttribute %> for="<%= parameter.name %>"><%= parameter.name %></label></td>
     <td>
@@ -13,7 +16,7 @@
     // Options parameter
     // ==================
     if (parameter.type === "options")
-      {
+    {
     %>
       <select name="p_<%= parameter.name %>" id="p_<%= parameter.name %>">
         <option value="">None</option>
@@ -21,43 +24,44 @@
         for(var j=0; j<parameter.options.length; j++)
         {
         %>
-        <option value="<%= parameter.options[j]  %>"><%= parameter.options[j] %></option>
+        <option <% if ( parameter.options[j] === parameter.currentValue ){ %>selected <%}%> value="<%= parameter.options[j] %>"><%= parameter.options[j] %></option>
         <%
         }
         %>
         </select>
         <%
-      } else if (parameter.type === "number") {
-        %>
-        <input size="8" type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> name="<%= parameter.name %>">
-        <%
       } else if (parameter.type === "datetime") {
         %>
         <input type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> class="datetimepicker">
         <%
-        finalScript += "$(\"#p_"+parameter.name+"\" ).datepicker({showSecond: true,separator: 'T',timeSuffix: 'Z',timeFormat: 'HH:mm:ss'});";
-        
+        //finalScript += "$(\"#p_"+parameter.name+"\" ).datetimepicker({yearOffset:222,lang:'ch',timepicker:false,format:'d/m/Y',formatDate:'Y/m/d',minDate:'-1970/01/02',maxDate:'+1970/01/02'});";
+      } else if (parameter.type === "number") {
+        %>
+        <input size="8" type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> name="<%= parameter.name %>" value="<%= parameter.currentValue %>">
+        <%
       } else {
     %>
-      <input size="16" type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> name="<%= parameter.name %>">
+      <input size="16" type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> name="<%= parameter.name %>" value="<%= parameter.currentValue %>">
     <%
-      }
+      } 
       %>
       </td>
-      <% if (i % 2 ===0) {
+      <% if (cpt % 2 ===0) {
       %>
       </tr><tr>
       <%
       }
+     } else {
       %>
-
-    <%
+      <input size="16" type="hidden" id="p_<%= parameter.name %>" value="<%= parameter.currentValue %>">
+      <%
+      }
     }
     %>
       </tr>
     </table>
 
-    <input onclick="apply()" class="submit" type="button" id="submit" value="Save parameters"/>
+    <input onclick="document.currentOpenSearchLayer.submit()" class="submit" type="button" id="submit" value="Save parameters"/>
     <script>
     function apply() {
       var res = [];

@@ -16,7 +16,11 @@
 @import url('images/compass.css');
 @import url('layerManager.css');
 @import url('service.css');
+<<<<<<< HEAD
 @import url('distanceNavigation.css');
+=======
+@import url('../node_modules/jquery-datetimepicker/jquery.datetimepicker.css');
+>>>>>>> sprint04b
 
 em {
     color: #6BCAFF;
@@ -352,6 +356,13 @@ body {
     box-shadow: 0 0 6px #FF9E52, inset 0 1px 2px rgba(0, 0, 0, 0.08);
     position: relative;
     pointer-events: auto;
+
+/*** Position result navigation on bottom ***/
+#resultNavigation {
+    position: absolute;
+    left: 77%;
+    color: white;
+    bottom: 24px;
 }
 
 /*** Position tracker on bottom ***/

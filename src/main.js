@@ -26,9 +26,11 @@ require.config({
         // Externals requirements
         "jquery": "../external/jquery/dist/jquery.min",
         "jquery.ui": "../external/jquery-ui/jquery-ui.min",
-        "jquery.ui.timepicker": "../external/jquery.ui.timepicker/jquery.ui.timepicker",
-        //"jquery.datetimepicker": "../node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon",
-        "jquery.datetimepicker": "../external/jquery.ui.timepicker/jquery.ui.timepicker",
+        //"jquery.ui.timepicker": "../external/jquery.ui.timepicker/jquery.ui.timepicker",
+        //"jquery.datetimepicker": "../external/jquery.ui.timepicker/jquery.ui.timepicker",
+        "jquery.datetimepicker": "../node_modules/jquery-datetimepicker/jquery.datetimepicker",
+        "jquery-mousewheel": "../node_modules/jquery-mousewheel/jquery.mousewheel",
+        "php-date-formatter":"../node_modules/php-date-formatter/js/php-date-formatter.min",
         "jquery.once": "../external/jquery-once/jquery.once.min",
         "underscore-min": "../external/underscore/underscore",
         "jszip": "../external/jszip/jszip.min",
@@ -51,7 +53,7 @@ require.config({
         "text": "../node_modules/requirejs-plugins/lib/text",
         "string": "../node_modules/string/dist/string.min",
         "xmltojson": "../node_modules/xmltojson/lib/xmlToJSON.min",
-
+        
         // Mizar Core requirements
         "gw": "../external/Mizar/src",
         "glMatrix": "../external/Mizar/external/glMatrix",
