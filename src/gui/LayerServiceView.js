@@ -66,6 +66,66 @@ define(["jquery", "service/gui/OpenSearchService", "../service/gui/MocService", 
             }
         }
 
+        /**
+         *    Adds a service "key" related to the layer to the toolbar tabs
+         *    Returns true when the service is added otherwise false
+         */
+		function addServiceToGUI(layer, tabs, key) {
+			var serviceAdded;
+			var service = getServiceFromConf(key);
+			if (service == null) {
+				serviceAdded = false;
+			} else {
+				service.addLayer(layer);
+				service.addService(tabs, key);
+				serviceAdded = true;
+			} 
+			return serviceAdded;
+		}
+
+        /**
+         *    Removes a service "key" related to the layer to the toolbar tabs
+         *    Returns true when the service is removed otherwise false
+         */
+		function removeServiceFromGUI(layer, tabs, key) {
+			var serviceRemoved;
+			var service = getServiceFromConf(key);
+			if (service == null) {
+				serviceRemoved = false;
+			} else {
+                service.removeLayer(currentLayer);
+                service.removeService(tabs, key);
+				serviceRemoved = true;
+			} 
+			return serviceRemoved;
+		}
+
+        /**
+         *    Removes services from GUI
+         */
+		function removesServicesFromGUI(currentLayer, tabs) {		
+			if (currentLayer.type === "OpenSearch") {
+				removeServiceFromGUI(currentLayer, tabs, "OpenSearch");
+			} else {
+                Object.keys(currentLayer.getServices()).forEach(function (key) {
+					removeServiceFromGUI(currentLayer, tabs, key);
+                });
+			}
+		}
+
+        /**
+         *    Creates services to GUI
+         */
+		function createServicesToGUI(layer, tabs) {
+			if (layer.type === "OpenSearch") {
+				addServiceToGUI(layer, tabs, "OpenSearch");               					
+			} else {
+	            Object.keys(layer.getServices()).forEach(function (key) {
+					addServiceToGUI(layer, tabs, key);
+	            });
+			}
+		}		
+
         return {
             /**
              *    Initilize layer service view
@@ -114,30 +174,12 @@ define(["jquery", "service/gui/OpenSearchService", "../service/gui/MocService", 
             },
 
             show: function (layer) {
-                var service;
+                var service;			
                 // Remove previous services
                 if (currentLayer) {
-                    Object.keys(currentLayer.getServices()).forEach(function (key) {
-                        service = getServiceFromConf(key);
-                        if (service.removeLayer)
-                            service.removeLayer(currentLayer);
-                        service.removeService(tabs, key);
-                    });
+					removesServicesFromGUI(currentLayer, tabs);
                 }
-                Object.keys(layer.getServices()).forEach(function (key) {
-                    service = getServiceFromConf(key);
-                    if (service) {
-                        if (service.addLayer) {
-                            service.addLayer(layer);
-                        }
-                        service.addService(tabs, key);
-                        console.log("service added");
-                    } else {
-                        // Unrecognized service, remove it
-                        console.error("Mapping doesn't exist, service must be = { OpenSearch, Moc, XMatch or HEALPixCut }");
-                        delete layer.getServices()[key];
-                    }
-                });
+				createServicesToGUI(layer, tabs)
                 currentLayer = layer;
 
                 tabs.tabs('refresh');
