@@ -5,7 +5,8 @@
     "name": "Moon",
     "continuousRendering": false,
     "coordinateSystem": {
-      "geoideName": "IAU2000:30101"
+      //"geoideName": "IAU2000:30101"
+      "geoideName": "EPSG:4326"
     },
     "nameResolver": {
       "zoomFov": 2,
@@ -17,7 +18,8 @@
     {
       "type": "WCSElevation",
       "name" : "LOLA",
-      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon_elevation.map",
+      "baseUrl" : "http://172.26.47.117/cgi-bin/mapserv?map=/var/www/datasig/moon_elevation.map",
+      //"baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon_elevation.map",
       "coverage": "MOONTOPO_16",
       "version": "1.0.0",
       "minElevation": -32768,
@@ -26,19 +28,31 @@
       "visible" : true
     },
     {
+      "type": "WMTS",
+      "name": "LROWMTS",
+      "version": "1.0.0.0",
+      "getCapabilities" : "http://172.26.47.117/mapcache/wmts",
+      "layer": "LRO",
+      "matrixSet":"EPSG:4326",
+      "visible": true,
+      "category": "background"
+    }/*,
+    {
       "type": "WMS",
-      "name": "LRO",
+      "name": "LROWMS",
       "version": "1.1.1",
-      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon.map",
+      "baseUrl" : "http://172.26.47.117/cgi-bin/mapserv?map=/var/www/datasig/moon.map",
+      //"baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon.map",
       "layers": "LRO",
       "visible": true,
       "category": "background"
-    },
+    },    
     {
       "type": "WMS",
       "name": "LRO_1M",
       "version": "1.1.1",
-      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon.map",
+      "baseUrl" : "http://172.26.47.117/cgi-bin/mapserv?map=/var/www/datasig/moon.map",
+      //"baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon.map",
       "layers": "LRO_1M",
       "visible": false
     },
@@ -55,6 +69,6 @@
       "opacity": 100,
       "pickable": false,
       "color": "white"
-    }
+    }*/
   ]
 }

@@ -161,7 +161,7 @@ require(["./MizarWidget"], function (MizarWidget) {
         "global": {
             "sitoolsBaseUrl": "http://demonstrator.telespazio.com/sitools",
             "proxyUrl": "http://localhost:8080/?url=",
-            "proxyUse": false,
+            "proxyUse": true,
             "displayWarning": true
         },
         "gui": {
@@ -208,7 +208,7 @@ require(["./MizarWidget"], function (MizarWidget) {
                 "context": "/curiosityCtx.json"
             }
         ],
-        "defaultCtx": "earth"
+        "defaultCtx": "moon"
     };
 
 
