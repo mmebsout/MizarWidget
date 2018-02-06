@@ -18,10 +18,16 @@
       "minElevation": -32000,
       "scale": 4
     },
+    /*{
+      "type": "WMTS",
+      "name": "TEST",
+      "getCapabilities":"http://peps-vizo.cnes.fr:8083/mapcache/wmts?service=WMTS&version=1.0.0&request=GetCapabilities"
+    },*/
     {
       "type": "WMS",
       "name": "Blue Marble",
       "baseUrl": "http://demonstrator.telespazio.com/wmspub",
+      "getCapabilities":"http://demonstrator.telespazio.com/wmspub?request=getCapabilities&service=WMS&version=1.1",
       "layers": "BlueMarble",
       "visible": true,
       "background": true

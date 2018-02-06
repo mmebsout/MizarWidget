@@ -27,7 +27,7 @@
     "visible": false
   },
   "layers":[
-    {
+    /**{
       "type": "WCSElevation",
       "name": "earthElevation",
       "baseUrl": "http://idoc-wcsmars.ias.u-psud.fr/wcsmap",
@@ -35,7 +35,7 @@
       "version": "1.0.0",
       "minElevation": -32000,
       "scale": 2
-    },
+    },*/
     {
       "type": "WMS",
       "name": "Viking",
