@@ -29,7 +29,7 @@
     },
     {
       "type": "WMTS",
-      "name": "LROWMTS",
+      "name": "LRO",
       "version": "1.0.0.0",
       "getCapabilities" : "http://172.26.47.117/mapcache/wmts",
       "layer": "LRO",
