@@ -54,7 +54,7 @@ define(["jquery", "underscore-min",
         "./gui/IFrame",
         "./gui/MollweideViewer", "./gui/ImageViewer",
         "./gui/AdditionalLayersView", "./gui/ImageManager",
-        "./gui/MeasureToolSky", "./gui/MeasureToolPlanet",
+        "./gui/MeasureToolSky", "./gui/MeasureToolPlanet", "./gui/DistanceNavigationView",
         "./gui/SwitchTo2D", "./gui/ExportTool",
         "gui/dialog/AboutDialog",
         "gui/dialog/ErrorDialog",
@@ -75,7 +75,7 @@ define(["jquery", "underscore-min",
               IFrame,
               MollweideViewer, ImageViewer,
               AdditionalLayersView, ImageManager,
-              MeasureToolSky, MeasureToolPlanet,
+              MeasureToolSky, MeasureToolPlanet,DistanceNavigationView,
               SwitchTo2D, ExportTool,
               AboutDialog, ErrorDialog,
               Share, Samp, UtilsCore) {
@@ -265,9 +265,6 @@ define(["jquery", "underscore-min",
         MizarWidgetGui.prototype.setSampGui = function (visible) {
             if (!options.isMobile) {
                 this.activatedContext.setComponentVisibility("sampContainer", visible);
-                //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-                //    context.setComponentVisibility("sampContainer", visible);
-                //});
             }
         };
 
@@ -278,9 +275,6 @@ define(["jquery", "underscore-min",
         //TODO décrire visible
         MizarWidgetGui.prototype.setShortenerUrlGui = function (visible) {
             this.activatedContext.setComponentVisibility("shareContainer", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("shareContainer", visible);
-            //});
         };
 
         /**************************************************************************************************************/
@@ -300,9 +294,6 @@ define(["jquery", "underscore-min",
                 });
             }
             this.activatedContext.setComponentVisibility("2dMapContainer", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("2dMapContainer", visible);
-            //});
         };
 
         /**
@@ -314,9 +305,19 @@ define(["jquery", "underscore-min",
             if (visible) {
                 if (!ReverseNameResolverView.isInitialized())
                     ReverseNameResolverView.init(mizarWidgetAPI);
-            } else {
-                ReverseNameResolverView.remove();
             }
+        };
+
+        MizarWidgetGui.prototype.setDistanceGui = function (visible) {
+            if (visible) {
+                if (DistanceNavigationView.isInitialized())
+                    DistanceNavigationView.update(mizarWidgetAPI);
+                else
+                    DistanceNavigationView.init(mizarWidgetAPI, "distTracker");
+            } else {
+                DistanceNavigationView.unregisterEvents();
+            }
+            this.activatedContext.setComponentVisibility("distanceDiv", visible);
         };
 
         /**
@@ -328,13 +329,8 @@ define(["jquery", "underscore-min",
             if (visible) {
                 if(!NameResolverView.isInitialized())
                     NameResolverView.init(mizarWidgetAPI);
-            } else {
-                NameResolverView.remove();
             }
             this.activatedContext.setComponentVisibility("searchDiv", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("searchDiv", visible);
-            //});
         };
 
         /**
@@ -346,26 +342,11 @@ define(["jquery", "underscore-min",
             if (visible) {
                 if(!LayerManagerView.isInitialized())
                     LayerManagerView.init(mizarWidgetAPI, $.extend({element: $(mizarDiv).find("#categoryDiv")}, options));
-            } else {
-                LayerManagerView.remove();
-            }
+            } //else {
+              //  LayerManagerView.remove();
+            //}
             this.activatedContext.setComponentVisibility("categoryDiv", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("categoryDiv", visible);
-            //});
         };
-
-        /**
-         * refresh layer manager view (when a layer is loaded)
-         * @param visible
-         */
-        //TODO décrire visibles
-        MizarWidgetGui.prototype.refreshCategoryGui = function () {
-              LayerManagerView.remove();
-              LayerManagerView.init(mizarWidgetAPI, $.extend({element: $(mizarDiv).find("#categoryDiv")}, options));
-              this.activatedContext.setComponentVisibility("categoryDiv", true);
-        };
-
 
         /**
          * Adds/removes image viewer GUI
@@ -377,13 +358,10 @@ define(["jquery", "underscore-min",
                 if (visible) {
                     if(!ImageViewer.isInitialized())
                         ImageViewer.init(mizarWidgetAPI);
-                } else {
-                    ImageViewer.remove();
-                }
+                } //else {
+                  //  ImageViewer.remove();
+                //}
                 this.activatedContext.setComponentVisibility("imageViewerDiv", visible);
-                //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-                //    context.setComponentVisibility("imageViewerDiv", visible);
-                //});
             }
         };
 
@@ -401,9 +379,6 @@ define(["jquery", "underscore-min",
                 }
             }
             this.activatedContext.setComponentVisibility("exportContainer", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("exportContainer", visible);
-            //});
         };
 
         /**
@@ -413,16 +388,10 @@ define(["jquery", "underscore-min",
         //TODO décrire visible
         MizarWidgetGui.prototype.setPositionTrackerGui = function (visible) {
             this.activatedContext.setComponentVisibility("posTracker", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("posTracker", visible);
-            //});
         };
 
         MizarWidgetGui.prototype.setElevationTrackerGui = function (visible) {
             this.activatedContext.setComponentVisibility("elevTracker", visible);
-            //mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function(context) {
-            //    context.setComponentVisibility("elevTracker", visible);
-            //});
         };
 
         /**

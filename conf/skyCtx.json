@@ -41,12 +41,32 @@
     ]
   },
   "layers":[
+    //{
+    //  "type": "Moc",
+    //  "name": "moc",
+    //  "style": {
+    //    "fill" : true,
+    //    "fillColor" : [1,0,0,0.3]
+    //  },
+    //  "serviceUrl": "http://alasky.u-strasbg.fr/2MASS/H/Moc.fits",
+    //  "description": "DSS Color",
+    //  "visible": true,
+    //  "background": false
+    //},
     {
       "type": "Hips",
       "name": "DSS",
       "baseUrl": "http://alasky.unistra.fr/DSS/DSSColor",
       "description": "DSS Color",
       "visible": true,
+      "background": true
+    },
+    {
+      "type": "Hips",
+      "name": "2mass",
+      "baseUrl": "http://alasky.u-strasbg.fr/2MASS/H",
+      "description": "2MASS",
+      "visible": false,
       "background": true
     },
     {
@@ -101,7 +121,7 @@
       "type": "GeoJSON",
       "name": "Brighten stars",
       "icon": "css/images/star_icon.png",
-      "attribution": "The most brighten stars coming from <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><object width='24' height='16' data=\"../css/images/cds.svg\" type=\"image/svg+xml\"></object></a>",
+      "attribution": "The most brighten stars coming from <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><object width='24' height='16' data=\"css/images/cds.svg\" type=\"image/svg+xml\"></object></a>",
       "description": "The most brighten stars from VizieR Catalogue",
       "data": {
         "type": "star",
@@ -148,7 +168,7 @@
       "name": "IRIS",
       "baseUrl": "http://alasky.unistra.fr/IRISColor",
       "description": "Iris Color",
-      "icon": "../css/images/star_icon.png",
+      "icon": "css/images/star_icon.png",
       "visible": false,
       "background": true,
       "category": "JC"
@@ -158,16 +178,8 @@
       "name": "Planck_R2",
       "baseUrl": "http://alasky.unistra.fr/PLANCK/R2/LFI_SkyMap_030_1024_R2.01",
       "description": "Planck R2",
-      "icon": "../css/images/star_icon.png",
+      "icon": "css/images/star_icon.png",
       "visible": false,
-      "background": true
-    },
-    {
-      "type": "Hips",
-      "name": "DSS",
-      "baseUrl": "http://alasky.unistra.fr/DSS/DSSColor",
-      "description": "DSS Color",
-      "visible": true,
       "background": true
     },
     /**
@@ -297,7 +309,7 @@
       "dataType": "point",
       "name": "USNO-B1.0",
       "description": " The USNO-B1.0 is a catalog that presents positions, proper motions, magnitudes in various optical passbands, and star/galaxy estimators for 1,045,913,669 objects derived from 3,648,832,040 separate observations. The data were taken from scans of 7,435 Schmidt plates taken from various sky surveys during the last 50 years. The catalog is expected to be complete down to V=21; the estimated accuracies are 0.2arcsec for the positions at J2000, 0.3mag in up to 5 colors, and 85% accuracy for distinguishing stars from non-stellar objects.",
-      "attribution": "USNOB1 coming from <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><img width='24' height='16' src=\"../css/images/cds.svg\" /></a>",
+      "attribution": "USNOB1 coming from <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><img width='24' height='16' src=\"css/images/cds.svg\" /></a>",
       "serviceUrl": "http://172.17.0.2/sitools/usnob1",
       "visible": false,
       "minOrder": 9,

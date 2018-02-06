@@ -18,7 +18,7 @@
  ******************************************************************************/
 /*global define: false */
 
-define(["require", "jquery", "underscore-min", "../utils/UtilsCore",
+define(["require", "jquery", "underscore-min","../utils/UtilsCore",
         "./PickingManager", "./ImageManager", "./ImageProcessing", "./SimpleProgressBar", "service/Samp", "./dialog/ErrorDialog",
         "text!templates/imageViewer.html", "text!templates/imageViewerLayerItem.html", "text!templates/imageViewerImageItem.html", "jquery.ui"],
     function (require, $, _, UtilsCore,
@@ -129,7 +129,7 @@ define(["require", "jquery", "underscore-min", "../utils/UtilsCore",
             }
 
             layers.push(layer);
-            mizarWidgetAPI.subscribeCtx("visibility:changed", onVisibilityChange);
+            mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_VISIBILITY_CHANGED, onVisibilityChange);
 
             return $layer;
         }
@@ -165,10 +165,10 @@ define(["require", "jquery", "underscore-min", "../utils/UtilsCore",
              */
             init: function (m) {
                 mizarWidgetAPI = m;
-                mizarWidgetAPI.subscribeCtx("image:add", this.addView);
-                mizarWidgetAPI.subscribeCtx("image:remove", this.removeView);
-                mizarWidgetAPI.subscribeCtx("image:download", this.addProgressBar);
-                mizarWidgetAPI.subscribeCtx("layer:remove", this.removeLayer);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.IMAGE_ADDED, this.addView);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.IMAGE_REMOVED, this.removeView);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.IMAGE_DOWNLOADED, this.addProgressBar);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_REMOVED, this.removeLayer);
                 navigation = mizarWidgetAPI.getNavigation();
 
                 $imageViewer = $(imageViewerHTML).appendTo('#imageViewerDiv');
@@ -195,13 +195,13 @@ define(["require", "jquery", "underscore-min", "../utils/UtilsCore",
              */
             remove: function () {
                 for (var i = 0; i < layer.length; i++) {
-                    layer.unsubscribeCtx("visibility:changed", onVisibilityChange);
+                    layer.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_VISIBILITY_CHANGED, onVisibilityChange);
                 }
 
-                mizarWidgetAPI.unsubscribeCtx("image:add", this.addView);
-                mizarWidgetAPI.unsubscribeCtx("image:remove", this.removeView);
-                mizarWidgetAPI.unsubscribeCtx("image:download", this.addProgressBar);
-                mizarWidgetAPI.unsubscribeCtx("layer:remove", this.removeLayer);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.IMAGE_ADDED, this.addView);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.IMAGE_REMOVED, this.removeView);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.IMAGE_DOWNLOADED, this.addProgressBar);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_REMOVED, this.removeLayer);
                 $imageViewer.remove();
                 navigation = null;
             },
@@ -426,7 +426,7 @@ define(["require", "jquery", "underscore-min", "../utils/UtilsCore",
                 var featureIndex = featuresWithImages.indexOf(selectedData);
                 featuresWithImages.splice(featureIndex, 1);
 
-                selectedData.layer.unsubscribeCtx("visibility:changed", onVisibilityChange);
+                selectedData.layer.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_VISIBILITY_CHANGED, onVisibilityChange);
             },
 
             /**

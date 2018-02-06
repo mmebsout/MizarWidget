@@ -54,6 +54,7 @@
       "baseUrl" : "http://172.26.47.117/cgi-bin/mapserv?map=/var/www/datasig/moon.map",
       //"baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon.map",
       "layers": "LRO_1M",
+      "format" : "image/png",
       "visible": false
     },
     {

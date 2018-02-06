@@ -21,7 +21,7 @@
 /**
  * AdditionalLayersView module
  */
-define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageView", "./LayerServiceView", "service/Samp", "./dialog/ErrorDialog", "../utils/UtilsCore", "underscore-min", "text!templates/additionalLayers.html", "text!templates/additionalLayer.html", "jquery.nicescroll.min", "jquery.ui"],
+define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageView", "./LayerServiceView", "service/Samp", "./dialog/ErrorDialog", "../utils/UtilsCore", "underscore-min", "text!templates/additionalLayers.html", "text!templates/additionalLayer.html", "jquery.nicescroll.min", "jquery.ui"],
     function ($, AdditionalLayersCore, PickingManager, DynamicImageView, LayerServiceView, Samp, ErrorDialog, UtilsCore, _, additionalLayersHTML, additionalLayerHTMLTemplate) {
 
         var mizarWidgetAPI;
@@ -380,7 +380,7 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
             updateButtonsUI($layerDiv);
 
             if (UtilsCore.isHipsFitsLayer(gwLayer) && !isMobile) {
-                createDynamicImageDialog(gwLayer);
+                //createDynamicImageDialog(gwLayer);
             }
         }
 
@@ -390,7 +390,7 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
          *    Create HTML for the given layer
          */
         function addView(gwLayer) {
-            if(gwLayer.type === "WCSElevation" || gwLayer.type === "WMSElevation") {
+            if(gwLayer.type === "WCSElevation" || gwLayer.type === "WMSElevation" || gwLayer.type === "Moc") {
                 // skip it
             } else {
                 var category = gwLayer.category;
@@ -425,7 +425,7 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
                 // Add HTML
                 createHtmlForAdditionalLayer(gwLayer, categoryId);
 
-                gwLayer.subscribe("visibility:changed", onVisibilityChange);
+                gwLayer.subscribe(mizarWidgetAPI.EVENT_MSG.LAYER_VISIBILITY_CHANGED, onVisibilityChange);
             }
         }
 
@@ -456,7 +456,7 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
                 gwLayer.div = null;
             }
 
-            gwLayer.unsubscribe("visibility:changed", onVisibilityChange);
+            gwLayer.unsubscribe(mizarWidgetAPI.EVENT_MSG.LAYER_VISIBILITY_CHANGED, onVisibilityChange);
         }
 
         /**************************************************************************************************************/
@@ -553,12 +553,12 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
             // TODO: make reset function ?
             // layer.setFormat( format );
 
-            var prevId = layer.id;
+            var prevId = layer.ID;
             globe.removeLayer(layer);
             globe.addLayer(layer);
 
             // HACK : Layer id will be changed by remove/add so we need to change the html id
-            $('#addLayer_' + prevId).attr('id', 'addLayer_' + layer.id);
+            $('#addLayer_' + prevId).attr('id', 'addLayer_' + layer.ID);
         }
 
         /**************************************************************************************************************/
@@ -567,8 +567,8 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
          *    Initialize toolbar events
          */
         function registerEvents() {
-            mizarWidgetAPI.subscribeCtx("startLoad", onLoadStart);
-            mizarWidgetAPI.subscribeCtx("endLoad", onLoadEnd);
+            mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_START_LOAD, onLoadStart);
+            mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_END_LOAD, onLoadEnd);
 
             $(parentElement)
                 .on("click", '.category .deleteLayer', deleteLayer)
@@ -654,8 +654,8 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
                 });
                 $(parentElement).find(".category").remove();
 
-                mizarWidgetAPI.unsubscribeCtx("startLoad", onLoadStart);
-                mizarWidgetAPI.unsubscribeCtx("endLoad", onLoadEnd);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_START_LOAD, onLoadStart);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_END_LOAD, onLoadEnd);
 
                 $(parentElement)
                     .off("click", '.category .deleteLayer', deleteLayer)
@@ -686,10 +686,10 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
             addView: addView,
             removeView: removeView,
             hideView: function (layer) {
-                $('#addLayer_' + layer.id).hide();
+                $('#addLayer_' + layer.ID).hide();
             },
             showView: function (layer) {
-                $('#addLayer_' + layer.id).show();
+                $('#addLayer_' + layer.ID).show();
             }
         };
 

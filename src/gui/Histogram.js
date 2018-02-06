@@ -60,38 +60,6 @@ define([], function () {
 
         serviceHisto.init(options);
 
-        // Init canvas
-        var canvas = document.getElementById(options.canvas);
-        this.ctx = canvas.getContext('2d');
-
-        serviceHisto.initThresholds();
-
-        //// Init origins
-        //originY = canvas.height - paddingBottom;
-        //hwidth = nbBins + originX > canvas.width ? canvas.width : nbBins + originX; // clamp to canvas.width
-        //var triangleHalfWidth = 5;
-        //
-        //this.minThreshold = new Triangle(
-        //    [originX, originY + 1, 0],
-        //    [originX - triangleHalfWidth, originY + paddingBottom - 1, 0],
-        //    [originX + triangleHalfWidth, originY + paddingBottom - 1, 0]
-        //);
-        //
-        //this.maxThreshold = new Triangle(
-        //    [hwidth, originY + 1, 0],
-        //    [hwidth - triangleHalfWidth, originY + paddingBottom - 1, 0],
-        //    [hwidth + triangleHalfWidth, originY + paddingBottom - 1, 0]
-        //);
-
-
-        // Show bin pointed by mouse
-        canvas.addEventListener('mousemove', serviceHisto._handleMouseMove);
-
-        // Handle threshold controller selection
-        canvas.addEventListener('mousedown', serviceHisto._handleMouseDown);
-
-        // Update histogram on mouseup
-        canvas.addEventListener('mouseup', serviceHisto._handleMouseUp);
     };
 
     /**************************************************************************************************************/

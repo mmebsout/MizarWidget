@@ -112,110 +112,81 @@ require.config({
 /**
  * Mizar widget Global main
  */
-require(["./MizarWidget"], function (MizarWidget) {
-    function initGuiAndLayers(mizar) {
-        if (mizar.mode === mizar.CONTEXT.Sky) {
-            // Set different GUIs
-            mizar.setAngleDistancePlanetGui(false);
-            mizar.setAngleDistanceSkyGui(true);
-            mizar.setSwitchTo2D(false);
-            mizar.setSampGui(true);
-            mizar.setShortenerUrlGui(true);
-            mizar.setMollweideMapGui(true);
-            mizar.setReverseNameResolverGui(true);
-            mizar.setNameResolverGui(true);
-            mizar.setCategoryGui(true);
-            mizar.setImageViewerGui(true);
-            mizar.setExportGui(true);
-        } else if (mizar.mode === mizar.CONTEXT.Planet) {
-            // Set different GUIs
-            mizar.setAngleDistanceSkyGui(false);
-            mizar.setAngleDistancePlanetGui(true);
-            mizar.setSwitchTo2D(true);
-            mizar.setSampGui(false);
-            mizar.setShortenerUrlGui(false);
-            mizar.setMollweideMapGui(false);
-            mizar.setReverseNameResolverGui(false);
-            mizar.setNameResolverGui(true);
-            mizar.setCategoryGui(true);
-            mizar.setImageViewerGui(true);
-            mizar.setExportGui(false);
-        } else if (mizar.mode === mizar.CONTEXT.Ground) {
-            mizar.setAngleDistanceSkyGui(false);
-            mizar.setAngleDistancePlanetGui(false);
-            mizar.setSwitchTo2D(false);
-            mizar.setSampGui(false);
-            mizar.setShortenerUrlGui(false);
-            mizar.setMollweideMapGui(false);
-            mizar.setReverseNameResolverGui(false);
-            mizar.setNameResolverGui(false);
-            mizar.setCategoryGui(true);
-            mizar.setImageViewerGui(true);
-            mizar.setExportGui(false);
-        } else {
-            throw "Unable to find mizar.mode="+mizar.mode;
-        }
-    }
+require(["jquery", "underscore-min", "./MizarWidget"], function ($, _, MizarWidget) {
 
-    var widgetOptions = {
-        "global": {
-            "sitoolsBaseUrl": "http://demonstrator.telespazio.com/sitools",
-            "proxyUrl": "http://localhost:8080/?url=",
-            "proxyUse": true,
-            "displayWarning": true
-        },
-        "gui": {
-            "isMobile": false,
-            "positionTracker": {
-                "position": "bottom"
-            },
-            "elevationTracker": {
-                "position": "bottom"
-            },
-            "stats": {
-                "visible": true
-            },
-            "debug": true,
-            "registry": {
-                "hips" :"http://aladin.unistra.fr/hips/globalhipslist?fmt=json&hips_frame=equatorial&hips_frame=galactic"
-            },
-            "shortener": "${sitoolsBaseUrl}/shortener"
-        },
-        "ctx": [
-            {
-                "name": "sky",
-                "mode": "Sky",
-                "context": "./skyCtx.json"
-            },
-            {
-                "name": "mars",
-                "mode": "Planet",
-                "context": "./marsCtx.json"
-            },
-            {
-                "name": "moon",
-                "mode": "Planet",
-                "context": "./moonCtx.json"
-            },
-            {
-                "name": "earth",
-                "mode": "Planet",
-                "context": "/earthCtx.json"
-            },
-            {
-                "name": "curiosity",
-                "mode": "Ground",
-                "context": "/curiosityCtx.json"
-            }
-        ],
-        "defaultCtx": "moon"
+    /**
+     * Returns the mizar URL.
+     * @return {String}
+     * @private
+     */
+    var getMizarUrl = function () {
+        /**
+         *    Store the mizar base urlferf
+         *    Used to access to images(Compass, Mollweide, Target icon for name resolver)
+         *    Also used to define "star" icon for point data on-fly
+         *    NB: Not the best solution of my life.... TODO: think how to improve it..
+         */
+        // Search throught all the loaded scripts for minified version
+        var scripts = document.getElementsByTagName('script');
+        var mizarSrc = _.find(scripts, function (script) {
+            return script.src.indexOf("MizarWidget.min") !== -1;
+        });
+
+        // Depending on its presence decide if Mizar is used on prod or on dev
+        var mizarBaseUrl;
+        if (mizarSrc) {
+            // Prod
+            // Extract mizar's url
+            mizarBaseUrl = mizarSrc.src.split('/').slice(0, -1).join('/') + '/';
+        }
+        else {
+            // Dev
+            // Basically use the relative path from index page
+            mizarSrc = _.find(scripts, function (script) {
+                return script.src.indexOf("MizarWidgetAPI") !== -1;
+            });
+            mizarBaseUrl = mizarSrc.src.split('/').slice(0, -1).join('/') + '/../';
+        }
+        return mizarBaseUrl;
     };
 
+    var getUniqueId = function (prefix) {
+        var d = new Date().getTime();
+        d += (parseInt(Math.random() * 100)).toString();
+        return d;
+    };
+
+    var getUrl = function(url){
+        return $.ajax({
+            type: "GET",
+            url: url,
+            cache: false,
+            async: false
+        }).responseText;
+    };
+
+    /**
+     * Removes "C"-like comments lines from string
+     * @param string
+     * @return {JSON}
+     * @private
+     */
+    var _removeComments = function (string) {
+        var starCommentRe = new RegExp("/\\\*(.|[\r\n])*?\\\*/", "g");
+        var slashCommentRe = new RegExp("[^:]//.*[\r\n]", "g");
+        string = string.replace(slashCommentRe, "");
+        string = string.replace(starCommentRe, "");
+
+        return string;
+    };
+
+    var uid = getUniqueId();
+    var mizarUrl = getMizarUrl();
+    var mizarWidgetConf = getUrl(mizarUrl+"/conf/mizarWidget.json?uid="+uid);
+    var widgetOptions = JSON.parse(_removeComments(mizarWidgetConf));
 
     var mizarWidget = new MizarWidget('mizarWidget-div', widgetOptions);
     var mizarWidgetAPI = mizarWidget.getMizarWidgetAPI();
-
-    initGuiAndLayers(mizarWidgetAPI);
     mizarWidgetAPI.init();
 
 });

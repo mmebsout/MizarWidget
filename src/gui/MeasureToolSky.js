@@ -40,12 +40,12 @@ define(["jquery", "underscore-min", "jquery.ui"],
 
             mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).init(measureToolSkyOptions);
 
-            mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function() {
+            mizarWidgetAPI.subscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, function() {
                 if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).activated) {
                     self.toggle();
                 }
             });
-            mizarWidgetAPI.subscribeCtx("modifiedCrs", function() {
+            mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.CRS_MODIFIED, function() {
                 if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).activated) {
                     self.toggle();
                 }
@@ -91,12 +91,12 @@ define(["jquery", "underscore-min", "jquery.ui"],
 
         MeasureToolSky.prototype.remove = function() {
             mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).remove();
-            mizarWidgetAPI.unsubscribeMizar("mizarMode:toggle", function() {
+            mizarWidgetAPI.unsubscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, function() {
                 if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).activated) {
                     self.toggle();
                 }
             });
-            mizarWidgetAPI.unsubscribeCtx("modifiedCrs", function() {
+            mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.CRS_MODIFIED, function() {
                 if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky).activated) {
                     self.toggle();
                 }

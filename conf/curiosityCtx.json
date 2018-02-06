@@ -9,13 +9,15 @@
         0,
         30
       ],
-      "initFov": 40,
       "inertia": false,
-      "minFov": 40,
       "zoomFactor": 0,
       "mouse": {
         "zoomOnDblClick": true
       }
+    },
+    "reverseNameResolver": {
+      "jsObject": "gw/ReverseNameResolver/CDSReverseNameResolver",
+      "baseUrl": "http://alasky.u-strasbg.fr/cgi/simbad-flat/simbad-quick.py?Ident={coordinates}&SR={radius}"
     }
   },
   "layers":[
@@ -30,10 +32,9 @@
     },
     {
       "category": "Other",
-      "type": "TileWireframe",
-      "name": "Coordinates Grid",
-      "outline": true,
-      "visible": true
+      "type": "HipsGrid",
+      "name": "hips grid",
+      "outline": true
     }
   ]
 }

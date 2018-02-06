@@ -126,10 +126,10 @@ define(["jquery", "underscore-min", "samp", "jquery.ui"],
             }
 
             initUI();
-            connector = SampCore.initSamp();
+            connector = SampCore.initSamp(mizarWidgetAPI.getMizarAPI());
 
             // Send pointAt messages when navigation modified
-            mizarWidgetAPI.subscribeCtx("modifiedNavigation", function () {
+            mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_MODIFIED, function () {
 
                 if (connector.connection) {
                     if (!pointAtReceived) {

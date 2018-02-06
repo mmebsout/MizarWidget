@@ -16,6 +16,7 @@
 @import url('images/compass.css');
 @import url('layerManager.css');
 @import url('service.css');
+@import url('distanceNavigation.css');
 @import url('../node_modules/jquery-datetimepicker/jquery.datetimepicker.css');
 
 em {
@@ -30,13 +31,21 @@ body {
 }
 
 /************************/
+/*		CRS box		*/
+/************************/
+.crsBox {
+    border: 1px solid orange;
+    border-radius: 20px;
+    box-shadow: 0 0 6px #FF9E52, inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/************************/
 /*		Error box		*/
 /************************/
 .errorBox {
     box-shadow: 0 0 6px red, inset 0 1px 2px rgba(0, 0, 0, 0.08);
     border: solid 1px red;
     text-align: center;
-
 }
 
 #webGLNotAvailable, #webGLContextLost {
@@ -278,7 +287,6 @@ body {
     pointer-events: auto;
 }
 
-
 /*** Search tool ***/
 #searchInvoker {
     width: 32px;
@@ -322,9 +330,29 @@ body {
 /*** tracker on bottom ***/
 #tracker {
     position: absolute;
-    left: 45%;
+    left: 40%;
     color: white;
     bottom: 0;
+}
+
+/*** TrackerInfo button ***/
+#posTrackerInfo {
+    position: relative;
+    float:left;
+    padding-right: 16px;
+    display: none;
+    z-index:1;
+}
+
+#posTrackerInfoButton {
+    width: 16px;
+    height: 16px;
+    background: url(./images/information.png) no-repeat;
+    border: 1px solid orange;
+    border-radius: 20px;
+    box-shadow: 0 0 6px #FF9E52, inset 0 1px 2px rgba(0, 0, 0, 0.08);
+    position: relative;
+    pointer-events: auto;
 }
 
 /*** Position result navigation on bottom ***/
@@ -338,11 +366,13 @@ body {
 /*** Position tracker on bottom ***/
 #posTracker {
     position: relative;
+    float:left;
 }
 
 /*** Elevation tracker on bottom ***/
 #elevTracker {
     position: relative;
+    padding-left: 32px;
 }
 
 /*** Stylized fade on hover effect ***/

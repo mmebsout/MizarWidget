@@ -28,6 +28,12 @@
                         <span class="ui-button-text">See it on Mars</span>
                     </button>
                     <%
+                } else if (selection[i].layer.name === "Planets" && selection[i].feature.properties.name === "Sun") {
+                    %>
+                    <button id="goToSunBtn" style="margin-top: 7px; font-size: 11px;">
+                        <span class="ui-button-text">Go to Sun</span>
+                    </button>
+                    <%
                 }
             }
             %>

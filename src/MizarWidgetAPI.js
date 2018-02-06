@@ -128,6 +128,53 @@ define(["jquery", "underscore-min",
             options.layerVisibility = sharedParameters.visibility;
         };
 
+        function initGUI(MizarWidgetAPI, mode) {
+            if (MizarWidgetAPI.getMode() === MizarWidgetAPI.CONTEXT.Sky) {
+                // Set different GUIs
+                MizarWidgetAPI.setAngleDistancePlanetGui(false);
+                MizarWidgetAPI.setAngleDistanceSkyGui(true);
+                MizarWidgetAPI.setSwitchTo2D(false);
+                MizarWidgetAPI.setSampGui(true);
+                MizarWidgetAPI.setShortenerUrlGui(false);
+                MizarWidgetAPI.setMollweideMapGui(true);
+                MizarWidgetAPI.setReverseNameResolverGui(true);
+                MizarWidgetAPI.setNameResolverGui(true);
+                MizarWidgetAPI.setCategoryGui(true);
+                MizarWidgetAPI.setImageViewerGui(true);
+                MizarWidgetAPI.setExportGui(true);
+                MizarWidgetAPI.setDistanceGui(false);
+            } else if (MizarWidgetAPI.getMode() === MizarWidgetAPI.CONTEXT.Planet) {
+                // Set different GUIs
+                MizarWidgetAPI.setAngleDistanceSkyGui(false);
+                MizarWidgetAPI.setAngleDistancePlanetGui(true);
+                MizarWidgetAPI.setSwitchTo2D(true);
+                MizarWidgetAPI.setSampGui(false);
+                MizarWidgetAPI.setShortenerUrlGui(false);
+                MizarWidgetAPI.setMollweideMapGui(false);
+                MizarWidgetAPI.setReverseNameResolverGui(false);
+                MizarWidgetAPI.setNameResolverGui(true);
+                MizarWidgetAPI.setCategoryGui(true);
+                MizarWidgetAPI.setImageViewerGui(true);
+                MizarWidgetAPI.setExportGui(false);
+                MizarWidgetAPI.setDistanceGui(true);
+            } else if (MizarWidgetAPI.getMode() === MizarWidgetAPI.CONTEXT.Ground) {
+                MizarWidgetAPI.setAngleDistanceSkyGui(false);
+                MizarWidgetAPI.setAngleDistancePlanetGui(false);
+                MizarWidgetAPI.setSwitchTo2D(false);
+                MizarWidgetAPI.setSampGui(false);
+                MizarWidgetAPI.setShortenerUrlGui(false);
+                MizarWidgetAPI.setMollweideMapGui(false);
+                MizarWidgetAPI.setReverseNameResolverGui(false);
+                MizarWidgetAPI.setNameResolverGui(false);
+                MizarWidgetAPI.setCategoryGui(true);
+                MizarWidgetAPI.setImageViewerGui(true);
+                MizarWidgetAPI.setExportGui(false);
+                MizarWidgetAPI.setDistanceGui(false);
+            } else {
+                throw "Unable to find mizar.mode="+mizar.mode;
+            }
+        }
+
         /**
          * Adds layers to sky (default) or to planet if planetLayer is defined.
          * @param {array} layers to add to a globe : sky or planet
@@ -194,16 +241,11 @@ define(["jquery", "underscore-min",
             $(mizarDiv).find('#splash').hide();
         }
 
-        function fillMars() {
-            var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "mars" });
-            for (var i = 0; i < selectedCtx.context.layers.length; i++) {
-                var layer = selectedCtx.context.layers[i];
-                var layerID = mizarAPI.addLayer(layer);
-                if(layer.type === Constants.LAYER.WCSElevation) {
-                    mizarAPI.setBaseElevation(layer.name);
-                }
-            }
-        }
+        var getUniqueId = function (prefix) {
+            var d = new Date().getTime();
+            d += (parseInt(Math.random() * 100)).toString();
+            return d;
+        };
 
         /**
          * Entry point to manage Mizar Widget.
@@ -266,9 +308,13 @@ define(["jquery", "underscore-min",
                     options: this.options
                 });
 
+                initGUI(this, this.mode);
 
-                this.subscribeCtx("baseLayersReady", RenderingGlobeFinished);
-                this.subscribeMizar("mizarMode:toggle", RenderingGlobeFinished);
+                // Removes the spinner when background layers are loaded
+                this.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
+                // Removes the spinner when we come back to a previous context (it was not destroyed, then
+                // no baseLayersReady event is sent.
+                this.subscribeMizar(Mizar.EVENT_MSG.MIZAR_MODE_TOGGLE, RenderingGlobeFinished);
 
                 loadNoStandardSkyProviders();
                 loadNoStandardPlanetProviders();
@@ -309,6 +355,8 @@ define(["jquery", "underscore-min",
                 });
                 if ((options) && (options.global) && (options.global.displayWarning === true)) {
                     ErrorDialog.setDisplayWarning(true);
+                    ErrorDialog.setDisplayDebug(true);
+                    ErrorDialog.setIcon('#warningButton');
                     $('#warningButton').on('click', function () {
                         if (ErrorDialog.isActive() === true) {
                             ErrorDialog.hide();
@@ -342,10 +390,11 @@ define(["jquery", "underscore-min",
         MizarWidgetAPI.prototype._loadConfigFiles = function(mizarUrl, configCtx){
 
             var ctxObj = [];
-
+            var uid = getUniqueId();
             for (var i=0; i<configCtx.length; i++) {
                 var ctx = configCtx[i];
-                var ctxResult = getUrl(mizarUrl+"/conf/"+ctx.context);
+                // generate a unique identifier to avoid the web server puts the configuration file in cache.
+                var ctxResult = getUrl(mizarUrl+"/conf/"+ctx.context+"?uid="+uid);
                 ctx.context = JSON.parse(_removeComments(ctxResult));
                 ctxObj.push(ctx);
             }
@@ -465,6 +514,11 @@ define(["jquery", "underscore-min",
 
         MizarWidgetAPI.prototype.NAVIGATION = Mizar.NAVIGATION;
 
+        MizarWidgetAPI.prototype.LAYER = Mizar.LAYER;
+
+        MizarWidgetAPI.prototype.EVENT_MSG = Mizar.EVENT_MSG;
+
+
         /**
          * Show/hide angle distance GUI
          * @function setAngleDistanceSkyGui
@@ -547,6 +601,18 @@ define(["jquery", "underscore-min",
         MizarWidgetAPI.prototype.setReverseNameResolverGui = function (visible) {
             if (this.mizarWidgetGui) {
                 this.mizarWidgetGui.setReverseNameResolverGui(visible);
+            }
+        };
+
+        /**
+         * Show/hide reverse name resolver GUI
+         * @function setReverseNameResolverGui
+         * @memberof MizarWidgetAPI.prototype
+         * @param {boolean} visible
+         */
+        MizarWidgetAPI.prototype.setDistanceGui = function (visible) {
+            if (this.mizarWidgetGui) {
+                this.mizarWidgetGui.setDistanceGui(visible);
             }
         };
 
@@ -638,8 +704,9 @@ define(["jquery", "underscore-min",
             return this.getMode() === Mizar.CONTEXT.Ground;
         };
 
+
         MizarWidgetAPI.prototype.createMarsContext = function() {
-            this.unsubscribeCtx("baseLayersReady", RenderingGlobeFinished);
+            this.unsubscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
             $(mizarDiv).find('#loading').show();
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "mars" });
@@ -647,7 +714,11 @@ define(["jquery", "underscore-min",
                 throw "Unable to get the Mars context"
             }
             mizarAPI.createContext(Mizar.CONTEXT.Planet, selectedCtx.context.init);
-            mizarAPI.toggleToContext(mizarAPI.getPlanetContext());
+            var self = this;
+            mizarAPI.toggleToContext(mizarAPI.getPlanetContext(), {"mustBeHidden":true,"callback":function(){
+                initGUI(self, self.getMode());
+                self.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
+            }});
             loadNoStandardPlanetProviders();
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
@@ -656,48 +727,49 @@ define(["jquery", "underscore-min",
                     mizarAPI.setBaseElevation(layer.name);
                 }
             }
-            this.subscribeCtx("baseLayersReady", RenderingGlobeFinished);
             self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
-            self.setAngleDistanceSkyGui(false);
-            self.setAngleDistancePlanetGui(true);
-            self.setSwitchTo2D(true);
-            self.setSampGui(false);
-            self.setShortenerUrlGui(false);
-            self.setMollweideMapGui(false);
-            self.setReverseNameResolverGui(false);
-            self.setNameResolverGui(true);
-            self.setCategoryGui(true);
-            self.setImageViewerGui(true);
-            self.setExportGui(false);
         };
 
         MizarWidgetAPI.prototype.createCuriosityContext = function() {
-            this.unsubscribeCtx("baseLayersReady", RenderingGlobeFinished);
+            this.unsubscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
             $(mizarDiv).find('#loading').show();
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "curiosity" });
             mizarAPI.createContext(Mizar.CONTEXT.Ground, selectedCtx.context.init);
-            mizarAPI.toggleToContext(mizarAPI.getGroundContext());
+            var self = this;
+            mizarAPI.toggleToContext(mizarAPI.getGroundContext(),{"mustBeHidden":true, "callback":function() {
+                initGUI(self, self.getMode());
+                self.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
+            }});
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
                 var layerID = mizarAPI.addLayer(layer);
-                if(layer.type === Constants.LAYER.WCSElevation) {
+                if(layer.type === Mizar.LAYER.WCSElevation) {
                     mizarAPI.setBaseElevation(layer.name);
                 }
             }
-            this.subscribeCtx("baseLayersReady", RenderingGlobeFinished);
             self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
-            self.setAngleDistanceSkyGui(false);
-            self.setAngleDistancePlanetGui(false);
-            self.setSwitchTo2D(false);
-            self.setSampGui(false);
-            self.setShortenerUrlGui(false);
-            self.setMollweideMapGui(false);
-            self.setReverseNameResolverGui(false);
-            self.setNameResolverGui(false);
-            self.setCategoryGui(true);
-            self.setImageViewerGui(true);
-            self.setExportGui(false);
+        };
+
+        MizarWidgetAPI.prototype.createSunContext = function() {
+            this.unsubscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
+            $(mizarDiv).find('#loading').show();
+            var userOptions = this.options;
+            var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "sun" });
+            mizarAPI.createContext(Mizar.CONTEXT.Planet, selectedCtx.context.init);
+            var self = this;
+            mizarAPI.toggleToContext(mizarAPI.getPlanetContext(),{"mustBeHidden":true, "callback":function() {
+                initGUI(self, self.getMode());
+                self.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
+            }});
+            for (var i = 0; i < selectedCtx.context.layers.length; i++) {
+                var layer = selectedCtx.context.layers[i];
+                var layerID = mizarAPI.addLayer(layer);
+                if(layer.type === Mizar.LAYER.WCSElevation) {
+                    mizarAPI.setBaseElevation(layer.name);
+                }
+            }
+            self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
         };
 
         MizarWidgetAPI.prototype.toggleToSky = function() {
@@ -743,6 +815,10 @@ define(["jquery", "underscore-min",
 
         MizarWidgetAPI.prototype.getLayerByName = function(name) {
             return mizarAPI.getLayerByName(name);
+        };
+
+        MizarWidgetAPI.prototype.getLayerByID = function(ID) {
+            return mizarAPI.getLayerByID(ID);
         };
 
         MizarWidgetAPI.prototype.setBackgroundLayer = function(name) {

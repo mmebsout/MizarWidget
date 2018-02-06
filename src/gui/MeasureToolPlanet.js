@@ -43,13 +43,13 @@ define(["jquery", "jquery.ui"],
 
             self = this;
 
-            mizarWidgetAPI.subscribeCtx("modifiedCrs", function() {
+            mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.CRS_MODIFIED, function() {
                 if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).activated) {
                     self.toggle();
                 }
             });
 
-            mizarWidgetAPI.subscribeMizar("mizarMode:toggle", function() {
+            mizarWidgetAPI.subscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, function() {
                 if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).activated) {
                     self.toggle();
                 }
@@ -66,6 +66,7 @@ define(["jquery", "jquery.ui"],
 
             };
 
+            $('a#elevationTrackingBtn').text('Calculate elevation');
             $('#elevationTrackingBtn').button()
                 .click($.proxy(self.displayPopupElevation, this));
 
@@ -117,12 +118,12 @@ define(["jquery", "jquery.ui"],
 
         MeasureToolPlanet.prototype.remove = function() {
             mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).remove();
-            mizarWidgetAPI.unsubscribeCtx("modifiedCrs", function() {
+            mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.CRS_MODIFIED, function() {
                 if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).activated) {
                     self.toggle();
                 }
             });
-            mizarWidgetAPI.unsubscribeMizar("mizarMode:toggle", function() {
+            mizarWidgetAPI.unsubscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, function() {
                 if(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet).activated) {
                     self.toggle();
                 }

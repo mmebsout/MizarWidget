@@ -21,7 +21,7 @@
 /**
  * Name resolver module : search object name and zoom to them
  */
-define(["jquery", "underscore-min", "../utils/UtilsCore",
+define(["jquery", "underscore-min","../utils/UtilsCore",
         "text!templates/nameResolverResult.html", "jquery.ui", "jquery.once","string"],
     function ($, _, UtilsCore,
               nameResolverResultHTMLTemplate) {
@@ -349,7 +349,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 if (!$nameResolver) {
 
                     // Update name resolver context when mizar mode has been toggled
-                    mizarWidgetAPI.subscribeMizar("mizarMode:toggle", this.onModeToggle);
+                    mizarWidgetAPI.subscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, this.onModeToggle);
 
                     // TODO : replace searchDiv by "parentElement"
                     $nameResolver = $(nameResolverHTML).appendTo('#searchDiv');
@@ -382,7 +382,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                     $nameResolver.remove();
                     $nameResolver = null;
 
-                    mizarWidgetAPI.unsubscribeMizar("mizarMode:toggle", this.onModeToggle);
+                    mizarWidgetAPI.unsubscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, this.onModeToggle);
                     mizarWidgetAPI = null;
                 }
             },
