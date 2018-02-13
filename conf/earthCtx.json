@@ -18,11 +18,17 @@
       "minElevation": -32000,
       "scale": 4
     },
-    /*{
+/*    {
       "type": "WMTS",
       "name": "TEST",
-      "getCapabilities":"http://peps-vizo.cnes.fr:8083/mapcache/wmts?service=WMTS&version=1.0.0&request=GetCapabilities"
-    },*/
+      "getCapabilities":"http://peps-vizo.cnes.fr:8083/mapcache/wmts",
+      //"getCapabilities":"http://gis.sinica.edu.tw/worldmap/wmts",
+      "version": "1.0.0.0",
+      "layer": "s2rgb_4326",
+      "matrixSet":"WGS84",
+      "visible": true,
+      "category": "background"
+    }*/
     {
       "type": "WMS",
       "name": "Blue Marble",
@@ -61,7 +67,8 @@
       ],
       "name": "Peps",
       "getCapabilities":"https://peps.cnes.fr/resto/api/collections/S1/describe.xml",
-      "color": "yellow"
+      "color": "yellow",
+      "afterLoad" : "alert('1');"
     }
   ]
 }

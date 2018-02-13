@@ -135,12 +135,6 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                     primary: "ui-icon-arrowthickstop-1-s"
                 }
             }).end()
-                  .find('.queryOpenSearch').button({
-                  text: false,
-                  icons: {
-                      primary: "ui-icon-arrowrefresh-1-w"
-                  }
-            }).end()
                 .find('.isFits').button().end()
                 .find('.addFitsView').button({
                 text: false,
@@ -519,16 +513,6 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
         /**************************************************************************************************************/
 
         /**
-         *    Display Open Search Form
-         */
-        function queryOpenSearch() {
-            var layer = $(this).closest(".addLayer").data("layer");
-            alert("Query Open Search!!!");
-        }
-
-        /**************************************************************************************************************/
-
-        /**
          *    Zoom to barycenter of all features contained by layer
          *    (available for GlobWeb.VectorLayers only)
          */
@@ -575,7 +559,6 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                 .on('click', ".category .layerServices", showLayerServices)
                 .on('click', ".category .exportLayer", exportLayer)
                 .on('click', '.category .downloadAsVO', downloadAsVO)
-                .on('click', '.category .queryOpenSearch', queryOpenSearch)
                 .on("click", ".category .zoomTo", zoomTo)
                 .on('click', '.category .isFits', toggleFits);
         }
@@ -662,7 +645,6 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                     .off('click', ".category .layerServices", showLayerServices)
                     .off('click', ".category .exportLayer", exportLayer)
                     .off('click', '.category .downloadAsVO', downloadAsVO)
-                    .off('click', '.category .queryOpenSearch', queryOpenSearch)
                     .off("click", ".category .zoomTo", zoomTo)
                     .off('click', '.category .isFits', toggleFits);
 
