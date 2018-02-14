@@ -12,12 +12,13 @@
         </table>
     </div>
 
-    <% if ( services ) {
+    <% if ( services || properties.quicklook) {
     %>
     <div id="services">
         <%
-        if ( properties.quicklook ) { %>
-        <span class="featureService" title="Quicklook" id='quicklook' class=<%= (properties.style.fillTextureUrl &&
+        if ( properties.quicklook ) { 
+            %>
+        <span class="featureService" title="Quicklook" id='quicklook' class=<%= (properties.quicklook &&
               properties.style.fill ? 'selected' : '' ) %> ></span>
         <% } %>
 
@@ -45,6 +46,7 @@
         <%
         }
         %>
+
         <a href="<%= services ? services.download.url : "" %>" target="_self" download><span class="featureService"
                                                                                              id="downloadImage"
                                                                                              title="Download"></span></a>

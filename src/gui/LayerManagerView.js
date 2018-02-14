@@ -220,7 +220,9 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                     votable2geojsonBaseUrl = configuration.votable2geojson.baseUrl;
                 }
             },
-
+            refresh: function() {
+                $el.find('#backgroundLayersSelect').iconselectmenu("refresh");
+            },
             /**
              *    Unregister all event handlers and remove view
              */

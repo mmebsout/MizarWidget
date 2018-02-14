@@ -53,7 +53,6 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
             if (!layer.hasOwnProperty('dictionary')) {
                 createDictionary(layer, feature.properties);
             }
-
             var output = featureDescriptionTemplate({
                 dictionary: layer.dictionary,
                 services: feature.services,
@@ -61,6 +60,7 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
                 descriptionTableTemplate: descriptionTableTemplate,
                 isMobile: isMobile
             });
+
 
             $rightDiv.html(output);
 
