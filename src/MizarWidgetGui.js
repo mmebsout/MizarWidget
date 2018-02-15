@@ -30,7 +30,7 @@
  *     <li>a graphical element to display the metadata to the user</li>
  *     <li>a graphical iframe to display external link to the user</li>
  *     <li>a graphical element to display the footprint of the camera in the whole sky</li>
- *     <li>a graphical element to handle features on a displayed image (quicklook or Fits data)</li>
+ *     <li>a graphical element to handle features on a displayed image (quicklook, wms or Fits data)</li>
  *     <li>a graphical element to handle specific layer</li>
  *     <li>a graphical element to measure the angular distance between two points</li>
  *     <li>a graphical element to measure the distance and compute the elevation profile between two points

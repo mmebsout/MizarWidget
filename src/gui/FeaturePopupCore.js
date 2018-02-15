@@ -53,6 +53,7 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
             if (!layer.hasOwnProperty('dictionary')) {
                 createDictionary(layer, feature.properties);
             }
+            console.log("feature",feature);
             var output = featureDescriptionTemplate({
                 dictionary: layer.dictionary,
                 services: feature.services,
@@ -252,7 +253,9 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
          * Show or Hide a quicklook
          */
         function showOrHideQuicklook() {
+            console.log("show or hide quicklook");
             var selectedData = pickingManager.getSelectedData();
+            console.log("selectedData",selectedData);
 
             var otherQuicklookOn = selectedData.feature.properties.style.fill && !selectedData.feature.properties.style.fillTextureUrl;
             if (otherQuicklookOn) {
@@ -261,6 +264,7 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
             }
 
             selectedData.isFits = false;
+            selectedData.isWms = false;
             if (selectedData.feature.properties.style.fill === true) {
                 imageManager.removeImage(selectedData);
             }
@@ -269,6 +273,31 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
             }
         }
 
+        /**
+         * Show or Hide a quicklook
+         */
+        function showOrHideQuicklookWms() {
+            console.log("show or hide quicklook wms");
+            var selectedData = pickingManager.getSelectedData();
+            console.log("selectedData",selectedData);
+
+            var otherQuicklookOn = selectedData.feature.properties.style.fill && !selectedData.feature.properties.style.fillTextureUrl;
+            if (otherQuicklookOn) {
+                // Remove fits quicklook
+                imageManager.removeImage(selectedData);
+            }
+
+            selectedData.isFits = false;
+            selectedData.isWms = true;
+            if (selectedData.feature.properties.style.fill === true) {
+                imageManager.removeImage(selectedData);
+            }
+            else {
+                imageManager.addImage(selectedData);
+            }
+        }
+
+        
         /**********************************************************************************************/
 
         /**
@@ -458,6 +487,7 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
             computeHeight: computeHeight,
             buildProperties: buildProperties,
             showOrHideQuicklook: showOrHideQuicklook,
+            showOrHideQuicklookWms: showOrHideQuicklookWms,
             showOrHideQuicklookFits: showOrHideQuicklookFits,
             sendImageBySamp: sendImageBySamp,
             showOrHideHEALPixService: showOrHideHEALPixService,

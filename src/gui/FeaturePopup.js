@@ -91,6 +91,9 @@ define(["jquery", "./FeaturePopupCore", "./IFrame", "./ImageProcessing", "servic
                 // Show/hide quicklook
                 $selectedFeatureDiv.on("click", '#quicklook', FeaturePopupCore.showOrHideQuicklook);
 
+                // Show/hide quicklook wms
+                $selectedFeatureDiv.on("click", '#quicklookWms', FeaturePopupCore.showOrHideQuicklookWms);
+
                 // Show/hide quicklook fits
                 $selectedFeatureDiv.on('click', "#quicklookFits", FeaturePopupCore.showOrHideQuicklookFits);
 

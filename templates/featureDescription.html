@@ -12,7 +12,7 @@
         </table>
     </div>
 
-    <% if ( services || properties.quicklook) {
+    <% if ( services || properties.quicklook || properties.services ) {
     %>
     <div id="services">
         <%
@@ -20,9 +20,21 @@
             %>
         <span class="featureService" title="Quicklook" id='quicklook' class=<%= (properties.quicklook &&
               properties.style.fill ? 'selected' : '' ) %> ></span>
-        <% } %>
+        <% } 
+        if ( properties.services ) {
+        if (properties.services.browse) {
+            if (properties.services.browse.layer) {
+                if (properties.services.browse.layer.type == "WMS") {
+                    %>
+                    <span class="featureService" title="Quicklook Wms" id='quicklookWms' class=<%= (properties.services.browse.layer.url &&
+                    properties.style.fill ? 'selected' : '' ) %> ></span>
+                    <%
+                }
+            }
+        }
+        }
 
-        <% if ( services )
+        if ( services )
         {
         if ( services.download )
         {
