@@ -224,6 +224,7 @@ define(["require", "jquery", "underscore-min","../utils/UtilsCore",
              *    @returns jQuery element of view
              */
             addView: function (selectedData) {
+                console.log("addView",selectedData);
                 showImageViewer();
 
                 // Get or create layer view
