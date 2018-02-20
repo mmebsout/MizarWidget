@@ -142,13 +142,19 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                     primary: "ui-icon-image"
                 }
             }).end()
-                .find('.layerServices').button({
+            .find('.layerServices').button({
                 text: false,
                 icons: {
                     primary: "ui-icon-wrench"
                 }
+            }).end()
+                .find('.osNext').button({
+                    text: true,
+                    icons: {
+                        primary: "ui-icon-triangle-1-e"
+                    }
             });
-        }
+    }
 
         /**************************************************************************************************************/
 
@@ -472,6 +478,17 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
         /**************************************************************************************************************/
 
         /**
+         *    Go to open search next page
+         */
+        function nextPage() {
+            if (document.currentOpenSearchLayer) {
+                document.currentOpenSearchLayer.nextPage();
+            }
+        }
+        
+        /**************************************************************************************************************/
+
+        /**
          *    Show layer services popup
          */
         function showLayerServices() {
@@ -560,7 +577,9 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                 .on('click', ".category .exportLayer", exportLayer)
                 .on('click', '.category .downloadAsVO', downloadAsVO)
                 .on("click", ".category .zoomTo", zoomTo)
-                .on('click', '.category .isFits', toggleFits);
+                .on('click', '.category .isFits', toggleFits)
+                .on('click', '.category .osNext', nextPage);
+
         }
 
         /**************************************************************************************************************/
@@ -646,7 +665,8 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                     .off('click', ".category .exportLayer", exportLayer)
                     .off('click', '.category .downloadAsVO', downloadAsVO)
                     .off("click", ".category .zoomTo", zoomTo)
-                    .off('click', '.category .isFits', toggleFits);
+                    .off('click', '.category .isFits', toggleFits)
+                    .off('click', ".category .osNext", nextPage);
 
                 // Remove all created dialogs
                 var layers = mizarWidgetAPI.getLayers();
