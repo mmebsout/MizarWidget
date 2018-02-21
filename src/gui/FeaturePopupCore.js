@@ -294,19 +294,10 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
             var otherQuicklookOn = false;
             
             if (selectedData.layer.type === "OpenSearch") {
-                // Special case OpenSearch
-                otherQuicklookOn = selectedData.layer.isQuicklookDisplayed();
-                selectedData.isFits = false;
-                selectedData.isWms = true;
-                if (otherQuicklookOn === true) {
-                    imageManager.removeImage(selectedData);
-                    // Check if feature id is different
-                    if (selectedData.layer.currentIdDisplayed !== selectedData.feature.id) {
-                        imageManager.addImage(selectedData);
-                    }
-                } else {
-                    imageManager.addImage(selectedData);
-                }
+                selectedData.layer.activeWMS = true;
+                selectedData.layer.loadWMS(selectedData);
+                
+
             } else {
                 otherQuicklookOn = selectedData.feature.properties.style.fill && !selectedData.feature.properties.style.fillTextureUrl;
 
