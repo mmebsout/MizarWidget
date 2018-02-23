@@ -26,8 +26,7 @@
             if (properties.services.browse.layer) {
                 if (properties.services.browse.layer.type == "WMS") {
                     %>
-                    <span class="featureService" title="Quicklook Wms" id='quicklookWms' class=<%= (properties.services.browse.layer.url &&
-                    properties.style.fill ? 'selected' : '' ) %> ></span>
+                    <span class="featureService <%= (activeWMS ? 'selected' : '' ) %>" title="Quicklook Wms" id='quicklookWms' ></span>
                     <%
                 }
             }

@@ -61,10 +61,13 @@
         if ( layer.type == "OpenSearch" )
         {
         %>
-        <div id="os_navigation_<%= shortName %>"></div>
+        <div id="os_navigation_<%= shortName %>">
             &nbsp;&nbsp;&nbsp;<label class="labelPage">Page 1</label>&nbsp;&nbsp;&nbsp;<button class="osNext">Next</button><br/>
             &nbsp;&nbsp;&nbsp;<label class="labelLoaded">loaded : 0</label>&nbsp;&nbsp;&nbsp;<label class="labelTotal">total : ~ 0</label>
-        </id>
+        </div>
+        <div class="QLWMS_<%= shortName %>" style="display:none">
+            <button class="removeWMS">Remove quicklook WMS layers</button>
+        </div>
         <%
         }
         %>

@@ -77,10 +77,12 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             if (typeof gwLayer === 'undefined') {
               return;
             }
-            var shortName = UtilsCore.formatId(gwLayer.name);
+            /*var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
               shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
             }
+            */
+            var shortName = gwLayer.getShortName();
             // Slider initialisation
             $layerDiv.find('#slider_' + shortName).slider({
                 value: gwLayer.getOpacity() * 100,
@@ -135,6 +137,12 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                     primary: "ui-icon-arrowthickstop-1-s"
                 }
             }).end()
+            .find('.removeWMS').button({
+            text: false,
+            icons: {
+                primary: "ui-icon-newwin"
+            }
+        }).end()
                 .find('.isFits').button().end()
                 .find('.addFitsView').button({
                 text: false,
@@ -192,10 +200,11 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             if (typeof gwLayer === 'undefined') {
               return;
             }
-            var shortName = UtilsCore.formatId(gwLayer.name);
+            /*var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
               shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
-            }
+            }*/
+            var shortName = gwLayer.getShortName();
             // Supports fits, so create dynamic image view in dialog
             var dialogId = "addFitsViewDialog_" + shortName;
             var $dialog = $('<div id="' + dialogId + '"></div>').appendTo('body').dialog({
@@ -278,10 +287,11 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                 layers[0] = foundLayer;
               }
             }
-            var shortName = UtilsCore.formatId(gwLayer.name);
+            /*var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
               shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
-            }
+            }*/
+            var shortName = gwLayer.getShortName();
             // Manage 'custom' checkbox
             // jQuery UI button is not sexy enough :)
             // Toggle some classes when the user clicks on the visibility checkbox
@@ -319,10 +329,11 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             if (typeof gwLayer === 'undefined') {
               return;
             }
-            var shortName = UtilsCore.formatId(gwLayer.name);
+            /*var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
               shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
-            }
+            }*/
+            var shortName = gwLayer.getShortName();
             // Open tools div when the user clicks on the layer label
             var toolsDiv = $layerDiv.find('.layerTools');
             $layerDiv.children('label').click(function () {
@@ -359,11 +370,12 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             if (typeof gwLayer === 'undefined') {
               return;
             }
-            var shortName = UtilsCore.formatId(gwLayer.name);
+            /*var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
               shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
             }
-            var layerDiv = AdditionalLayersCore.createHTMLFromTemplate(additionalLayerTemplate, gwLayer, shortName, isMobile);
+            */
+            var layerDiv = AdditionalLayersCore.createHTMLFromTemplate(additionalLayerTemplate, gwLayer, gwLayer.getShortName(), isMobile);
 
             var $layerDiv = $(layerDiv)
                 .appendTo('#' + categoryId)
@@ -390,7 +402,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
          *    Create HTML for the given layer
          */
         function addView(gwLayer) {
-            if(gwLayer.type === "WCSElevation" || gwLayer.type === "WMSElevation" || gwLayer.type === "Moc") {
+            if (gwLayer.linkedTo !== "" || gwLayer.type === "WCSElevation" || gwLayer.type === "WMSElevation" || gwLayer.type === "Moc") {
                 // skip it
             } else {
                 var category = gwLayer.category;
@@ -439,11 +451,12 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             if (typeof gwLayer === 'undefined') {
               return;
             }
-            var shortName = UtilsCore.formatId(gwLayer.name);
+            /*var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
               shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
             }
-            var addLayerDiv = $(parentElement).find('#addLayer_' + shortName);
+            */
+            var addLayerDiv = $(parentElement).find('#addLayer_' + gwLayer.getShortName());
             if (addLayerDiv.parent().children().length === 1) {
                 // Last child to remove -> remove the category
                 addLayerDiv.closest('.category').remove();
@@ -515,6 +528,16 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
         /**************************************************************************************************************/
 
         /**
+         *    Remove WMS linked layers
+         */
+        function removeWms() {
+            var layer = $(this).closest(".addLayer").data("layer");
+            layer.unloadAllWMS();
+        }
+
+        /**************************************************************************************************************/
+
+        /**
          *    Download features on visible tiles of the given layer as VO table
          */
         function downloadAsVO() {
@@ -576,6 +599,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                 .on('click', ".category .layerServices", showLayerServices)
                 .on('click', ".category .exportLayer", exportLayer)
                 .on('click', '.category .downloadAsVO', downloadAsVO)
+                .on('click', '.removeWMS', removeWms)
                 .on("click", ".category .zoomTo", zoomTo)
                 .on('click', '.category .isFits', toggleFits)
                 .on('click', '.category .osNext', nextPage);
@@ -591,11 +615,12 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             if (typeof layer === 'undefined') {
               return;
             }
-            var shortName = UtilsCore.formatId(layer.name);
+            /*var shortName = UtilsCore.formatId(layer.name);
             if (typeof shortName === 'string') {
               shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
             }
-            $('#addLayer_' + shortName).find('.spinner').stop(true, true).fadeIn('fast');
+            */
+            $('#addLayer_' + layer.getShortName()).find('.spinner').stop(true, true).fadeIn('fast');
         }
 
         /**************************************************************************************************************/
@@ -607,11 +632,12 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             if (typeof layer === 'undefined') {
               return;
             }
-            var shortName = UtilsCore.formatId(layer.name);
+            /*var shortName = UtilsCore.formatId(layer.name);
             if (typeof shortName === 'string') {
               shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
             }
-            $('#addLayer_' + shortName).find('.spinner').fadeOut(500);
+            */
+            $('#addLayer_' + layer.getShortName()).find('.spinner').fadeOut(500);
         }
 
         /**************************************************************************************************************/
@@ -664,6 +690,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                     .off('click', ".category .layerServices", showLayerServices)
                     .off('click', ".category .exportLayer", exportLayer)
                     .off('click', '.category .downloadAsVO', downloadAsVO)
+                    .off('click', '.featureService .removeWMS', removeWms)
                     .off("click", ".category .zoomTo", zoomTo)
                     .off('click', '.category .isFits', toggleFits)
                     .off('click', ".category .osNext", nextPage);
