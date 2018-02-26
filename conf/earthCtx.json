@@ -16,7 +16,7 @@
       "coverage": "GTOPO",
       "version": "1.0.0",
       "minElevation": -32000,
-      "scale": 4
+      "scale": 40
     },
 /*    {
       "type": "WMTS",

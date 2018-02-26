@@ -58,7 +58,7 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
                 services: feature.services,
                 properties: buildProperties(feature.properties, layer.displayProperties),
                 descriptionTableTemplate: descriptionTableTemplate,
-                activeWMS : layer.isDisplayedWMS(feature.id),
+                activeWMS : layer.isAssociatedLayer(feature.id),
                 isMobile: isMobile
             });
 
@@ -295,7 +295,7 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
             var otherQuicklookOn = false;
             
             if (selectedData.layer.type === "OpenSearch") {
-                if (selectedData.layer.isDisplayedWMS(selectedData.feature.id) === true) {
+                if (selectedData.layer.isAssociatedLayer(selectedData.feature.id) === true) {
                     $('#quicklookWms').removeClass('selected');
                     selectedData.layer.unloadWMS(selectedData);
                 } else {
