@@ -447,7 +447,9 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
             var selectedData = pickingManager.getSelectedData();
 
             $('#featureList div:eq(' + featureIndexToFocus + ')').addClass('selected');
-            showFeatureInformation(selectedData.layer, selectedData.feature);
+            if (selectedData) {
+                showFeatureInformation(selectedData.layer, selectedData.feature);
+            }
 
             mizarWidgetAPI.getRenderContext().requestFrame();
 
