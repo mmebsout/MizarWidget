@@ -33,7 +33,6 @@
       "type": "WMS",
       "name": "Blue Marble",
       "baseUrl": "http://demonstrator.telespazio.com/wmspub",
-      "getCapabilities":"http://demonstrator.telespazio.com/wmspub",
       "layers": "BlueMarble,bdf",
       "visible": true,
       "background": true
