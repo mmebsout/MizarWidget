@@ -55,10 +55,11 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
             }
             var output = featureDescriptionTemplate({
                 dictionary: layer.dictionary,
-                services: feature.services,
+                services: feature.properties.services,
                 properties: buildProperties(feature.properties, layer.displayProperties),
                 descriptionTableTemplate: descriptionTableTemplate,
-                activeWMS : layer.isAssociatedLayer(feature.id),
+                hasServiceRunning : layer.hasServicesRunningOnRecord(feature.id),
+                mizarWidgetAPI : mizarWidgetAPI,
                 isMobile: isMobile
             });
 
@@ -151,19 +152,25 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
          *    @return Properties matching displayProperties
          */
         function buildProperties(properties, displayProperties) {
+            var cleanedProperties = {};
+            for (key in properties) {
+                if(properties[key] == null || key === "services" || key === "links" || key === "storage") {
+                    // do not display it
+                } else {
+                    cleanedProperties[key] = properties[key];
+                }
+            }
             if (displayProperties) {
                 var handledProperties = {};
-
-                handledProperties.identifier = properties.identifier;
-                handledProperties.title = properties.title ? properties.title : "";
-                handledProperties.style = properties.style;
+                handledProperties.title = cleanedProperties.title ? cleanedProperties.title : "";
+                handledProperties.style = cleanedProperties.style;
 
                 // Fill handledProperties in order
                 var key;
                 for (var j = 0; j < displayProperties.length; j++) {
                     key = displayProperties[j];
-                    if (properties[key]) {
-                        handledProperties[key] = properties[key];
+                    if (cleanedProperties[key]) {
+                        handledProperties[key] = cleanedProperties[key];
                     }
                 }
 
@@ -171,14 +178,14 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
                 // Handle the rest into sub-section "others"
                 for (key in properties) {
                     if (!handledProperties[key]) {
-                        handledProperties.others[key] = properties[key];
+                        handledProperties.others[key] = cleanedProperties[key];
                     }
                 }
 
                 return handledProperties;
             }
             else {
-                return properties;
+                return cleanedProperties;
             }
         }
 
@@ -295,7 +302,7 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
             var otherQuicklookOn = false;
             
             if (selectedData.layer.type === "OpenSearch") {
-                if (selectedData.layer.isAssociatedLayer(selectedData.feature.id) === true) {
+                if (selectedData.layer.hasServicesRunningOnRecord(selectedData.feature.id)) {
                     $('#quicklookWms').removeClass('selected');
                     selectedData.layer.unloadWMS(selectedData);
                 } else {

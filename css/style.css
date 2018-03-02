@@ -67,8 +67,19 @@ body {
     pointer-events: none;
 }
 
+
 #attributions div {
     color: white;
+    text-overflow:ellipsis;
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#attributions div:hover {
+    text-overflow:clip;
+    width:auto;
+    white-space: normal;
 }
 
 #attributions a {

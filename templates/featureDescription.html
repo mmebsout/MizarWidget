@@ -1,7 +1,9 @@
 <div class="detailedInfo">
-    <% if ( properties.thumbnail )
-    { %>
+    <% if ( properties.thumbnail ) { %>
     <div class="thumbnail"><img src="<%= properties.thumbnail %>"/></div>
+    <% }
+    else if (properties.quicklook) { %>
+    <div class="thumbnail"><img src="<%= properties.quicklook %>" height="50px"/></div>
     <% } %>
     <div class="featureProperties">
         <table class="propertiesTable" rules="rows">
@@ -12,63 +14,59 @@
         </table>
     </div>
 
-    <% if ( services || properties.quicklook || properties.services ) {
+    <% if (properties.quicklook || services ) {
     %>
     <div id="services">
         <%
-        if ( properties.quicklook ) { 
-            %>
-        <span class="featureService" title="Quicklook" id='quicklook' class=<%= (properties.quicklook &&
-              properties.style.fill ? 'selected' : '' ) %> ></span>
-        <% } 
-        if ( properties.services ) {
-        if (properties.services.browse) {
-            if (properties.services.browse.layer) {
-                if (properties.services.browse.layer.type == "WMS") {
-                    %>
-                    <span class="featureService <%= (activeWMS ? 'selected' : '' ) %>" title="Quicklook Wms" id='quicklookWms' ></span>
-                    <%
-                }
-            }
-        }
-        }
-
-        if ( services )
-        {
-        if ( services.download )
-        {
-        if ( services.download.mimetype == "image/fits" )
-        {
-        if ( !isMobile )
-        {
-        var fitsQuicklookOn = properties.style.fill && !properties.style.fillTextureUrl;
+        if ( properties.quicklook ) {
         %>
-        <span class="featureService" title="Fits quicklook" id='quicklookFits' class=<%= (fitsQuicklookOn ? 'selected' :
-        '' ) %> ></span>
-        <% } %>
-						<span style="display: inline-block; position: relative;">
-							<span class="featureService" title="Solar object service" id="solarObjects" class=<%=
-                                  (services.solarObjects && services.solarObjects.layer.isVisible() ? 'selected' : '' ) %>></span>
-
-        <div style="display: none" id="solarObjectsSpinner"></div>
+        <span class="featureService" title="Quicklook" id='quicklook'
+              class="<%= (properties.quicklook && properties.style.fill ? 'selected' : '' ) %>">
         </span>
-        <span title="Image processing" id="dynamicImageView" class='dynamicAvailable'/>
-        <span class="featureService" title="Export image by SAMP" id="sendImage"></span>
+        <% }
+        if ( services ) {
+        if (services.browse) {
+        if (services.browse.layer) {
+        if (services.browse.layer.type == "WMS") {
+        %>
+                    <span class="featureService <%= (hasServiceRunning ? 'selected' : '' ) %>"
+                          title="Quicklook Wms" id='quicklookWms' >
+					</span>
         <%
         }
-        %>
-
-        <a href="<%= services ? services.download.url : "" %>" target="_self" download><span class="featureService"
-                                                                                             id="downloadImage"
-                                                                                             title="Download"></span></a>
-        <%
+        }
         }
         if ( services.healpix ) { %>
-        <span class="featureService" title="Healpix service" id='healpix' class=<%= (services.healpix.layer.isVisible() ?
-        'selected' : '' ) %> ></span>
+        	<span class="featureService"
+                  title="Healpix service" id='healpix'
+                  class="<%= (services.healpix.layer.isVisible() ? 'selected' : '' ) %>">
+			</span>
         <% }
-        } %>
+        if ( services.download && !isMobile) {
+        if ( services.download.mimetype == "image/fits" ) {
+        var fitsQuicklookOn = properties.style.fill && !properties.style.fillTextureUrl; %>
+            <span class="featureService"
+                  title="Fits quicklook" id='quicklookFits'
+                  class="<%= (fitsQuicklookOn ? 'selected' :'' ) %>">
+            </span>
+			<span style="display: inline-block; position: relative;">
+				<span class="featureService"
+                      title="Solar object service" id="solarObjects"
+                      class="<%= (services.solarObjects && services.solarObjects.layer.isVisible() ? 'selected' : '' ) %>">
+				</span>
+        		<div style="display: none" id="solarObjectsSpinner"></div>
+        	</span>
+            <span title="Image processing" id="dynamicImageView" class='dynamicAvailable'/>
+        <%}%>
+
+        <a href="<%= services ? services.download.url : '' %>" target="_self"><span class="featureService" id="downloadImage" title="Download"/></a>
+
+        <% if ( mizarWidgetAPI.getContext().getComponentVisibility("sampContainer") ) { %>
+            <span class="featureService" title="Export image by SAMP" id="sendImage"></span>
+        <% } %>
         <div style="display: none;" id="serviceStatus"></div>
+        <%}
+        }%>
     </div>
     <% } %>
 
