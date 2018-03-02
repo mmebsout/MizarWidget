@@ -79,7 +79,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             }
             /*var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
             }
             */
             var shortName = gwLayer.getShortName();
@@ -92,6 +92,10 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                 slide: function (event, ui) {
                     $("#percentInput_" + shortName).val(ui.value + "%");
                     gwLayer.setOpacity(ui.value / 100);
+                    if (gwLayer.type === "OpenSearch") {
+                        gwLayer.setOpacityOS(ui.value / 100);
+                    }
+
 
                     if (gwLayer.subLayers) {
                         for (var i = 0; i < gwLayer.subLayers.length; i++) {
@@ -202,7 +206,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             }
             /*var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
             }*/
             var shortName = gwLayer.getShortName();
             // Supports fits, so create dynamic image view in dialog
@@ -289,7 +293,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             }
             /*var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
             }*/
             var shortName = gwLayer.getShortName();
             // Manage 'custom' checkbox
@@ -331,7 +335,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             }
             /*var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
             }*/
             var shortName = gwLayer.getShortName();
             // Open tools div when the user clicks on the layer label
@@ -372,7 +376,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             }
             /*var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
             }
             */
             var layerDiv = AdditionalLayersCore.createHTMLFromTemplate(additionalLayerTemplate, gwLayer, gwLayer.getShortName(), isMobile);
@@ -453,7 +457,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             }
             /*var shortName = UtilsCore.formatId(gwLayer.name);
             if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
             }
             */
             var addLayerDiv = $(parentElement).find('#addLayer_' + gwLayer.getShortName());
@@ -617,7 +621,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             }
             /*var shortName = UtilsCore.formatId(layer.name);
             if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
             }
             */
             $('#addLayer_' + layer.getShortName()).find('.spinner').stop(true, true).fadeIn('fast');
@@ -634,7 +638,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             }
             /*var shortName = UtilsCore.formatId(layer.name);
             if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
             }
             */
             $('#addLayer_' + layer.getShortName()).find('.spinner').fadeOut(500);
