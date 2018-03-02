@@ -9,7 +9,7 @@
     "visible": false
   },
   "layers": [
-    {
+    /*{
       "type": "WCSElevation",
       "name": "Elevation",
       "baseUrl": "http://demonstrator.telespazio.com/wcspub",
@@ -17,7 +17,7 @@
       "version": "1.0.0",
       "minElevation": -32000,
       "scale": 40
-    },/*
+    },
     {
       "type": "WMTS",
       "name": "TEST",
@@ -31,9 +31,11 @@
     },*/
     {
       "type": "WMS",
-      "name": "Blue Marble",
+      //"name": "Blue Marble",
       "baseUrl": "http://demonstrator.telespazio.com/wmspub",
-      "layers": "BlueMarble",
+      //"baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Earth/earth.map",
+      //"getCapabilities" : "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Earth/earth.map&service=WMS&request=getCapabilities&version=1.1.1",
+      //"layers": "EARTH_TOPO_BATHY_JULY",
       "visible": true,
       "background": true
     },
@@ -61,9 +63,6 @@
     {
       "category": "PEPS",
       "type": "OpenSearch",
-      "availableServices": [
-        "OpenSearch"
-      ],
       "getCapabilities":"https://peps.cnes.fr/resto/api/collections/S1/describe.xml",
       "color": "yellow",
       "visible": false

@@ -4,9 +4,9 @@
     <%
     var finalScript = "";
     cpt = -1;
-    for(var i=0; i<layer.formDescription.parameters.length; i++)
+    for(var i=0; i<layer.getServices().queryForm.parameters.length; i++)
     {
-    var parameter = layer.formDescription.parameters[i];
+    var parameter = layer.getServices().queryForm.parameters[i];
     if (parameter.isDisplayed === true) {
       cpt++;
     %>
@@ -66,14 +66,14 @@
     function apply() {
       var res = [];
       <%
-      for(var i=0; i<layer.formDescription.parameters.length; i++) {
+      for(var i=0; i<layer.getServices().queryForm.parameters.length; i++) {
       %>
-        var p_<%= layer.formDescription.parameters[i].name %> = $("#p_<%= layer.formDescription.parameters[i].name %>");
-        //console.log("test <%= layer.formDescription.parameters[i].name %>",p_<%= layer.formDescription.parameters[i].name %>);
-        if (typeof p_<%= layer.formDescription.parameters[i].name %>.length === 'number') {
-          if (p_<%= layer.formDescription.parameters[i].name %>.length>0) {
-            if ((typeof p_<%= layer.formDescription.parameters[i].name %>[0].value !== 'undefined') && (p_<%= layer.formDescription.parameters[i].name %>[0].value.length>0)) {
-              res["<%= layer.formDescription.parameters[i].name %>"] = p_<%= layer.formDescription.parameters[i].name %>[0].value;
+        var p_<%= layer.getServices().queryForm.parameters[i].name %> = $("#p_<%= layer.getServices().queryForm.parameters[i].name %>");
+        //console.log("test <%= layer.getServices().queryForm.parameters[i].name %>",p_<%= layer.getServices().queryForm.parameters[i].name %>);
+        if (typeof p_<%= layer.getServices().queryForm.parameters[i].name %>.length === 'number') {
+          if (p_<%= layer.getServices().queryForm.parameters[i].name %>.length>0) {
+            if ((typeof p_<%= layer.getServices().queryForm.parameters[i].name %>[0].value !== 'undefined') && (p_<%= layer.getServices().queryForm.parameters[i].name %>[0].value.length>0)) {
+              res["<%= layer.getServices().queryForm.parameters[i].name %>"] = p_<%= layer.getServices().queryForm.parameters[i].name %>[0].value;
             }
           }
         }

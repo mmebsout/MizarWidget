@@ -5,8 +5,7 @@
     "name": "Moon",
     "continuousRendering": false,
     "coordinateSystem": {
-      //"geoideName": "IAU2000:30101"
-      "geoideName": "EPSG:4326"
+      "geoideName": "IAU2000:30101"
     },
     "nameResolver": {
       "zoomFov": 2,
@@ -15,47 +14,78 @@
     }
   },
   "layers":[
-    {
+    /*{
       "type": "WCSElevation",
       "name" : "LOLA",
-      "baseUrl" : "http://172.26.47.117/cgi-bin/mapserv?map=/var/www/datasig/moon_elevation.map",
-      //"baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon_elevation.map",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon_elevation.map&",
       "coverage": "MOONTOPO_16",
       "version": "1.0.0",
       "minElevation": -32768,
       "scale": 1,
       "scaleData": 0.5,
       "visible" : true
-    },
-    {
-      "type": "WMTS",
-      "name": "LRO",
-      "version": "1.0.0.0",
-      "getCapabilities" : "http://172.26.47.117/mapcache/wmts",
-      "layer": "LRO",
-      "matrixSet":"EPSG:4326",
-      "visible": true,
-      "category": "background"
-    }/*,
+    },*/
     {
       "type": "WMS",
-      "name": "LROWMS",
+      "name": "LRO",
       "version": "1.1.1",
-      "baseUrl" : "http://172.26.47.117/cgi-bin/mapserv?map=/var/www/datasig/moon.map",
-      //"baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon.map",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon.map&",
+      "getCapabilities": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon.map&",
       "layers": "LRO",
       "visible": true,
       "category": "background"
-    },    
+    },
     {
       "type": "WMS",
-      "name": "LRO_1M",
+      "name": "imbrium2_150",
       "version": "1.1.1",
-      "baseUrl" : "http://172.26.47.117/cgi-bin/mapserv?map=/var/www/datasig/moon.map",
-      //"baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon.map",
-      "layers": "LRO_1M",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map&",
+      "getCapabilities": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map&",
+      "layers": "imbrium2_150",
       "format" : "image/png",
       "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "imbrium2_5m",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
+      "getCapabilities": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
+      "layers": "imbrium2_5m",
+      "format" : "image/png",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "apollo11",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
+      "getCapabilities": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
+      "layers": "apollo11",
+      "format" : "image/png",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "imbrium2_color_relief",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
+      "getCapabilities": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
+      "layers": "imbrium2_color_relief",
+      "format" : "image/png",
+      "visible": false,
+      "attribution": "<img src=\"http://localhost/images/color_rei.png\" height=\"200px\"/>"
+    },
+    {
+      "type": "WMS",
+      "name": "imbrium2_slope",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
+      "getCapabilities": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
+      "layers": "imbrium2_slope",
+      "format" : "image/png",
+      "visible": false,
+      "attribution": "<img src=\"http://localhost/images/SLOPE_LEGEND.png\" height=\"200px\"/>"
     },
     {
       "category": "Other",
@@ -70,6 +100,6 @@
       "opacity": 100,
       "pickable": false,
       "color": "white"
-    }*/
+    }
   ]
 }
