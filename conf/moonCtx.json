@@ -14,7 +14,7 @@
     }
   },
   "layers":[
-    /*{
+    {
       "type": "WCSElevation",
       "name" : "LOLA",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon_elevation.map&",
@@ -24,13 +24,12 @@
       "scale": 1,
       "scaleData": 0.5,
       "visible" : true
-    },*/
+    },
     {
       "type": "WMS",
       "name": "LRO",
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon.map&",
-      "getCapabilities": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon.map&",
       "layers": "LRO",
       "visible": true,
       "category": "background"
@@ -40,7 +39,6 @@
       "name": "imbrium2_150",
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map&",
-      "getCapabilities": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map&",
       "layers": "imbrium2_150",
       "format" : "image/png",
       "visible": false
@@ -50,7 +48,6 @@
       "name": "imbrium2_5m",
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
-      "getCapabilities": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
       "layers": "imbrium2_5m",
       "format" : "image/png",
       "visible": false
@@ -60,7 +57,6 @@
       "name": "apollo11",
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
-      "getCapabilities": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
       "layers": "apollo11",
       "format" : "image/png",
       "visible": false
@@ -70,7 +66,6 @@
       "name": "imbrium2_color_relief",
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
-      "getCapabilities": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
       "layers": "imbrium2_color_relief",
       "format" : "image/png",
       "visible": false,
@@ -81,7 +76,6 @@
       "name": "imbrium2_slope",
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
-      "getCapabilities": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
       "layers": "imbrium2_slope",
       "format" : "image/png",
       "visible": false,

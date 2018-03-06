@@ -9,14 +9,14 @@
     "visible": false
   },
   "layers": [
-    /*{
+    {
       "type": "WCSElevation",
       "name": "Elevation",
       "baseUrl": "http://demonstrator.telespazio.com/wcspub",
       "coverage": "GTOPO",
       "version": "1.0.0",
       "minElevation": -32000,
-      "scale": 40
+      "scale": 2
     },
     {
       "type": "WMTS",
@@ -26,23 +26,23 @@
       "version": "1.0.0.0",
       "layer": "s2rgb_4326",
       "matrixSet":"WGS84",
-      "visible": true,
+      "visible": false,
       "category": "background"
-    },*/
+    },
     {
       "type": "WMS",
       //"name": "Blue Marble",
       "baseUrl": "http://demonstrator.telespazio.com/wmspub",
       //"baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Earth/earth.map",
       //"getCapabilities" : "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Earth/earth.map&service=WMS&request=getCapabilities&version=1.1.1",
-      //"layers": "EARTH_TOPO_BATHY_JULY",
+      //"layers": "bdf,BlueMarble",
       "visible": true,
       "background": true
     },
     {
       "category": "Other",
       "type": "GeoJSON",
-      "name": "Crater",
+      "name": "Europe",
       "data": {
         "type": "crater",
         "url": "external/Mizar/examples/data/europe.json"
@@ -52,6 +52,23 @@
       "opacity": 100,
       "pickable": true,
       "color": "white"
+    },
+    {
+      "category": "Other",
+      "type": "Atmosphere",
+      "exposure": 1.4,
+      "wavelength": [
+        0.56,
+        0.66,
+        0.78
+      ],
+      "name": "Atmosphere",
+      "lightDir": [
+        0,
+        1,
+        0
+      ],
+      "visible": false
     },
     {
       "category": "Other",
@@ -66,6 +83,21 @@
       "getCapabilities":"https://peps.cnes.fr/resto/api/collections/S1/describe.xml",
       "color": "yellow",
       "visible": false
+    },
+    {
+      "category": "PEPS",
+      "type": "OpenSearch",
+      "getCapabilities":"https://peps.cnes.fr/resto/api/collections/S2ST/describe.xml",
+      "color": "blue",
+      "visible": false
+    },
+    {
+      "category": "RIVERS",
+      "type": "WMS",
+      "baseUrl":"http://hydroweb.theia-land.fr/cgi-bin/mapserver?map=/home/w3-site_php/www/geodata/hysope.map",
+      "visible": false,
+      "background": false,
+      "format":"image/png"
     }
   ]
 }
