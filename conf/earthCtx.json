@@ -27,7 +27,7 @@
       "layer": "s2rgb_4326",
       "matrixSet":"WGS84",
       "visible": false,
-      "category": "background"
+      "category": "TEST"
     },
     {
       "type": "WMS",
