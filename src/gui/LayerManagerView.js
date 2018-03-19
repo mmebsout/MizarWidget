@@ -179,6 +179,11 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_ADDITIONAL_ADDED, AdditionalLayersView.addView);
                 mizarWidgetAPI.subscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, this.toggleMode);
 
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_UPDATE_STATS_ATTRIBUTES, this.updateStatsAttributes);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_TOGGLE_WMS, this.toggleWMS);
+                                    
+                
+
                 // Necessary to drag&drop option while using jQuery
                 $.event.props.push('dataTransfer');
 
@@ -218,6 +223,22 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
 
                 if (configuration.votable2geojson) {
                     votable2geojsonBaseUrl = configuration.votable2geojson.baseUrl;
+                }
+            },
+            updateStatsAttributes: function(options) {
+                if (typeof options.nb_loaded !== "undefined") {
+                    $(".labelLoaded")[0].innerText = "loaded : "+ options.nb_loaded;
+                }
+                if (typeof options.nb_total !== "undefined") {
+                    $(".labelTotal")[0].innerText = "total : ~ "+ options.nb_total;
+                }
+                if (typeof options.page !== "undefined") {
+                    $(".labelPage")[0].innerText = "Page "+options.page;
+                }
+            },
+            toggleWMS: function(options) {
+                if ( (typeof options.layer_name !== "undefined") && (typeof options.visible !== "undefined") ) {
+                    $(".QLWMS_"+options.layer_name)[0].style = (options.visible === true) ? "display:inline" : "display:none";
                 }
             },
             refresh: function() {

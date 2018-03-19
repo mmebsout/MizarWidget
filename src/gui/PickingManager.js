@@ -90,10 +90,8 @@ define(["jquery", "underscore-min",
             // If not pan and not reverse name resolver call
             if (diff < 500 && Math.abs(mouseXStart - event.layerX) < epsilon && Math.abs(mouseYStart - event.layerY) < epsilon) {
                 var pickPoint = mizarWidgetAPI.getContext().getLonLatFromPixel(event.layerX, event.layerY);
-
                 // Remove selected style for previous selection
                 pickingManagerCore.clearSelection();
-
                 var newSelection = pickingManagerCore.computePickSelection(pickPoint);
 
                 if (!_.isEmpty(newSelection) && newSelection.length > 0) {
