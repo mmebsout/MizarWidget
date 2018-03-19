@@ -24,49 +24,15 @@
     "reverseNameResolver": {
       "jsObject": "gw/ReverseNameResolver/CDSReverseNameResolver",
       "baseUrl": "http://alasky.u-strasbg.fr/cgi/simbad-flat/simbad-quick.py?Ident={coordinates}&SR={radius}"
-    },
-    "webProcessing" : [
-      {
-        "name" : "cutOut",
-        "baseUrl": "${sitoolsBaseUrl}/cutout"
-      },
-      {
-        "name" : "zScale",
-        "baseUrl": "${sitoolsBaseUrl}/zscale"
-      },
-      {
-        "name" : "healpixcut",
-        "baseUrl": "${sitoolsBaseUrl}/healpixcut"
-      }
-    ]
+    }
   },
   "layers":[
-    //{
-    //  "type": "Moc",
-    //  "name": "moc",
-    //  "style": {
-    //    "fill" : true,
-    //    "fillColor" : [1,0,0,0.3]
-    //  },
-    //  "serviceUrl": "http://alasky.u-strasbg.fr/2MASS/H/Moc.fits",
-    //  "description": "DSS Color",
-    //  "visible": true,
-    //  "background": false
-    //},
     {
       "type": "Hips",
       "name": "DSS",
       "baseUrl": "http://alasky.unistra.fr/DSS/DSSColor",
       "description": "DSS Color",
       "visible": true,
-      "background": true
-    },
-    {
-      "type": "Hips",
-      "name": "2mass",
-      "baseUrl": "http://alasky.u-strasbg.fr/2MASS/H",
-      "description": "2MASS",
-      "visible": false,
       "background": true
     },
     {
@@ -86,36 +52,6 @@
       "color": "rgb(8, 59, 167)",
       "dataType": "Point"
     },
-    /*
-    {
-  "category": "Catalog",
-  "type": "OpenSearch",
-  "dataType": "point",
-  "name": "Gaia",
-  "description": "Gaia DR1 is based on observations collected between 25 July 2014 and 16 September 2015",
-  "attribution": "Processed by <a href=\"http://www.cosmos.esa.int/web/gaia/dpac/consortium\" target=\"_blank\">DPAC</a>. See <a href=\"http://gaia.esac.esa.int/documentation/GDR1/Miscellaneous/\" target=\"_blank\">more</a>",
-  "serviceUrl": "/sitools/gaia",
-  "visible": false,
-  "minOrder": 9,
-  "availableServices": [
-      "Moc",
-      "XMatch"
-  ]
-  },
-      {
-      "category":"Image",
-      "type": "hips",
-      "name": "Planck-HFI-857",
-      "baseUrl": "http://healpix.ias.u-psud.fr/PLANCK/HFI857",
-      "description": "PLANCK HFI 857 from CDS",
-      "visible": false,
-      "background": false,
-      "coordinateSystem": "Galactic",
-      "format": "jpg",
-      "numberOfLevels": 1,
-      "attribution":"<a href=\"http://irsa.ipac.caltech.edu/data/Planck/release_1/all-sky-maps/\" target=\"_blank\"><img src=\"http://172.17.0.2/sitools/upload/planck.svg\" width='20' height='20'/></a> data provided by <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><img width='24' height='16' src=\"http://demonstrator.telespazio.com/mizar/css/images/cds.svg\" /></a>"
-      },
-      */
     {
       "category": "Other",
       "type": "GeoJSON",
@@ -191,7 +127,6 @@
       "name": "hips grid",
       "outline": true
     },
-
     /**
      *      Built-in planets provider
      */
@@ -207,5 +142,6 @@
       "opacity": 100,
       "pickable": true
     }
+
   ]
 }
