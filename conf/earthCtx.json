@@ -16,7 +16,7 @@
       "coverage": "GTOPO",
       "version": "1.0.0",
       "minElevation": -32000,
-      "scale": 2
+      "scale": 29
     },
     {
       "type": "WMTS",
@@ -35,7 +35,7 @@
       "baseUrl": "http://demonstrator.telespazio.com/wmspub",
       //"baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Earth/earth.map",
       //"getCapabilities" : "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Earth/earth.map&service=WMS&request=getCapabilities&version=1.1.1",
-      //"layers": "bdf,BlueMarble",
+      "layers": "bdf,BlueMarble",
       "visible": true,
       "background": true
     },
@@ -77,6 +77,7 @@
       "outline": true,
       "visible": true
     },
+    /**
     {
       "category": "PEPS",
       "type": "OpenSearch",
@@ -91,7 +92,7 @@
       "getCapabilities":"https://peps.cnes.fr/resto/api/collections/S2ST/describe.xml",
       "color": "blue",
       "visible": false
-    },
+    },*/
     {
       "category": "RIVERS",
       "type": "WMS",

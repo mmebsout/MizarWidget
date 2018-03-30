@@ -312,6 +312,11 @@ define(["jquery", "underscore-min",
 
                 // Removes the spinner when background layers are loaded
                 this.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
+                this.subscribeCtx(Mizar.EVENT_MSG.LAYER_ASYNCHRONE_LOADED,
+                    function (layersID) {
+                        console.log('id of loaded layers = ',layersID);
+                    }
+                );
                 // Removes the spinner when we come back to a previous context (it was not destroyed, then
                 // no baseLayersReady event is sent.
                 this.subscribeMizar(Mizar.EVENT_MSG.MIZAR_MODE_TOGGLE, RenderingGlobeFinished);
@@ -380,6 +385,7 @@ define(["jquery", "underscore-min",
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
                 var layerID = mizarAPI.addLayer(layer);
+                console.log("Added : "+layerID);
                 if(layer.type === Constants.LAYER.WCSElevation) {
                     mizarAPI.setBaseElevation(layer.name);
                 }
