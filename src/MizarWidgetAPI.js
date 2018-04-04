@@ -384,8 +384,9 @@ define(["jquery", "underscore-min",
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === userOptions.defaultCtx });
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
-                var layerID = mizarAPI.addLayer(layer);
-                console.log("Added : "+layerID);
+                var layerID = mizarAPI.addLayer(layer, function(layerID) {
+                    console.log("Added : "+layerID);
+                });
                 if(layer.type === Constants.LAYER.WCSElevation) {
                     mizarAPI.setBaseElevation(layer.name);
                 }
@@ -798,15 +799,16 @@ define(["jquery", "underscore-min",
          * Add layer by drag n drop
          */
         MizarWidgetAPI.prototype.addLayerByDragNDrop = function (name, GeoJson) {
-            var layerID = mizarAPI.addLayer({
+            mizarAPI.addLayer({
                 name: name,
                 type: Mizar.LAYER.GeoJSON,
                 pickable: true,
                 deletable: true,
                 visible:true
+            }, function(layerID) {
+                var layer =  mizarAPI.getLayerByID(layerID);
+                layer.addFeatureCollection(GeoJson);
             });
-            var layer =  mizarAPI.getLayerByID(layerID);
-            layer.addFeatureCollection(GeoJson);
         };
 
         MizarWidgetAPI.prototype.getLayers = function() {
