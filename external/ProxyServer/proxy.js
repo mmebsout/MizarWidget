@@ -27,7 +27,9 @@ function onRequest(req, res) {
               url: queryData.url
           }).on('error', function(e) {
               console.log("                            ------------> ERROR");
-              res.end(e);
+              console.log(queryData.url);
+              console.log(e);
+              res.end();
           }).pipe(res);
       }
       else {
