@@ -213,6 +213,8 @@ define(["jquery", "underscore-min",
         var loadNoStandardPlanetProviders = function () {
             var craterProvider = mizarAPI.ProviderFactory.create(Mizar.PROVIDER.Crater);
             mizarAPI.registerNoStandardDataProvider("crater", craterProvider.loadFiles);
+            var trajectoryProvider = mizarAPI.ProviderFactory.create(Mizar.PROVIDER.Trajectory);
+            mizarAPI.registerNoStandardDataProvider("trajectory", trajectoryProvider.loadFiles);
         };
 
 

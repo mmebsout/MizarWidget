@@ -115,6 +115,11 @@
 	display: block;
 }
 
+.thumbnail img
+{
+	height: 50px
+}
+
 
 /*** Table ***/
 .selectValue

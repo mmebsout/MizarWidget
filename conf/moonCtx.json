@@ -17,20 +17,109 @@
     {
       "type": "WCSElevation",
       "name" : "LOLA",
-      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon_elevation.map&",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROC/moon_elevation.map&",
       "coverage": "MOONTOPO_16",
       "version": "1.0.0",
       "minElevation": -32768,
       "scale": 1,
-      "scaleData": 0.5,
+      "scaleData": 1,
       "visible" : true
+    },
+    {
+      "type": "WMS",
+      "name": "Clementine Basemap v2",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_clem750",
+      "format":"image/png",
+      "visible": false,
+      "category": "Clementine",
+      "description" : "These Clementine tiles represent the version 2 basemap mosaic (750nm with fill from other bands). This version supercedes the original \"warp\" basemap"
+    },
+    {
+      "type": "WMS",
+      "name": "Clementine Color Ratio",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_clem_ratio",
+      "format":"image/png",
+      "visible": false,
+      "category": "Clementine",
+      "description" : "This data was converted and stretched by Peter Isaacson, Brown University and we were given permission to host them on the PIGWAD Lunar GIS download site.  These datasets have not been registered(or warped) to the ULCN2005 control network. The file are in a color 8bit Geotiff format at a 1km resolution.  The stretch has been optimized to show the distinct units. Clementine Ratios: Global_1km_GCC_rgb.tif Global Galileo Color Composite image, stretch optimized for whole Moon. 1 km/pixel. Red: 750/415. Green: 750/950. Blue: 415/750"
+    },
+    {
+      "type": "WMS",
+      "name": "Clementine UVVIS OMAT Map",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_clementine_uvvis_omat",
+      "format":"image/png",
+      "visible": false,
+      "category": "Clementine",
+      "description" : "Clementine UVVIS derived optical maturity maps at a pixel scale of 200 meters warped to the LROC WAC global mosaic. This map is 8-bit data linearly stretching 0.000277:0 through 0.5:255. For more information, refer to Lucey, P. G., D. T. Blewett, G. J. Taylor, and B. R. Hawke (2000), Imaging of lunar surface maturity, J. Geophys. Res., 105(E8), 20377â€“20386, http://dx.doi.org/10.1029/1999JE001110"
+    },
+    {
+      "type": "WMS",
+      "name": "Clementine Elevation Map",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_merged_relief",
+      "format":"image/png",
+      "visible": false,
+      "category": "Clementine",
+      "description" : "Color-coded elevation data from the Clementine laser altimeter (Smith et al., 1997) are shown overlaid on the updated 1:10 M-scale USGS shaded relief map of the Moon. The shaded relief data provide interpretations of lunar morphology based on lunar photographs and were used as a grayscale image for this global mosaic (USGS, 2002, I-Map 2769). Elevation data from the Clementine laser altimeter were updated with topographic data collected photogrammetrically from Clementine stereo images (Cook et al., 2000; Margot et al., 2000). The resulting topographic map was color-coded based on elevation value (USGS, 2002) and coregistered to the shaded relief data to form the final photomosaic. Blues and greens are lower elevations, reds and yellows are higher."
+    },
+    {
+      "type": "WMS",
+      "name": "Clementine ULCN 2005 basemap, UVVIS band 2",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_uvvis_b2_warp_mosaic_200m",
+      "format":"image/png",
+      "visible": false,
+      "category": "Clementine",
+      "description" : "These Clementine UVVIS mosaics have been warped using a 6th order polynomial for each 30x30 degree tile to the ULCN2005 control network (example) and then merged into a global mosaic"
+    },
+    {
+      "type": "WMS",
+      "name": "Clementine UVVIS FeO Abundance (wt%)",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_clementine_uvvis_feo",
+      "format":"image/png",
+      "visible": false,
+      "category": "Clementine",
+      "description" : "Clementine UVVIS derived iron abundance (wt% FeO) map at 200 m/px. This map has been warped to the LROC WAC mosaic and is linearly stretched to 8-bit (0:1 through 20:255). For more information, refer to: Lucey, P. G., D. T. Blewett, and B. L. Jolliff (2000), Lunar iron and titanium abundance algorithms based on final processing of Clementine ultraviolet-visible images, J. Geophys. Res., 105(E8), 20297â€“20305, http://dx.doi.org/10.1029/1999JE001117"
+    },
+    {
+      "type": "WMS",
+      "name": "Lunar Airbrushed Shadedrelief Warped to ULCN2005",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_shaded_relief",
+      "format":"image/png",
+      "visible": false,
+      "category": "Clementine",
+      "description" : "The Lunar Airbrushed Shadedrelief has been warped using a 6th order polynomial to the ULCN2005 control network.The digitized relief base was revised based on the Clementine mosaic and recent Earth-based radar imagery."
+    },
+    {
+      "type": "WMS",
+      "name": "Clementine Mineral Ratio 200m",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_clem_mineral_ratio",
+      "format":"image/png",
+      "visible": false,
+      "category": "Clementine",
+      "description" : "The Clementine UVVIS Ratio (\"false color\") views of the Moon are created by creating ratio images using 3 of the 5 Clementine UVVIS camera bands and combining these into the red, green, and blue channels of a color image: Red = 750 nm/415 nm ratio; Green = 750 nm/950 nm ratio; Blue = 414 nm/750 nm ratio. The color ratio image product serves to cancel out the dominant brightness variations of the scene (controlled by albedo variations and topographic shading) and enhances color differences related to soil mineralogy and maturity. The lunar highlands, mostly old (~4.5 billion years) gabbroic anorthosite rocks, are depicted in shades of red (old) and blue (younger). The lunar maria (~3.9 to ~1 billion years), mostly iron-rich basaltic materials of variable titanium contents, are portrayed in shades of yellow/orange (iron-rich, lower titanium) and blue (iron-rich, higher titanium). Superimposed on and intermingled with these basic units are materials from basins and craters of various ages, ranging from the dark reds and blues of ancient basins to the bright blue crater rays of younger craters (e.g., Mcewen et al., 1999; Pieters et al., 1999)."
     },
     {
       "type": "WMS",
       "name": "LRO",
       "version": "1.1.1",
-      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LRO/moon.map&",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROC/moon.map&",
       "layers": "LRO",
+      "format":"image/png",
       "visible": true,
       "category": "background"
     },
@@ -49,6 +138,15 @@
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
       "layers": "imbrium2_5m",
+      "format" : "image/png",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "wac",
+      "version": "1.1.1",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/wac/wac.map",
+      "layers": "LRO",
       "format" : "image/png",
       "visible": false
     },
@@ -82,6 +180,128 @@
       "attribution": "<img src=\"http://localhost/images/SLOPE_LEGEND.png\" height=\"200px\"/>"
     },
     {
+      "type": "WMS",
+      "name": "Apollo 11 Landing Site",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_apollo_11_clrshade",
+      "category": "Apollo",
+      "format" : "image/png",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "Apollo 12 EVA 1",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_apollo_12_eva1",
+      "category": "Apollo",
+      "format" : "image/png",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "Apollo 12 Landing Site",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_apollo_12_clrshade",
+      "category": "Apollo",
+      "format" : "image/png",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "Apollo 14 Landing Site Slope",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_apollo_14_slope",
+      "category": "Apollo",
+      "format" : "image/png",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "Apollo 14 Landing Site shade",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_apollo_14_clrshade",
+      "category": "Apollo",
+      "format" : "image/png",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "Apollo 15 EVA 2",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_apollo_15_eva2",
+      "category": "Apollo",
+      "format" : "image/png",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "Apollo 16 Landing Site ROI",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_apollo_16_roi",
+      "category": "Apollo",
+      "format" : "image/png",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "Apollo 16 Landing Site slope",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_apollo_16_slope",
+      "category": "Apollo",
+      "format" : "image/png",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "Apollo 17 EVA 3 Stops",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_apollo_17_eva3stops",
+      "category": "Apollo",
+      "format" : "image/png",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "Apollo 17 Landing Site ROI",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_apollo_17_roi",
+      "category": "Apollo",
+      "format" : "image/png",
+      "visible": false
+    },
+    {
+      "type": "WMS",
+      "name": "Apollo metric camera footprints",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_apollo_metric",
+      "category": "Apollo",
+      "format" : "image/png",
+      "visible": false,
+      "description" : "This layer is generated out of the Apollo DB for the SER Apollo flight film archive."
+    },
+    {
+      "type": "WMS",
+      "name": "Apollo panoramic camera footprints",
+      "version": "1.1.1",
+      "baseUrl": "http://webmap.lroc.asu.edu/",
+      "layers": "luna_apollo_pan",
+      "category": "Apollo",
+      "format" : "image/png",
+      "visible": false,
+      "description" : "This layer is generated out of the Apollo DB for the SER Apollo flight film archive."
+    },
+    {
       "category": "Other",
       "type": "GeoJSON",
       "name": "Crater",
@@ -94,6 +314,25 @@
       "opacity": 100,
       "pickable": false,
       "color": "white"
+    },
+    {
+      "category": "Other",
+      "type": "GeoJSON",
+      "name": "Rover path",
+      "description": "ECA or Ek Choti si Asha is one of the lightest models of rovers. Her body is matchbox-like and holds a battery, computer and communication equipment to connect with the spacecraft. She holds two high-definition space-grade cameras from the French space agency, CNES. Her wheels have been designed to ensure that fine Moondust does not damage the machinery, with three fish-eye cameras trained on them to monitor the movement. ECA will be lowered onto the surface, move for a minimum distance of 500 m, capture and beam back high definition videos and images to Earth through the spacecraft. One of the five ground stations on Earth (Goldstone, USA; Madrid, Spain; Byalalu, India; Baik, Indonesia; Canberra, Australia) will pick the signals up and relay them to the TeamIndus Mission Control Centre.",
+      "data": {
+        "type" : "trajectory",
+        "url": "data/trajectory.csv",
+        "crs": "IAU2000:30101",
+        "abstractPath":"ECA or Ek Choti si Asha is one of the lightest models of rovers. Her body is matchbox-like and holds a battery, computer and communication equipment to connect with the spacecraft. She holds two high-definition space-grade cameras from the French space agency, CNES. Her wheels have been designed to ensure that fine Moondust does not damage the machinery, with three fish-eye cameras trained on them to monitor the movement. ECA will be lowered onto the surface, move for a minimum distance of 500 m, capture and beam back high definition videos and images to Earth through the spacecraft. One of the five ground stations on Earth (Goldstone, USA; Madrid, Spain; Byalalu, India; Baik, Indonesia; Canberra, Australia) will pick the signals up and relay them to the TeamIndus Mission Control Centre.",
+        "thumbnailPath":"http://space.skyrocket.de/img_sat/team-indus__1.jpg"
+      },
+      "style": {
+        "iconUrl" : "css/images.lander.png"
+      },
+      "visible": true,
+      "opacity": 100,
+      "pickable": true
     }
   ]
 }
