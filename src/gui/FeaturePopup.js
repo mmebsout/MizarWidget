@@ -161,6 +161,11 @@ define(["jquery", "./FeaturePopupCore", "./IFrame", "./ImageProcessing", "servic
                     IFrame.show(event.target.innerHTML);
                 });
 
+                $selectedFeatureDiv.on("click", '.featureProperties a', function (event) {
+                    event.preventDefault();
+                    IFrame.show(event.target.href);
+                });
+
                 $rightDiv.css('max-width', $('#' + mizarWidgetAPI.getRenderContext().canvas.id).width() / 4);
 
                 // Make rightDiv always visible depending on viewport

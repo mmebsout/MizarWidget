@@ -2,11 +2,11 @@
   "global": {
     "sitoolsBaseUrl": "http://demonstrator.telespazio.com/sitools",
     "proxyUrl": "http://localhost:8080/?url=",
-    "proxyUse": true,
+    "proxyUse": false,
     "displayWarning": true
   },
   "gui": {
-    "isMobile": false,
+    "isMobile": true,
     "positionTracker": {
       "position": "bottom"
     },

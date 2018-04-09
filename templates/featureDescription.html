@@ -3,9 +3,12 @@
     <div class="thumbnail"><img src="<%= properties.thumbnail %>"/></div>
     <% }
     else if (properties.quicklook) { %>
-    <div class="thumbnail"><img src="<%= properties.quicklook %>" height="50px"/></div>
+    <div class="thumbnail"><img src="<%= properties.quicklook %>"/></div>
     <% } %>
     <div class="featureProperties">
+        <% if ( properties.abstract ) { %>
+        <%= properties['abstract'] %>
+        <% } %>
         <table class="propertiesTable" rules="rows">
             <tbody>
             <% print(descriptionTableTemplate( { properties: properties, descriptionTableTemplate:

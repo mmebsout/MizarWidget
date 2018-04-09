@@ -23,10 +23,10 @@
   "layers":[
     {
       "type": "Hips",
-      "name": "Mars Stimson panorama",
-      "baseUrl": "http://alasky.u-strasbg.fr/Planets/CDS_P_Mars_Pan-Stimson",
-      "description": "360-degree panorama acquired by the Mast Camera (Mastcam) on NASA's Curiosity Mars rover on April 4, 2016, as part of long-term campaign to document the context and details of the geology and landforms along Curiosity's traverse since landing in August 2012",
-      "attribution": "produced by Malin Space Science Systems",
+      "name": "Mars panorama",
+      "baseUrl": "http://localhost/sol1463",
+      "description": "360-degree panorama acquired by the Mast Camera (Mastcam) on NASA's Curiosity Mars rover",
+      "attribution": "NASA/JPL-Caltech/MSSS/Thomas Appéré",
       "visible": true,
       "background": true
     },

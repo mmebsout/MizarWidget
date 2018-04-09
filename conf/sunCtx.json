@@ -27,6 +27,7 @@
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-171",
       "visible": true,
+      "format":"image/png",
       "category": "background"
     },
     {
@@ -35,6 +36,7 @@
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-1700",
+      "format":"image/png",
       "visible": false
     },
     {
@@ -43,6 +45,7 @@
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-193",
+      "format":"image/png",
       "visible": false
     },
     {
@@ -51,6 +54,7 @@
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-211",
+      "format":"image/png",
       "visible": false
     },
     {
@@ -59,6 +63,7 @@
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-304",
+      "format":"image/png",
       "visible": false
     },
     {
@@ -67,6 +72,7 @@
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-335",
+      "format":"image/png",
       "visible": false
     },
     {
@@ -75,6 +81,7 @@
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-94",
+      "format":"image/png",
       "visible": false
     },
     {
@@ -83,6 +90,7 @@
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "HMI-ic",
+      "format":"image/png",
       "visible": false
     },
     {
@@ -91,6 +99,7 @@
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "HMI-magnetogram",
+      "format":"image/png",
       "visible": false
     },
     {
@@ -99,6 +108,7 @@
       "version": "1.1.1",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/stereoab/stereo.map",
       "layers": "SYN_195",
+      "format":"image/png",
       "visible": false
     },
     {

@@ -9,7 +9,7 @@
     "visible": false
   },
   "layers": [
-    {
+   /* {
       "type": "WCSElevation",
       "name": "Elevation",
       "baseUrl": "http://demonstrator.telespazio.com/wcspub",
@@ -21,17 +21,21 @@
     {
       "type": "WMTS",
       "name": "TEST",
-      "baseUrl":"http://peps-vizo.cnes.fr:8083/mapcache/wmts",
+      //"baseUrl":"http://peps-vizo.cnes.fr:8083/mapcache/wmts",
+      "baseUrl":"http://gis.sinica.edu.tw/worldmap/wmts",
       "version": "1.0.0.0",
       "layer": "s2rgb_4326",
       "matrixSet":"WGS84",
       "visible": false,
       "category": "TEST"
-    },
+    },*/
     {
       "type": "WMS",
-      "baseUrl": "http://demonstrator.telespazio.com/wmspub",
-      "layers": "bdf,BlueMarble",
+      "name": "Blue Marble",
+      //"baseUrl": "http://demonstrator.telespazio.com/wmspub",
+      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Earth/earth.map",
+      //"getCapabilities" : "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Earth/earth.map&service=WMS&request=getCapabilities&version=1.1.1",
+      "layers": "EARTH_TOPO_BATHY_JULY",
       "visible": true,
       "background": true
     },
@@ -76,18 +80,31 @@
     {
       "category": "PEPS",
       "type": "OpenSearch",
-      "baseUrl":"https://peps.cnes.fr/resto/api/collections/S1/describe.xml",
+      "baseUrl": "https://peps.cnes.fr/resto/api/collections/S1/describe.xml",
       "color": "yellow",
       "opacity": 20,
       "visible": false
     },
-  /*  {
+   {
       "category": "PEPS",
       "type": "OpenSearch",
       "baseUrl":"https://peps.cnes.fr/resto/api/collections/S2ST/describe.xml",
       "color": "blue",
       "visible": false
-    },*/
+    },
+    {
+      "type": "WMTS",
+      "name": "WMTS",
+      "baseUrl" : "http://peps-vizo.cnes.fr:8083/mapcache/wmts",
+      //"baseUrl":"http://peps-vizo.cnes.fr:8083/mapcache/wmts",
+      //"getCapabilities":"http://gis.sinica.edu.tw/worldmap/wmts",
+      "version": "1.0.0.0",
+      "layer": "s2rgb_4326",
+      "matrixSet":"WGS84",
+      "visible": false,
+      "category": "PEPS"
+    },
+
     {
       "category": "RIVERS",
       "type": "WMS",
@@ -95,6 +112,20 @@
       "visible": false,
       "background": false,
       "format":"image/png"
+    },
+    {
+      "category": "Other",
+      "type": "GeoJSON",
+      "name": "Crater",
+      "data": {
+        "type": "crater",
+        "url" : "data/earth_resolver.json"
+      },
+      "pointMaxSize":6,
+      "visible": true,
+      "opacity": 100,
+      "pickable": false,
+      "color": "white"
     }
   ]
 }
