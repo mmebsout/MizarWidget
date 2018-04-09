@@ -163,6 +163,8 @@ define(["jquery", "service/gui/OpenSearchService", "../service/gui/MocService", 
                 MocService.init(mizar);
                 XMatchService.init(mizar, configuration);
                 HEALPixCutService.init(mizar);
+                document.layerServiceView = this;
+                
             },
 
             /**
@@ -179,13 +181,16 @@ define(["jquery", "service/gui/OpenSearchService", "../service/gui/MocService", 
                 if (currentLayer) {
 					removesServicesFromGUI(currentLayer, tabs);
                 }
-				createServicesToGUI(layer, tabs)
+				createServicesToGUI(layer, tabs);
                 currentLayer = layer;
 
                 tabs.tabs('refresh');
                 tabs.tabs("option", "active", 0);
 
                 $layerServiceView.dialog("open");
+            },
+            hide : function() {
+                $(layerServiceView).end();
             }
         }
 
