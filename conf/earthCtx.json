@@ -16,7 +16,7 @@
       "coverage": "GTOPO",
       "version": "1.0.0",
       "minElevation": -32000,
-      "scale": 29
+      "scale": 1
     },
     {
       "type": "WMTS",
@@ -39,21 +39,21 @@
       "visible": true,
       "background": true
     },
-    {
-      "category": "Other",
+/*    {
+      "category": "SCO",
       "type": "GeoJSON",
-      "name": "Europe",
+      "name": "Climate scenarios",
       "data": {
-        "type": "crater",
-        "url": "external/Mizar/examples/data/europe.json"
+        "type": "Point",
+        "url": "/data/climate.json"
       },
-      "pointMaxSize": 15,
+      "pointMaxSize": 30,
       "visible": true,
-      "opacity": 20,
+      "opacity": 100,
       "pickable": true,
-      "color": "white"
+      "color": "red"
     },
-    {
+    */{
       "category": "Other",
       "type": "Atmosphere",
       "exposure": 1.4,
@@ -80,15 +80,15 @@
     {
       "category": "PEPS",
       "type": "OpenSearch",
-      "getCapabilities":"https://peps.cnes.fr/resto/api/collections/S1/describe.xml",
+      "baseUrl": "https://peps.cnes.fr/resto/api/collections/S1/describe.xml",
       "color": "yellow",
       "opacity": 20,
       "visible": false
     },
-    {
+   {
       "category": "PEPS",
       "type": "OpenSearch",
-      "getCapabilities":"https://peps.cnes.fr/resto/api/collections/S2ST/describe.xml",
+      "baseUrl":"https://peps.cnes.fr/resto/api/collections/S2ST/describe.xml",
       "color": "blue",
       "visible": false
     },
