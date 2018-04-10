@@ -61,7 +61,7 @@
       </tr>
     </table>
 
-    <input onclick="document.currentOpenSearchLayer.submit()" class="submit" type="button" id="submit" value="Save parameters"/>
+    <input onclick="document.currentOpenSearchLayer['<%= layer.getID() %>'].submit()" class="submit" type="button" id="submit" value="Save parameters"/>
     <script>
     function apply() {
       var res = [];

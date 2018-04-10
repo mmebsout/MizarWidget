@@ -227,13 +227,13 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
             },
             updateStatsAttributes: function(options) {
                 if (typeof options.nb_loaded !== "undefined") {
-                    $(".labelLoaded")[0].innerText = "loaded : "+ options.nb_loaded;
+                    $(".labelLoaded_"+options.shortName)[0].innerText = "loaded : "+ options.nb_loaded;
                 }
                 if (typeof options.nb_total !== "undefined") {
-                    $(".labelTotal")[0].innerText = "total : ~ "+ options.nb_total;
+                    $(".labelTotal_"+options.shortName)[0].innerText = "total : ~ "+ options.nb_total;
                 }
                 if (typeof options.page !== "undefined") {
-                    $(".labelPage")[0].innerText = "Page "+options.page;
+                    $(".labelPage_"+options.shortName)[0].innerText = "Page "+options.page;
                 }
             },
             toggleWMS: function(options) {

@@ -12,7 +12,6 @@
     <span style="display: none;" class="spinner"></span>
 
     <div style="display: none;" class="layerTools" class="ui-widget-header ui-corner-all">
-
         <%
         if( layer.deletable )
         {
@@ -62,8 +61,8 @@
         {
         %>
         <div id="os_navigation_<%= shortName %>">
-            &nbsp;&nbsp;&nbsp;<label class="labelPage">Page 1</label>&nbsp;&nbsp;&nbsp;<button class="osNext">Next</button><br/>
-            &nbsp;&nbsp;&nbsp;<label class="labelLoaded">loaded : 0</label>&nbsp;&nbsp;&nbsp;<label class="labelTotal">total : ~ 0</label>
+            &nbsp;&nbsp;&nbsp;<label class="labelPage_<%= layer.getShortName() %>">Page 1</label>&nbsp;&nbsp;&nbsp;<button class="osNext" onclick="document.currentOpenSearchLayer['<%= layer.getID() %>'].nextPage();">Next</button><br/>
+            &nbsp;&nbsp;&nbsp;<label class="labelLoaded_<%= layer.getShortName() %>">loaded : 0</label>&nbsp;&nbsp;&nbsp;<label class="labelTotal_<%= layer.getShortName() %>">total : ~ 0</label>
         </div>
         <div class="QLWMS_<%= shortName %>" style="display:none">
             <button class="removeWMS">Remove quicklook WMS layers</button>

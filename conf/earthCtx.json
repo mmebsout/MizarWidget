@@ -9,7 +9,7 @@
     "visible": false
   },
   "layers": [
-   /* {
+    {
       "type": "WCSElevation",
       "name": "Elevation",
       "baseUrl": "http://demonstrator.telespazio.com/wcspub",
@@ -17,7 +17,7 @@
       "version": "1.0.0",
       "minElevation": -32000,
       "scale": 29
-    },
+    },/*
     {
       "type": "WMTS",
       "name": "TEST",
@@ -32,13 +32,18 @@
     {
       "type": "WMS",
       "name": "Blue Marble",
-      //"baseUrl": "http://demonstrator.telespazio.com/wmspub",
-      "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Earth/earth.map",
-      //"getCapabilities" : "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Earth/earth.map&service=WMS&request=getCapabilities&version=1.1.1",
-      "layers": "EARTH_TOPO_BATHY_JULY",
+      //"baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Earth/earth.map",
+      "baseUrl": "http://demonstrator.telespazio.com/wmspub",
+      "layers": "BlueMarble",
       "visible": true,
       "background": true
     },
+    /*{
+      "type": "WMS",
+      "baseUrl":"http://carto.sigena.fr/cgi-bin/mapserv?",
+      "visible":  false,
+      "background": false
+    },*/
     {
       "category": "Other",
       "type": "GeoJSON",
@@ -91,7 +96,7 @@
       "getCapabilities":"https://peps.cnes.fr/resto/api/collections/S2ST/describe.xml",
       "color": "blue",
       "visible": false
-    },
+    },/*
     {
       "type": "WMTS",
       "name": "WMTS",
@@ -103,8 +108,7 @@
       "matrixSet":"WGS84",
       "visible": false,
       "category": "PEPS"
-    },
-
+    },*/
     {
       "category": "RIVERS",
       "type": "WMS",
