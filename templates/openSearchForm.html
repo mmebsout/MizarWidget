@@ -69,7 +69,6 @@
       for(var i=0; i<layer.getServices().queryForm.parameters.length; i++) {
       %>
         var p_<%= layer.getServices().queryForm.parameters[i].name %> = $("#p_<%= layer.getServices().queryForm.parameters[i].name %>");
-        //console.log("test <%= layer.getServices().queryForm.parameters[i].name %>",p_<%= layer.getServices().queryForm.parameters[i].name %>);
         if (typeof p_<%= layer.getServices().queryForm.parameters[i].name %>.length === 'number') {
           if (p_<%= layer.getServices().queryForm.parameters[i].name %>.length>0) {
             if ((typeof p_<%= layer.getServices().queryForm.parameters[i].name %>[0].value !== 'undefined') && (p_<%= layer.getServices().queryForm.parameters[i].name %>[0].value.length>0)) {

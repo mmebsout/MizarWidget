@@ -36,6 +36,7 @@ define(["jquery", "underscore-min", "text!templates/openSearchService.html", "te
          *    Handle submit event
          */
         function handleSubmit(event) {
+            console.log("handleSubmit",event);
             event.preventDefault();
 
             var layer = $(this).data("layer");
