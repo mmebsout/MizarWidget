@@ -6,6 +6,11 @@
     "coordinateSystem": {
       "geoideName": "EPSG:4326"
     },
+    "nameResolver": {
+      "zoomFov": 2,
+      "jsObject": "gw/NameResolver/DictionaryNameResolver",
+      "baseUrl": "data/earth_resolver.json"
+    },
     "visible": false
   },
   "layers": [
@@ -94,12 +99,11 @@
     },
     {
       "type": "WMTS",
-      "name": "WMTS",
       "baseUrl" : "http://peps-vizo.cnes.fr:8083/mapcache/wmts",
       //"baseUrl":"http://peps-vizo.cnes.fr:8083/mapcache/wmts",
       //"getCapabilities":"http://gis.sinica.edu.tw/worldmap/wmts",
       "version": "1.0.0.0",
-      "layer": "s2rgb_4326",
+      "layers": "s2rgb_4326",
       "matrixSet":"WGS84",
       "visible": false,
       "category": "PEPS"
@@ -116,7 +120,8 @@
     {
       "category": "Other",
       "type": "GeoJSON",
-      "name": "Crater",
+      "name": "Cities",
+      "minLevel" : 5,
       "data": {
         "type": "crater",
         "url" : "data/earth_resolver.json"
@@ -124,7 +129,7 @@
       "pointMaxSize":6,
       "visible": true,
       "opacity": 100,
-      "pickable": false,
+      "pickable": true,
       "color": "white"
     }
   ]

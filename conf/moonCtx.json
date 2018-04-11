@@ -186,6 +186,7 @@
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_11_clrshade",
       "category": "Apollo",
+      "transparent":true,
       "format" : "image/png",
       "visible": false
     },
@@ -196,6 +197,7 @@
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_12_eva1",
       "category": "Apollo",
+      "transparent":true,
       "format" : "image/png",
       "visible": false
     },
@@ -206,6 +208,7 @@
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_12_clrshade",
       "category": "Apollo",
+      "transparent":true,
       "format" : "image/png",
       "visible": false
     },
@@ -216,6 +219,7 @@
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_14_slope",
       "category": "Apollo",
+      "transparent":true,
       "format" : "image/png",
       "visible": false
     },
@@ -226,6 +230,7 @@
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_14_clrshade",
       "category": "Apollo",
+      "transparent":true,
       "format" : "image/png",
       "visible": false
     },
@@ -236,6 +241,7 @@
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_15_eva2",
       "category": "Apollo",
+      "transparent":true,
       "format" : "image/png",
       "visible": false
     },
@@ -246,6 +252,7 @@
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_16_roi",
       "category": "Apollo",
+      "transparent":true,
       "format" : "image/png",
       "visible": false
     },
@@ -256,6 +263,7 @@
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_16_slope",
       "category": "Apollo",
+      "transparent":true,
       "format" : "image/png",
       "visible": false
     },
@@ -266,6 +274,7 @@
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_17_eva3stops",
       "category": "Apollo",
+      "transparent":true,
       "format" : "image/png",
       "visible": false
     },
@@ -276,6 +285,7 @@
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_17_roi",
       "category": "Apollo",
+      "transparent":true,
       "format" : "image/png",
       "visible": false
     },
@@ -286,6 +296,7 @@
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_metric",
       "category": "Apollo",
+      "transparent":true,
       "format" : "image/png",
       "visible": false,
       "description" : "This layer is generated out of the Apollo DB for the SER Apollo flight film archive."
@@ -297,6 +308,7 @@
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_pan",
       "category": "Apollo",
+      "transparent":true,
       "format" : "image/png",
       "visible": false,
       "description" : "This layer is generated out of the Apollo DB for the SER Apollo flight film archive."

@@ -139,6 +139,7 @@
 {
 	max-height: 340px;
 	overflow-y: hidden;
+	overflow-x: hidden;
 	outline: none;
 	display: inline-block;
 	padding-right: 10px;

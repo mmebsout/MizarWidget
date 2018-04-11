@@ -228,7 +228,7 @@ define(["jquery", "underscore-min",
             var isMobile = ('ontouchstart' in window || (window.DocumentTouch !== undefined && window.DocumentTouch && document instanceof DocumentTouch));
             var sitoolsBaseUrl = configuration.global.sitoolsBaseUrl ? configuration.global.sitoolsBaseUrl : "http://demonstrator.telespazio.com/sitools";
             var proxyUrl = configuration.global.proxyUrl ? configuration.global.proxyUrl : null;
-            var proxyUse = configuration.global.proxyUse ? configuration.global.proxyUse : null;
+            var proxyUse = configuration.global.proxyUse == null ? False : configuration.global.proxyUse;
             options = {};
             $.extend(options, configuration);
             options.global.sitoolsBaseUrl = sitoolsBaseUrl;
