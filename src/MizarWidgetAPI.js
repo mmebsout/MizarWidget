@@ -387,7 +387,7 @@ define(["jquery", "underscore-min",
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
                 var layerID = mizarAPI.addLayer(layer, function(layerID) {
-                    console.log("Added : "+layerID);
+                    //console.log("Added : "+layerID);
                 });
                 if(layer.type === Constants.LAYER.WCSElevation) {
                     mizarAPI.setBaseElevation(layer.name);
