@@ -386,12 +386,19 @@ define(["jquery", "underscore-min",
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === userOptions.defaultCtx });
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
-                var layerID = mizarAPI.addLayer(layer, function(layerID) {
-                    //console.log("Added : "+layerID);
+                mizarAPI.addLayer(layer, function(layerID) {
+                    console.log("Added : "+layerID);
+                    var myLayer = mizarAPI.getLayerByID(layerID);
+                    if(myLayer.hasDimension()) {
+                        var dimension = myLayer.getDimensions();
+                        if (dimension.time) {
+                            console.log("time from API:"+dimension.time.value);
+                        }
+                    }
+                    if(myLayer.type === Constants.LAYER.WCSElevation) {
+                       mizarAPI.setBaseElevationByID(layerID);
+                    }
                 });
-                if(layer.type === Constants.LAYER.WCSElevation) {
-                    mizarAPI.setBaseElevation(layer.name);
-                }
             }
         };
 
@@ -731,10 +738,12 @@ define(["jquery", "underscore-min",
             loadNoStandardPlanetProviders();
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
-                var layerID = mizarAPI.addLayer(layer);
-                if(layer.type === Constants.LAYER.WCSElevation) {
-                    mizarAPI.setBaseElevation(layer.name);
-                }
+                mizarAPI.addLayer(layer, function(layerID) {
+                    var myLayer = mizarAPI.getLayerByID(layerID);
+                    if(myLayer.getType() === Constants.LAYER.WCSElevation) {
+                        mizarAPI.setBaseElevationByID(layerID);
+                    }
+                });
             }
             self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
         };
@@ -752,10 +761,12 @@ define(["jquery", "underscore-min",
             }});
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
-                var layerID = mizarAPI.addLayer(layer);
-                if(layer.type === Mizar.LAYER.WCSElevation) {
-                    mizarAPI.setBaseElevation(layer.name);
-                }
+                mizarAPI.addLayer(layer, function(layerID) {
+                    var myLayer = mizarAPI.getLayerByID(layerID);
+                    if(myLayer.getType() === Constants.LAYER.WCSElevation) {
+                        mizarAPI.setBaseElevationByID(layerID);
+                    }
+                });
             }
             self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
         };
@@ -773,10 +784,12 @@ define(["jquery", "underscore-min",
             }});
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
-                var layerID = mizarAPI.addLayer(layer);
-                if(layer.type === Mizar.LAYER.WCSElevation) {
-                    mizarAPI.setBaseElevation(layer.name);
-                }
+                mizarAPI.addLayer(layer, function(layerID) {
+                    var myLayer = mizarAPI.getLayerByID(layerID);
+                    if(myLayer.getType() === Constants.LAYER.WCSElevation) {
+                        mizarAPI.setBaseElevationByID(layerID);
+                    }
+                });
             }
             self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
         };

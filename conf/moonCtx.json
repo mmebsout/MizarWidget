@@ -25,10 +25,10 @@
       "scaleData": 1,
       "visible" : true
     },
-    {
+/*    {
       "type": "WMS",
       "name": "Clementine Basemap v2",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_clem750",
       "format":"image/png",
@@ -39,7 +39,7 @@
     {
       "type": "WMS",
       "name": "Clementine Color Ratio",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_clem_ratio",
       "format":"image/png",
@@ -50,7 +50,7 @@
     {
       "type": "WMS",
       "name": "Clementine UVVIS OMAT Map",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_clementine_uvvis_omat",
       "format":"image/png",
@@ -61,7 +61,7 @@
     {
       "type": "WMS",
       "name": "Clementine Elevation Map",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_merged_relief",
       "format":"image/png",
@@ -72,7 +72,7 @@
     {
       "type": "WMS",
       "name": "Clementine ULCN 2005 basemap, UVVIS band 2",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_uvvis_b2_warp_mosaic_200m",
       "format":"image/png",
@@ -83,7 +83,7 @@
     {
       "type": "WMS",
       "name": "Clementine UVVIS FeO Abundance (wt%)",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_clementine_uvvis_feo",
       "format":"image/png",
@@ -94,7 +94,7 @@
     {
       "type": "WMS",
       "name": "Lunar Airbrushed Shadedrelief Warped to ULCN2005",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_shaded_relief",
       "format":"image/png",
@@ -105,18 +105,18 @@
     {
       "type": "WMS",
       "name": "Clementine Mineral Ratio 200m",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_clem_mineral_ratio",
       "format":"image/png",
       "visible": false,
       "category": "Clementine",
       "description" : "The Clementine UVVIS Ratio (\"false color\") views of the Moon are created by creating ratio images using 3 of the 5 Clementine UVVIS camera bands and combining these into the red, green, and blue channels of a color image: Red = 750 nm/415 nm ratio; Green = 750 nm/950 nm ratio; Blue = 414 nm/750 nm ratio. The color ratio image product serves to cancel out the dominant brightness variations of the scene (controlled by albedo variations and topographic shading) and enhances color differences related to soil mineralogy and maturity. The lunar highlands, mostly old (~4.5 billion years) gabbroic anorthosite rocks, are depicted in shades of red (old) and blue (younger). The lunar maria (~3.9 to ~1 billion years), mostly iron-rich basaltic materials of variable titanium contents, are portrayed in shades of yellow/orange (iron-rich, lower titanium) and blue (iron-rich, higher titanium). Superimposed on and intermingled with these basic units are materials from basins and craters of various ages, ranging from the dark reds and blues of ancient basins to the bright blue crater rays of younger craters (e.g., Mcewen et al., 1999; Pieters et al., 1999)."
-    },
+    },*/
     {
       "type": "WMS",
       "name": "LRO",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROC/moon.map&",
       "layers": "LRO",
       "format":"image/png",
@@ -126,7 +126,7 @@
     {
       "type": "WMS",
       "name": "imbrium2_150",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map&",
       "layers": "imbrium2_150",
       "format" : "image/png",
@@ -135,25 +135,25 @@
     {
       "type": "WMS",
       "name": "imbrium2_5m",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
       "layers": "imbrium2_5m",
       "format" : "image/png",
       "visible": false
     },
-    {
+/*    {
       "type": "WMS",
       "name": "wac",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/wac/wac.map",
       "layers": "LRO",
       "format" : "image/png",
       "visible": false
-    },
+    },*/
     {
       "type": "WMS",
       "name": "apollo11",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
       "layers": "apollo11",
       "format" : "image/png",
@@ -162,7 +162,7 @@
     {
       "type": "WMS",
       "name": "imbrium2_color_relief",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
       "layers": "imbrium2_color_relief",
       "format" : "image/png",
@@ -172,7 +172,7 @@
     {
       "type": "WMS",
       "name": "imbrium2_slope",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/LROV2/mnt/imbrium2.map",
       "layers": "imbrium2_slope",
       "format" : "image/png",
@@ -182,7 +182,7 @@
     {
       "type": "WMS",
       "name": "Apollo 11 Landing Site",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_11_clrshade",
       "category": "Apollo",
@@ -190,10 +190,10 @@
       "format" : "image/png",
       "visible": false
     },
-    {
+    /*{
       "type": "WMS",
       "name": "Apollo 12 EVA 1",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_12_eva1",
       "category": "Apollo",
@@ -204,7 +204,7 @@
     {
       "type": "WMS",
       "name": "Apollo 12 Landing Site",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_12_clrshade",
       "category": "Apollo",
@@ -215,7 +215,7 @@
     {
       "type": "WMS",
       "name": "Apollo 14 Landing Site Slope",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_14_slope",
       "category": "Apollo",
@@ -226,7 +226,7 @@
     {
       "type": "WMS",
       "name": "Apollo 14 Landing Site shade",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_14_clrshade",
       "category": "Apollo",
@@ -237,7 +237,7 @@
     {
       "type": "WMS",
       "name": "Apollo 15 EVA 2",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_15_eva2",
       "category": "Apollo",
@@ -248,7 +248,7 @@
     {
       "type": "WMS",
       "name": "Apollo 16 Landing Site ROI",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_16_roi",
       "category": "Apollo",
@@ -259,7 +259,7 @@
     {
       "type": "WMS",
       "name": "Apollo 16 Landing Site slope",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_16_slope",
       "category": "Apollo",
@@ -270,7 +270,7 @@
     {
       "type": "WMS",
       "name": "Apollo 17 EVA 3 Stops",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_17_eva3stops",
       "category": "Apollo",
@@ -281,7 +281,7 @@
     {
       "type": "WMS",
       "name": "Apollo 17 Landing Site ROI",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_17_roi",
       "category": "Apollo",
@@ -292,7 +292,7 @@
     {
       "type": "WMS",
       "name": "Apollo metric camera footprints",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_metric",
       "category": "Apollo",
@@ -304,7 +304,7 @@
     {
       "type": "WMS",
       "name": "Apollo panoramic camera footprints",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://webmap.lroc.asu.edu/",
       "layers": "luna_apollo_pan",
       "category": "Apollo",
@@ -312,7 +312,7 @@
       "format" : "image/png",
       "visible": false,
       "description" : "This layer is generated out of the Apollo DB for the SER Apollo flight film archive."
-    },
+    },*/
     {
       "category": "Other",
       "type": "GeoJSON",

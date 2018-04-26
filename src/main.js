@@ -53,7 +53,8 @@ require.config({
         "text": "../node_modules/requirejs-plugins/lib/text",
         "string": "../node_modules/string/dist/string.min",
         "xmltojson": "../node_modules/xmltojson/lib/xmlToJSON.min",
-        
+        "wms-capabilities": "../node_modules/wms-capabilities/dist/wms-capabilities",
+
         // Mizar Core requirements
         "gw": "../external/Mizar/src",
         "glMatrix": "../external/Mizar/external/glMatrix",

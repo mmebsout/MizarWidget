@@ -21,7 +21,7 @@
 /**
  * AdditionalLayersView module
  */
-define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageView", "./LayerServiceView", "service/Samp", "./dialog/ErrorDialog", "../utils/UtilsCore", "underscore-min", "text!templates/additionalLayers.html", "text!templates/additionalLayer.html", "jquery.nicescroll.min", "jquery.ui"],
+define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageView", "./LayerServiceView", "service/Samp", "./dialog/ErrorDialog", "../utils/UtilsCore", "underscore-min", "text!templates/additionalLayers.html", "text!templates/additionalLayer.html", "jquery.nicescroll.min", "jquery.ui"],
     function ($, AdditionalLayersCore, PickingManager, DynamicImageView, LayerServiceView, Samp, ErrorDialog, UtilsCore, _, additionalLayersHTML, additionalLayerHTMLTemplate) {
 
         var mizarWidgetAPI;
@@ -70,18 +70,19 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
 
         /**************************************************************************************************************/
 
+
         /**
-         *    Initialize UI of opacity slider for the given layer
+         *    Initialize UI of  slider for the given layer
          */
-        function initializeSlider($layerDiv, gwLayer) {
+        function initializeSliders($layerDiv, gwLayer) {
             if (typeof gwLayer === 'undefined') {
-              return;
+                return;
             }
             /*var shortName = UtilsCore.formatId(gwLayer.name);
-            if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
-            }
-            */
+             if (typeof shortName === 'string') {
+             shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
+             }
+             */
             var shortName = gwLayer.getShortName();
             // Slider initialisation
             $layerDiv.find('#slider_' + shortName).slider({
@@ -107,7 +108,117 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
 
             // Init percent input of slider
             $("#percentInput_" + shortName).val($("#slider_" + shortName).slider("value") + "%");
+
+            if(gwLayer.name === "Palavas Digital Elevation Model") {
+                $layerDiv.find('#seaLevelSlider_' + shortName).slider({
+                    value: 0,
+                    min: 0,
+                    max: 6,
+                    step: 1,
+                    slide: function (event, ui) {
+                        $("#seaLevelInput_" + shortName).val((0.5 * ui.value).toFixed(1) + " m");
+                        gwLayer.setParameter("styles", (0.5 * ui.value).toFixed(1) + "m");
+                    }
+                }).slider("option", "disabled", !gwLayer.isVisible());
+
+                // Init percent input of slider
+                $("#seaLevelInput_" + shortName).val("+" + $("#seaLevelSlider_" + shortName).slider("value") + " m");
+
+            }
+
+            function _dateDiff(date1, date2){
+                var diff = {} ;                          // Initialisation du retour
+                var tmp = date2 - date1;
+
+                tmp = Math.floor(tmp/1000);             // Nombre de secondes entre les 2 dates
+                diff.sec = tmp % 60;                    // Extraction du nombre de secondes
+
+                tmp = Math.floor((tmp-diff.sec)/60);    // Nombre de minutes (partie entière)
+                diff.min = tmp % 60;                    // Extraction du nombre de minutes
+
+                tmp = Math.floor((tmp-diff.min)/60);    // Nombre d'heures (entières)
+                diff.hour = tmp % 24;                   // Extraction du nombre d'heures
+
+                tmp = Math.floor((tmp-diff.hour)/24);   // Nombre de jours restants
+                diff.day = tmp;
+
+                return diff;
+            }
+
+            var shortName = gwLayer.getShortName();
+
+            var timeDimension = gwLayer.getDimensions().time;
+            if(timeDimension) {
+                //$('#time_CoordinatesGrid').css('visibility',"show");
+                var values = timeDimension.value.split(",");
+                var interval = values[0].split("/");
+                var minDate;
+                var minValSlider = 0;
+                var maxValSlider;
+                var stepSlider = 1;
+                if(interval.length > 1) {
+                    minDate = interval[0];
+                    var resolution = interval[2];
+                    var dateDiff = _dateDiff(new Date(interval[0]), new Date(interval[1]));
+                    var unit = resolution.slice(-1);
+                    var stepTime;
+                    if (resolution.startsWith("PT")) {
+                        //time => hour, min, sec
+                        stepTime = resolution.substring(2,resolution.length-1);
+                    } else {
+                        // suppose P
+                        //day, month year
+                        stepTime = resolution.substring(1,resolution.length-1);
+                    }
+                    var nbValues;
+                    if(unit === "Y") {
+                        nbValues = Math.floor(parseInt(dateDiff.day) / parseInt(stepTime) / 365.25);
+                    } else if(unit === "M") {
+                        nbValues = Math.floor(parseInt(dateDiff.day) / parseInt(stepTime) / 30.0);
+                    } else if(unit === "D") {
+                        nbValues = Math.floor(parseInt(dateDiff.day) / parseInt(stepTime));
+                    } else if (unit === "H") {
+                        nbValues = Math.floor(parseInt(dateDiff.day) * 24 / parseInt(stepTime));
+                    } else if (unit === "M") {
+                        nbValues = Math.floor(parseInt(dateDiff.day) * 24 * 60 / parseInt(stepTime));
+                    } else {
+                        // suppose S
+                        nbValues = Math.floor(parseInt(dateDiff.day) * 24 * 3600 / parseInt(stepTime));
+                    }
+                    maxValSlider = nbValues;
+                } else {
+                    minDate = values[0];
+                    maxValSlider = values.length-1;
+                }
+
+                $layerDiv.find('#timeSlider_' + shortName).slider({
+                    value: 0,
+                    min: 0,
+                    max: maxValSlider,
+                    step: 1,
+                    slide: function (event, ui) {
+                        if(interval.length > 1) {
+                            var currentDate = new Date(minDate);
+                            currentDate.setUTCMilliseconds(stepTime * parseInt(ui.value) * 60 * 60 * 1000);
+                            $("#timeInput_" + shortName).val(currentDate.toISOString());
+                            gwLayer.setParameter("time",currentDate.toISOString());
+                        } else {
+                            $("#timeInput_" + shortName).val(values[parseInt(ui.value)]);
+                            mizarWidgetAPI.getMizarAPI().setTime(values[parseInt(ui.value)]);
+                            //gwLayer.setParameter("time",values[parseInt(ui.value)]);
+                        }
+                    }
+                }).slider("option", "disabled", !gwLayer.isVisible());
+
+                // Init date input of slider
+                $("#timeInput_" + shortName).val(new Date(minDate).toISOString());
+            } else {
+                //$('#time_CoordinatesGrid').css('visibility',"hidden");
+            }
+
         }
+
+
 
         /**************************************************************************************************************/
 
@@ -118,55 +229,55 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             // Init buttons of tool bar
             $layerDiv
                 .find('.deleteLayer').button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-trash"
-                }
-            }).end()
+                    text: false,
+                    icons: {
+                        primary: "ui-icon-trash"
+                    }
+                }).end()
                 .find('.zoomTo').button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-zoomin"
-                }
-            }).end()
+                    text: false,
+                    icons: {
+                        primary: "ui-icon-zoomin"
+                    }
+                }).end()
                 .find('.exportLayer').button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-extlink"
-                }
-            }).end()
+                    text: false,
+                    icons: {
+                        primary: "ui-icon-extlink"
+                    }
+                }).end()
                 .find('.downloadAsVO').button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-arrowthickstop-1-s"
-                }
-            }).end()
-            .find('.removeWMS').button({
-            text: false,
-            icons: {
-                primary: "ui-icon-newwin"
-            }
-        }).end()
+                    text: false,
+                    icons: {
+                        primary: "ui-icon-arrowthickstop-1-s"
+                    }
+                }).end()
+                .find('.removeWMS').button({
+                    text: false,
+                    icons: {
+                        primary: "ui-icon-newwin"
+                    }
+                }).end()
                 .find('.isFits').button().end()
                 .find('.addFitsView').button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-image"
-                }
-            }).end()
-            .find('.layerServices').button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-wrench"
-                }
-            }).end()
+                    text: false,
+                    icons: {
+                        primary: "ui-icon-image"
+                    }
+                }).end()
+                .find('.layerServices').button({
+                    text: false,
+                    icons: {
+                        primary: "ui-icon-wrench"
+                    }
+                }).end()
                 .find('.osNext').button({
                     text: true,
                     icons: {
                         primary: "ui-icon-triangle-1-e"
                     }
-            });
-    }
+                });
+        }
 
         /**************************************************************************************************************/
 
@@ -202,12 +313,12 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
          */
         function createDynamicImageDialog(gwLayer) {
             if (typeof gwLayer === 'undefined') {
-              return;
+                return;
             }
             /*var shortName = UtilsCore.formatId(gwLayer.name);
-            if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
-            }*/
+             if (typeof shortName === 'string') {
+             shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
+             }*/
             var shortName = gwLayer.getShortName();
             // Supports fits, so create dynamic image view in dialog
             var dialogId = "addFitsViewDialog_" + shortName;
@@ -245,7 +356,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             // Add dynamic image view content to dialog
             gwLayer.div = new DynamicImageView(dialogId, {
                 id: shortName,
-                mizar:mizarWidgetAPI,
+                mizar: mizarWidgetAPI,
                 changeShaderCallback: function (contrast) {
                     if (contrast === "raw") {
                         gwLayer.customShader.fragmentCode = gwLayer.rawFragShader;
@@ -265,36 +376,37 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
          */
         function onVisibilityChange(gwLayer) {
             if (typeof gwLayer === 'undefined') {
-              return;
+                return;
             }
             var isOn = gwLayer.isVisible();
             if (isOn === true) {
-/*              console.log("Visibility set to on for "+gwLayer.name+" with id="+gwLayer.ID);
-              console.log("Change z-index !");
-              console.log("mizar",mizarWidgetAPI);
-  */            var layers = mizarWidgetAPI.mizarWidgetGui.activatedContext.layers;
-              var foundIndex = -1;
-              var foundLayer = null;
-              for (var i=0;((i<layers.length) && (foundIndex<0));i++) {
-                if (layers[i].ID === gwLayer.ID) {
-                  foundIndex = i;
-                  foundLayer = layers[i];
-                  //console.log("Found id = "+foundLayer.ID+" for i="+foundIndex);
+                /*              console.log("Visibility set to on for "+gwLayer.name+" with id="+gwLayer.ID);
+                 console.log("Change z-index !");
+                 console.log("mizar",mizarWidgetAPI);
+                 */
+                var layers = mizarWidgetAPI.mizarWidgetGui.activatedContext.layers;
+                var foundIndex = -1;
+                var foundLayer = null;
+                for (var i = 0; ((i < layers.length) && (foundIndex < 0)); i++) {
+                    if (layers[i].ID === gwLayer.ID) {
+                        foundIndex = i;
+                        foundLayer = layers[i];
+                        //console.log("Found id = "+foundLayer.ID+" for i="+foundIndex);
+                    }
                 }
-              }
-              // Place it at top of array
-              if (foundIndex>=1) {
-                // if foundIndex is zéro, layer is still at top
-                for (var j=(foundIndex-1);j>=0;j--) {
-                  layers[j+1]=layers[j];
+                // Place it at top of array
+                if (foundIndex >= 1) {
+                    // if foundIndex is zéro, layer is still at top
+                    for (var j = (foundIndex - 1); j >= 0; j--) {
+                        layers[j + 1] = layers[j];
+                    }
+                    layers[0] = foundLayer;
                 }
-                layers[0] = foundLayer;
-              }
             }
             /*var shortName = UtilsCore.formatId(gwLayer.name);
-            if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
-            }*/
+             if (typeof shortName === 'string') {
+             shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
+             }*/
             var shortName = gwLayer.getShortName();
             // Manage 'custom' checkbox
             // jQuery UI button is not sexy enough :)
@@ -331,12 +443,12 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
          */
         function manageLayerVisibility($layerDiv, gwLayer, categoryId) {
             if (typeof gwLayer === 'undefined') {
-              return;
+                return;
             }
             /*var shortName = UtilsCore.formatId(gwLayer.name);
-            if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
-            }*/
+             if (typeof shortName === 'string') {
+             shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
+             }*/
             var shortName = gwLayer.getShortName();
             // Open tools div when the user clicks on the layer label
             var toolsDiv = $layerDiv.find('.layerTools');
@@ -372,13 +484,13 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
          */
         function createHtmlForAdditionalLayer(gwLayer, categoryId) {
             if (typeof gwLayer === 'undefined') {
-              return;
+                return;
             }
             /*var shortName = UtilsCore.formatId(gwLayer.name);
-            if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
-            }
-            */
+             if (typeof shortName === 'string') {
+             shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
+             }
+             */
             var layerDiv = AdditionalLayersCore.createHTMLFromTemplate(additionalLayerTemplate, gwLayer, gwLayer.getShortName(), isMobile);
 
             var $layerDiv = $(layerDiv)
@@ -388,8 +500,8 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             // Add legend
             addLegend($layerDiv, gwLayer);
 
-            // Create UI of opacity slider
-            initializeSlider($layerDiv, gwLayer);
+            // Create UI of sliders
+            initializeSliders($layerDiv, gwLayer);
 
             manageLayerVisibility($layerDiv, gwLayer, categoryId);
 
@@ -453,13 +565,13 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
          */
         function removeView(gwLayer) {
             if (typeof gwLayer === 'undefined') {
-              return;
+                return;
             }
             /*var shortName = UtilsCore.formatId(gwLayer.name);
-            if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
-            }
-            */
+             if (typeof shortName === 'string') {
+             shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
+             }
+             */
             var addLayerDiv = $(parentElement).find('#addLayer_' + gwLayer.getShortName());
             if (addLayerDiv.parent().children().length === 1) {
                 // Last child to remove -> remove the category
@@ -502,7 +614,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                 document.currentOpenSearchLayer[ID].nextPage();
             }
         }
-        
+
         /**************************************************************************************************************/
 
         /**
@@ -606,7 +718,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                 .on('click', '.removeWMS', removeWms)
                 .on("click", ".category .zoomTo", zoomTo)
                 .on('click', '.category .isFits', toggleFits);
-                //.on('click', '.category .osNext', nextPage);
+            //.on('click', '.category .osNext', nextPage);
 
         }
 
@@ -617,13 +729,13 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
          */
         function onLoadStart(layer) {
             if (typeof layer === 'undefined') {
-              return;
+                return;
             }
             /*var shortName = UtilsCore.formatId(layer.name);
-            if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
-            }
-            */
+             if (typeof shortName === 'string') {
+             shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
+             }
+             */
             $('#addLayer_' + layer.getShortName()).find('.spinner').stop(true, true).fadeIn('fast');
         }
 
@@ -634,13 +746,13 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
          */
         function onLoadEnd(layer) {
             if (typeof layer === 'undefined') {
-              return;
+                return;
             }
             /*var shortName = UtilsCore.formatId(layer.name);
-            if (typeof shortName === 'string') {
-              shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
-            }
-            */
+             if (typeof shortName === 'string') {
+             shortName = shortName.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/gwLayer);, '-');
+             }
+             */
             $('#addLayer_' + layer.getShortName()).find('.spinner').fadeOut(500);
         }
 
@@ -697,7 +809,7 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
                     .off('click', '.featureService .removeWMS', removeWms)
                     .off("click", ".category .zoomTo", zoomTo)
                     .off('click', '.category .isFits', toggleFits);
-                    //.off('click', ".category .osNext", nextPage);
+                //.off('click', ".category .osNext", nextPage);
 
                 // Remove all created dialogs
                 var layers = mizarWidgetAPI.getLayers();
@@ -719,10 +831,10 @@ define(["jquery","./AdditionalLayersCore", "./PickingManager", "./DynamicImageVi
             addView: addView,
             removeView: removeView,
             hideView: function (layer) {
-                $('#addLayer_' + layer.ID).hide();
+                $('#addLayer_' + layer.getShortName()).hide();
             },
             showView: function (layer) {
-                $('#addLayer_' + layer.ID).show();
+                $('#addLayer_' + layer.getShortName()).show();
             }
         };
 

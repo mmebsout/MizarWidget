@@ -124,6 +124,19 @@
 	-moz-user-select: -moz-none;
 }
 
+.dateInput
+{
+	outline: none;
+	border:0;
+	background-color: transparent;
+	width: 150px;
+	color:#f6931f;
+	font-weight:bold;
+	pointer-events: none;
+	-webkit-user-select: none;
+	-moz-user-select: -moz-none;
+}
+
 .ui-icon-empty {
 	background-position: 16px 16px;
 }
