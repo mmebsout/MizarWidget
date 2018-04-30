@@ -54,6 +54,8 @@ require.config({
         "string": "../node_modules/string/dist/string.min",
         "xmltojson": "../node_modules/xmltojson/lib/xmlToJSON.min",
         "wms-capabilities": "../node_modules/wms-capabilities/dist/wms-capabilities",
+        "moment": "../node_modules/moment/min/moment.min",
+
 
         // Mizar Core requirements
         "gw": "../external/Mizar/src",

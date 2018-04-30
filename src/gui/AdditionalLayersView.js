@@ -21,8 +21,8 @@
 /**
  * AdditionalLayersView module
  */
-define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageView", "./LayerServiceView", "service/Samp", "./dialog/ErrorDialog", "../utils/UtilsCore", "underscore-min", "text!templates/additionalLayers.html", "text!templates/additionalLayer.html", "jquery.nicescroll.min", "jquery.ui"],
-    function ($, AdditionalLayersCore, PickingManager, DynamicImageView, LayerServiceView, Samp, ErrorDialog, UtilsCore, _, additionalLayersHTML, additionalLayerHTMLTemplate) {
+define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageView", "./LayerServiceView", "service/Samp", "./dialog/ErrorDialog", "../utils/UtilsCore", "underscore-min", "text!templates/additionalLayers.html", "text!templates/additionalLayer.html", "jquery.nicescroll.min", "jquery.ui"],
+    function ($, moment, AdditionalLayersCore, PickingManager, DynamicImageView, LayerServiceView, Samp, ErrorDialog, UtilsCore, _, additionalLayersHTML, additionalLayerHTMLTemplate) {
 
         var mizarWidgetAPI;
         var configuration;
@@ -70,6 +70,99 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
 
         /**************************************************************************************************************/
 
+        function initializeSliderOpacity($layerDiv, shortName, gwLayer) {
+            // Slider initialisation
+            $layerDiv.find('#slider_' + shortName).slider({
+                value: gwLayer.getOpacity() * 100,
+                min: 20,
+                max: 100,
+                step: 20,
+                slide: function (event, ui) {
+                    $("#percentInput_" + shortName).val(ui.value + "%");
+                    gwLayer.setOpacity(ui.value / 100);
+                    if (gwLayer.type === "OpenSearch") {
+                        gwLayer.setOpacityOS(ui.value / 100);
+                    }
+
+                    if (gwLayer.subLayers) {
+                        for (var i = 0; i < gwLayer.subLayers.length; i++) {
+                            gwLayer.subLayers[i].setOpacity(ui.value / 100);
+                        }
+                    }
+                }
+            }).slider("option", "disabled", !gwLayer.isVisible());
+
+            // Init percent input of slider
+            $("#percentInput_" + shortName).val($("#slider_" + shortName).slider("value") + "%");
+        }
+
+        function initializeSliderTime($layerDiv, shortName, gwLayer) {
+            var timeDimension = gwLayer.getDimensions().time;
+            if (timeDimension) {
+                var values = timeDimension.value.split(",");
+                var interval = values[0].split("/");
+                var nbValues, startDate, unitTime;
+                if (interval.length > 1) {
+                    startDate = moment(interval[0]);
+                    var stopDate = moment(interval[1]);
+                    var resolution = interval[2];
+                    var unit = resolution.slice(-1);
+                    var stepTime;
+                    if (resolution.startsWith("PT")) {
+                        //time => hour, min, sec
+                        stepTime = resolution.substring(2, resolution.length - 1);
+                    } else {
+                        // suppose P
+                        //day, month year
+                        stepTime = resolution.substring(1, resolution.length - 1);
+                    }
+                    if (unit === "Y") {
+                        unitTime = 'years';
+                    } else if (unit === "M") {
+                        unitTime = 'months';
+                    } else if (unit === "D") {
+                        unitTime = 'days';
+                    } else if (unit === "H") {
+                        unitTime = 'hours';
+                    } else if (unit === "M") {
+                        unitTime = 'minutes';
+                    } else {
+                        // suppose S
+                        unitTime = 'seconds';
+                    }
+                    nbValues = Math.floor(stopDate.diff(startDate, unitTime) / parseInt(stepTime));
+                } else {
+                    startDate = moment(values[0]);
+                    nbValues = values.length;
+                }
+            }
+
+            $layerDiv.find('#timeSlider_' + shortName).slider({
+                value: 0,
+                min: 0,
+                max: nbValues,
+                step: 1,
+                slide: function (event, ui) {
+                    var isoDate;
+                    if(interval.length > 1) {
+                        var currentDate = moment(startDate);
+                        currentDate.add(parseInt(ui.value) * stepTime, unitTime);
+                        isoDate = currentDate.toISOString();
+                    } else {
+                        isoDate = values[parseInt(ui.value)];
+                    }
+                    $("#timeInput_" + shortName).val(isoDate);
+                    gwLayer.setParameter("time",isoDate);
+                }
+            }).slider("option", "disabled", !gwLayer.isVisible());
+
+            if(timeDimension) {
+                $("#timeInput_" + shortName).val(startDate.toISOString());
+                $('#time_' + shortName).css('visibility',"show");
+            } else {
+                $('#time_' + shortName).css('visibility',"hidden");
+            }
+        }
 
         /**
          *    Initialize UI of  slider for the given layer
@@ -84,137 +177,28 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
              }
              */
             var shortName = gwLayer.getShortName();
+
             // Slider initialisation
-            $layerDiv.find('#slider_' + shortName).slider({
-                value: gwLayer.getOpacity() * 100,
-                min: 20,
-                max: 100,
-                step: 20,
-                slide: function (event, ui) {
-                    $("#percentInput_" + shortName).val(ui.value + "%");
-                    gwLayer.setOpacity(ui.value / 100);
-                    if (gwLayer.type === "OpenSearch") {
-                        gwLayer.setOpacityOS(ui.value / 100);
-                    }
+            initializeSliderOpacity($layerDiv, shortName, gwLayer);
 
+            initializeSliderTime($layerDiv, shortName, gwLayer);
 
-                    if (gwLayer.subLayers) {
-                        for (var i = 0; i < gwLayer.subLayers.length; i++) {
-                            gwLayer.subLayers[i].setOpacity(ui.value / 100);
-                        }
-                    }
-                }
-            }).slider("option", "disabled", !gwLayer.isVisible());
-
-            // Init percent input of slider
-            $("#percentInput_" + shortName).val($("#slider_" + shortName).slider("value") + "%");
-
-            if(gwLayer.name === "Palavas Digital Elevation Model") {
-                $layerDiv.find('#seaLevelSlider_' + shortName).slider({
-                    value: 0,
-                    min: 0,
-                    max: 6,
-                    step: 1,
-                    slide: function (event, ui) {
-                        $("#seaLevelInput_" + shortName).val((0.5 * ui.value).toFixed(1) + " m");
-                        gwLayer.setParameter("styles", (0.5 * ui.value).toFixed(1) + "m");
-                    }
-                }).slider("option", "disabled", !gwLayer.isVisible());
-
-                // Init percent input of slider
-                $("#seaLevelInput_" + shortName).val("+" + $("#seaLevelSlider_" + shortName).slider("value") + " m");
-
-            }
-
-            function _dateDiff(date1, date2){
-                var diff = {} ;                          // Initialisation du retour
-                var tmp = date2 - date1;
-
-                tmp = Math.floor(tmp/1000);             // Nombre de secondes entre les 2 dates
-                diff.sec = tmp % 60;                    // Extraction du nombre de secondes
-
-                tmp = Math.floor((tmp-diff.sec)/60);    // Nombre de minutes (partie entière)
-                diff.min = tmp % 60;                    // Extraction du nombre de minutes
-
-                tmp = Math.floor((tmp-diff.min)/60);    // Nombre d'heures (entières)
-                diff.hour = tmp % 24;                   // Extraction du nombre d'heures
-
-                tmp = Math.floor((tmp-diff.hour)/24);   // Nombre de jours restants
-                diff.day = tmp;
-
-                return diff;
-            }
-
-            var shortName = gwLayer.getShortName();
-
-            var timeDimension = gwLayer.getDimensions().time;
-            if(timeDimension) {
-                //$('#time_CoordinatesGrid').css('visibility',"show");
-                var values = timeDimension.value.split(",");
-                var interval = values[0].split("/");
-                var minDate;
-                var minValSlider = 0;
-                var maxValSlider;
-                var stepSlider = 1;
-                if(interval.length > 1) {
-                    minDate = interval[0];
-                    var resolution = interval[2];
-                    var dateDiff = _dateDiff(new Date(interval[0]), new Date(interval[1]));
-                    var unit = resolution.slice(-1);
-                    var stepTime;
-                    if (resolution.startsWith("PT")) {
-                        //time => hour, min, sec
-                        stepTime = resolution.substring(2,resolution.length-1);
-                    } else {
-                        // suppose P
-                        //day, month year
-                        stepTime = resolution.substring(1,resolution.length-1);
-                    }
-                    var nbValues;
-                    if(unit === "Y") {
-                        nbValues = Math.floor(parseInt(dateDiff.day) / parseInt(stepTime) / 365.25);
-                    } else if(unit === "M") {
-                        nbValues = Math.floor(parseInt(dateDiff.day) / parseInt(stepTime) / 30.0);
-                    } else if(unit === "D") {
-                        nbValues = Math.floor(parseInt(dateDiff.day) / parseInt(stepTime));
-                    } else if (unit === "H") {
-                        nbValues = Math.floor(parseInt(dateDiff.day) * 24 / parseInt(stepTime));
-                    } else if (unit === "M") {
-                        nbValues = Math.floor(parseInt(dateDiff.day) * 24 * 60 / parseInt(stepTime));
-                    } else {
-                        // suppose S
-                        nbValues = Math.floor(parseInt(dateDiff.day) * 24 * 3600 / parseInt(stepTime));
-                    }
-                    maxValSlider = nbValues;
-                } else {
-                    minDate = values[0];
-                    maxValSlider = values.length-1;
-                }
-
-                $layerDiv.find('#timeSlider_' + shortName).slider({
-                    value: 0,
-                    min: 0,
-                    max: maxValSlider,
-                    step: 1,
-                    slide: function (event, ui) {
-                        if(interval.length > 1) {
-                            var currentDate = new Date(minDate);
-                            currentDate.setUTCMilliseconds(stepTime * parseInt(ui.value) * 60 * 60 * 1000);
-                            $("#timeInput_" + shortName).val(currentDate.toISOString());
-                            gwLayer.setParameter("time",currentDate.toISOString());
-                        } else {
-                            $("#timeInput_" + shortName).val(values[parseInt(ui.value)]);
-                            mizarWidgetAPI.getMizarAPI().setTime(values[parseInt(ui.value)]);
-                            //gwLayer.setParameter("time",values[parseInt(ui.value)]);
-                        }
-                    }
-                }).slider("option", "disabled", !gwLayer.isVisible());
-
-                // Init date input of slider
-                $("#timeInput_" + shortName).val(new Date(minDate).toISOString());
-            } else {
-                //$('#time_CoordinatesGrid').css('visibility',"hidden");
-            }
+            //if(gwLayer.name === "Palavas Digital Elevation Model") {
+            //    $layerDiv.find('#seaLevelSlider_' + shortName).slider({
+            //        value: 0,
+            //        min: 0,
+            //        max: 6,
+            //        step: 1,
+            //        slide: function (event, ui) {
+            //            $("#seaLevelInput_" + shortName).val((0.5 * ui.value).toFixed(1) + " m");
+            //            gwLayer.setParameter("styles", (0.5 * ui.value).toFixed(1) + "m");
+            //        }
+            //    }).slider("option", "disabled", !gwLayer.isVisible());
+            //
+            //    // Init percent input of slider
+            //    $("#seaLevelInput_" + shortName).val("+" + $("#seaLevelSlider_" + shortName).slider("value") + " m");
+            //
+            //}
 
         }
 
@@ -417,6 +401,7 @@ define(["jquery", "./AdditionalLayersCore", "./PickingManager", "./DynamicImageV
 
             var toolsDiv = $("#addLayer_" + shortName).find('.layerTools');
             $("#addLayer_" + shortName).find('.slider').slider(isOn ? "enable" : "disable");
+            $("#addLayer_" + shortName).find('.sliderTime').slider(isOn ? "enable" : "disable");
             if (isOn) {
                 $('.layerTools').slideUp();
                 toolsDiv.slideDown();
