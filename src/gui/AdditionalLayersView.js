@@ -80,10 +80,6 @@ define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./Dyn
                 slide: function (event, ui) {
                     $("#percentInput_" + shortName).val(ui.value + "%");
                     gwLayer.setOpacity(ui.value / 100);
-                    if (gwLayer.type === "OpenSearch") {
-                        gwLayer.setOpacityOS(ui.value / 100);
-                    }
-
                     if (gwLayer.subLayers) {
                         for (var i = 0; i < gwLayer.subLayers.length; i++) {
                             gwLayer.subLayers[i].setOpacity(ui.value / 100);
@@ -104,6 +100,7 @@ define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./Dyn
                 var nbValues, startDate, unitTime;
                 if (interval.length > 1) {
                     startDate = moment(interval[0]);
+                    startDate = startDate.toISOString();
                     var stopDate = moment(interval[1]);
                     var resolution = interval[2];
                     var unit = resolution.slice(-1);
@@ -132,8 +129,8 @@ define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./Dyn
                     }
                     nbValues = Math.floor(stopDate.diff(startDate, unitTime) / parseInt(stepTime));
                 } else {
-                    startDate = moment(values[0]);
-                    nbValues = values.length;
+                    startDate = values[0];
+                    nbValues = values.length-1;
                 }
             }
 
@@ -157,8 +154,9 @@ define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./Dyn
             }).slider("option", "disabled", !gwLayer.isVisible());
 
             if(timeDimension) {
-                $("#timeInput_" + shortName).val(startDate.toISOString());
+                $("#timeInput_" + shortName).val(startDate);
                 $('#time_' + shortName).css('visibility',"show");
+                gwLayer.setParameter("time",startDate);
             } else {
                 $('#time_' + shortName).css('visibility',"hidden");
             }

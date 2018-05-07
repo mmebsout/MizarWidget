@@ -314,11 +314,6 @@ define(["jquery", "underscore-min",
 
                 // Removes the spinner when background layers are loaded
                 this.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
-                this.subscribeCtx(Mizar.EVENT_MSG.LAYER_ASYNCHRONE_LOADED,
-                    function (layersID) {
-                        console.log('id of loaded layers = ',layersID);
-                    }
-                );
                 // Removes the spinner when we come back to a previous context (it was not destroyed, then
                 // no baseLayersReady event is sent.
                 this.subscribeMizar(Mizar.EVENT_MSG.MIZAR_MODE_TOGGLE, RenderingGlobeFinished);
@@ -386,19 +381,24 @@ define(["jquery", "underscore-min",
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === userOptions.defaultCtx });
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
-                mizarAPI.addLayer(layer, function(layerID) {
-                    console.log("Added : "+layerID);
-                    var myLayer = mizarAPI.getLayerByID(layerID);
-                    if(myLayer.hasDimension()) {
-                        var dimension = myLayer.getDimensions();
-                        if (dimension.time) {
-                            console.log("time from API:"+dimension.time.value);
+                mizarAPI.addLayer(layer,
+                    function(layerID) {
+                        console.log("Added : "+layerID);
+                        var myLayer = mizarAPI.getLayerByID(layerID);
+                        if(myLayer.hasDimension()) {
+                            var dimension = myLayer.getDimensions();
+                            if (dimension.time) {
+                                console.log("time from API:"+dimension.time.value);
+                            }
                         }
+                        if(myLayer.type === Constants.LAYER.WCSElevation) {
+                           mizarAPI.setBaseElevationByID(layerID);
+                        }
+                    },
+                    function(e) {
+                        console.log(e);
                     }
-                    if(myLayer.type === Constants.LAYER.WCSElevation) {
-                       mizarAPI.setBaseElevationByID(layerID);
-                    }
-                });
+                );
             }
         };
 

@@ -64,7 +64,7 @@
       "outline": true,
       "visible": true
     },
-/*    {
+    {
       "category": "PEPS",
       "type": "OpenSearch",
       "baseUrl": "https://peps.cnes.fr/resto/api/collections/S1/describe.xml",
@@ -78,7 +78,7 @@
       "baseUrl":"https://peps.cnes.fr/resto/api/collections/S2ST/describe.xml",
       "color": "blue",
       "visible": false
-    },*/
+    },
     {
       "type": "WMTS",
       "baseUrl" : "http://peps-vizo.cnes.fr:8083/mapcache/wmts",
@@ -119,7 +119,8 @@
       "visible": false,
       "background": false,
       "transparent":true,
-      "format":"image/png"
+      "format":"image/png",
+      "zIndex":11
     },
     {
       "category": "PALAVAS",
@@ -136,6 +137,26 @@
       "type": "WMS",
       "baseUrl":"http://80.158.6.138/mapserv?map=WMS_MONT_BLANC",
       "layers": "Mont_Blanc_SHP",
+      "visible": false,
+      "background": false,
+      "transparent":true,
+      "format":"image/png"
+    },
+    {
+      "category": "MONT_BLANC",
+      "type": "WMS",
+      "baseUrl":"http://80.158.6.138/mapserv?map=WMS_MONT_BLANC",
+      "layers": "Mont_Blanc_dh",
+      "visible": false,
+      "background": false,
+      "transparent":true,
+      "format":"image/png",
+      "zIndex":11
+    },
+    {
+      "category": "POYANG",
+      "type": "WMS",
+      "baseUrl":"http://80.158.6.138/mapserv?map=WMS_POYANG",
       "visible": false,
       "background": false,
       "transparent":true,

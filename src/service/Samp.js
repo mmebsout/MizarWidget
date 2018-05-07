@@ -35,7 +35,7 @@ define(["jquery", "underscore-min", "samp", "jquery.ui"],
 //var highlightedData;
 
         var connector;	// SAMP connector
-        var sampLayer;	// SAMP vector layer containing all incoming fits images
+        //var sampLayer;	// SAMP vector layer containing all incoming fits images
         var pointAtReceived = false; // Parameter avoiding looping while receiving coord.pointAt.sky SAMP event
         var votable2geojsonBaseUrl;
         var sitoolsBaseUrl;
@@ -152,7 +152,7 @@ define(["jquery", "underscore-min", "samp", "jquery.ui"],
                 dataType: "line"
             };
 
-            sampLayer = mizarWidgetAPI.addLayer(sampDesc);
+            mizarWidgetAPI.addLayer(sampDesc);
 
             window.onbeforeunload = function () {
                 // Doesn't work onrefresh actually
