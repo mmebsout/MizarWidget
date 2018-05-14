@@ -396,7 +396,7 @@ define(["jquery", "underscore-min",
                         }
                     },
                     function(e) {
-                        console.log(e);
+                        console.error(e);
                     }
                 );
             }
