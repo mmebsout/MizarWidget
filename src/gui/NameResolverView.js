@@ -212,7 +212,7 @@ define(["jquery", "underscore-min","../utils/UtilsCore",
 
             var index = $(this).attr("mizar_feature_index");
             var selectedFeature = response.features[index];
-            NameResolver.zoomTo(selectedFeature.geometry.coordinates[0], selectedFeature.geometry.coordinates[1], selectedFeature.geometry.crs.properties.name);
+            NameResolver.zoomTo(selectedFeature.geometry.coordinates[0], selectedFeature.geometry.coordinates[1], null, selectedFeature.geometry.crs.properties.name);
         }
 
         /**************************************************************************************************************/

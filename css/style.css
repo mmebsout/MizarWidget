@@ -544,3 +544,28 @@ input::-moz-placeholder {
     color: #F79A2E;
     margin-top: 35px;
 }
+
+#legendDiv {
+    background-color: white;
+    display:inline-block;
+    border-radius: 20px;
+}
+
+#legendTxt {
+    writing-mode: vertical-rl;
+    text-orientation: sideways;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+.column {
+    float: left;
+    height:30%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
