@@ -16,14 +16,14 @@
   "layers": [
     {
       "type": "WCSElevation",
-      "name": "Elevation",
-      //"baseUrl": "http://80.158.6.138/mapserv?map=WMS_SRTM",
-      "baseUrl": "http://80.158.6.138/mapserv?map=WMS_MONT_BLANC_ELEV",
-      //"coverage": "SRTM",
-      "coverage": "MNT_Mont_Blanc",
+      "name": "Elevation Mont Blanc",
+      "baseUrl": "http://80.158.6.138/mapserv?map=WMS_SRTM",
+      //"baseUrl": "http://80.158.6.138/mapserv?map=WMS_MONT_BLANC_ELEV",
+      "coverage": "SRTM",
+      //"coverage": "MNT_Mont_Blanc",
       "version": "1.0.0",
-      "minElevation": -32000,
-      "scale": 1
+      "minElevation": -150,
+      "scale": 10
     },
     /*{
       "type": "WMTS",
@@ -72,7 +72,7 @@
       "opacity": 20,
       "visible": false
     },
-   {
+    {
       "category": "PEPS",
       "type": "OpenSearch",
       "baseUrl":"https://peps.cnes.fr/resto/api/collections/S2ST/describe.xml",
@@ -133,7 +133,18 @@
       "format":"image/png"
     },
     {
+      "category": "PALAVAS",
+      "type": "WMS",
+      "baseUrl": "http://80.158.6.138/mapserv?map=WMS_MEDIT",
+      "visible": false,
+      "background": false,
+      "transparent": true,
+      "format": "image/png",
+      "layers": "Mediterranean"
+    },
+    {
       "category": "MONT_BLANC",
+      "name" : "MONT_BLANC",
       "type": "WMS",
       "baseUrl":"http://80.158.6.138/mapserv?map=WMS_MONT_BLANC",
       "layers": "Mont_Blanc_SHP",
@@ -156,11 +167,23 @@
     {
       "category": "POYANG",
       "type": "WMS",
-      "baseUrl":"http://80.158.6.138/mapserv?map=WMS_POYANG",
+      "baseUrl": "http://80.158.6.138/mapserv?map=WMS_POYANG",
       "visible": false,
       "background": false,
-      "transparent":true,
-      "format":"image/png"
+      "transparent": true,
+      "format": "image/png",
+      "layers": "SPOT4,SPOT5,LANDSAT2000"
+    },
+    {
+      "category": "POYANG",
+      "type": "WMS",
+      "baseUrl": "http://80.158.6.138/mapserv?map=WMS_POYANG",
+      "visible": false,
+      "background": false,
+      "transparent": true,
+      "format": "image/png",
+      "layers": "SUBMERSION",
+      "zIndex": "11"
     },
     {
       "category": "Other",
