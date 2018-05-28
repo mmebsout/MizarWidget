@@ -62,13 +62,17 @@ define(["jquery", "jquery.ui"],
                     return;
                 }
                 mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet)._handleMouseUp(event);
-                $.proxy(self.displayButtonElevation(event), self);
+                if(mizarWidgetAPI.getMizarAPI().getBaseElevation() != null) {
+                    $.proxy(self.displayButtonElevation(event), self);
+                }
 
             };
+
 
             $('a#elevationTrackingBtn').text('Calculate elevation');
             $('#elevationTrackingBtn').button()
                 .click($.proxy(self.displayPopupElevation, this));
+
 
             self.renderContext.canvas.addEventListener("contextmenu", function () {
                 return false;
