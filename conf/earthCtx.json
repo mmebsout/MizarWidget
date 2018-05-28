@@ -158,6 +158,7 @@
       "type": "WMS",
       "baseUrl":"http://80.158.6.138/mapserv?map=WMS_POYANG",
       "visible": false,
+      "autoFillTimeTravel" : true,
       "background": false,
       "transparent":true,
       "format":"image/png"
