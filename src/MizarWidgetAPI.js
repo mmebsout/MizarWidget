@@ -383,12 +383,11 @@ define(["jquery", "underscore-min",
                 var layer = selectedCtx.context.layers[i];
                 mizarAPI.addLayer(layer,
                     function(layerID) {
-                        console.log("Added : "+layerID);
                         var myLayer = mizarAPI.getLayerByID(layerID);
                         if(myLayer.hasDimension()) {
                             var dimension = myLayer.getDimensions();
                             if (dimension.time) {
-                                console.log("time from API:"+dimension.time.value);
+                                //console.log("time from API:"+dimension.time.value);
                             }
                         }
                         if(myLayer.type === Constants.LAYER.WCSElevation) {
