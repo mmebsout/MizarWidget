@@ -93,44 +93,23 @@ define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./Dyn
         }
 
         function initializeSliderTime($layerDiv, shortName, gwLayer) {
+            var startDate, stopDate, nbValues, resolution, timeDefinitionArray;
             var timeDimension = gwLayer.getDimensions().time;
+            var isInterval = false;
             if (timeDimension) {
-                var values = timeDimension.value.split(",");
-                var interval = values[0].split("/");
-                var nbValues, startDate, unitTime;
-                if (interval.length > 1) {
-                    startDate = moment(interval[0]);
-                    startDate = startDate.toISOString();
-                    var stopDate = moment(interval[1]);
-                    var resolution = interval[2];
-                    var unit = resolution.slice(-1);
-                    var stepTime;
-                    if (resolution.startsWith("PT")) {
-                        //time => hour, min, sec
-                        stepTime = resolution.substring(2, resolution.length - 1);
-                    } else {
-                        // suppose P
-                        //day, month year
-                        stepTime = resolution.substring(1, resolution.length - 1);
-                    }
-                    if (unit === "Y") {
-                        unitTime = 'years';
-                    } else if (unit === "M") {
-                        unitTime = 'months';
-                    } else if (unit === "D") {
-                        unitTime = 'days';
-                    } else if (unit === "H") {
-                        unitTime = 'hours';
-                    } else if (unit === "M") {
-                        unitTime = 'minutes';
-                    } else {
-                        // suppose S
-                        unitTime = 'seconds';
-                    }
-                    nbValues = Math.floor(stopDate.diff(startDate, unitTime) / parseInt(stepTime));
+                var timeUtility = mizarWidgetAPI.getMizarAPI().TimeUtility;
+                timeDefinitionArray = timeDimension.value.split(",");
+                if(timeUtility.isSampling(timeDefinitionArray[0])) {
+                    var minMaxRes = timeDefinitionArray[0].split("/");
+                    startDate = moment.utc(minMaxRes[0]);
+                    stopDate = moment.utc(minMaxRes[1]);
+                    resolution = timeUtility.timeResolution(minMaxRes[2]);
+                    nbValues = Math.floor(stopDate.diff(startDate, resolution.unit) / parseInt(resolution.step));
+                    isInterval = true;
                 } else {
-                    startDate = values[0];
-                    nbValues = values.length-1;
+                    startDate = moment.utc(timeDefinitionArray[0]);
+                    nbValues = timeDefinitionArray.length-1;
+                    isInterval = false;
                 }
             }
 
@@ -141,12 +120,12 @@ define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./Dyn
                 step: 1,
                 slide: function (event, ui) {
                     var isoDate;
-                    if(interval.length > 1) {
-                        var currentDate = moment(startDate);
-                        currentDate.add(parseInt(ui.value) * stepTime, unitTime);
+                    if(isInterval) {
+                        var currentDate = moment.utc(startDate);
+                        currentDate.add(parseInt(ui.value) * resolution.step, resolution.unit);
                         isoDate = currentDate.toISOString();
                     } else {
-                        isoDate = values[parseInt(ui.value)];
+                        isoDate = timeDefinitionArray[parseInt(ui.value)];
                     }
                     $("#timeInput_" + shortName).val(isoDate);
                     gwLayer.setParameter("time",isoDate);
@@ -154,9 +133,9 @@ define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./Dyn
             }).slider("option", "disabled", !gwLayer.isVisible());
 
             if(timeDimension) {
-                $("#timeInput_" + shortName).val(startDate);
+                $("#timeInput_" + shortName).val(startDate.toISOString());
                 $('#time_' + shortName).css('visibility',"show");
-                gwLayer.setParameter("time",startDate);
+                gwLayer.setParameter("time",startDate.toISOString());
             } else {
                 $('#time_' + shortName).css('visibility',"hidden");
             }

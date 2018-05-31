@@ -135,7 +135,7 @@
       "background": false,
       "transparent":true,
       "format":"image/png"
-    }/*,
+    },
     {
       "category": "PALAVAS",
       "type": "WMS",
@@ -215,6 +215,6 @@
       "opacity": 100,
       "pickable": true,
       "color": "white"
-    }*/
+    }
   ]
 }
