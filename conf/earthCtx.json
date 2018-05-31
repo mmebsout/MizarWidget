@@ -143,6 +143,16 @@
       "layers": "Mediterranean"
     },
     {
+      "category": "INDIA",
+      "type": "WMS",
+      "baseUrl": "http://80.158.6.138/mapserv?map=WMS_INDIA",
+      "visible": false,
+      "background": false,
+      "transparent": true,
+      "format": "image/png",
+      "layers": "MoisstureIndex,INDIA_ADMIN"
+    },
+    {
       "category": "MONT_BLANC",
       "name" : "MONT_BLANC",
       "type": "WMS",
@@ -180,6 +190,7 @@
       "type": "WMS",
       "baseUrl": "http://80.158.6.138/mapserv?map=WMS_POYANG",
       "visible": false,
+      "autoFillTimeTravel": true,
       "background": false,
       "transparent": true,
       "format": "image/png",
