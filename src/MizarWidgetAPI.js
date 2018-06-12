@@ -302,6 +302,7 @@ define(["jquery", "underscore-min",
                 this.mode = selectedCtx.mode;
 
                 // Creates a context for the mode with the init parameters
+                selectedCtx.context.init.isMobile = this.options.gui.isMobile;
                 mizarAPI.createContext(this.mode, selectedCtx.context.init);
 
                 // Create the API on which the GUI is used
@@ -728,6 +729,7 @@ define(["jquery", "underscore-min",
             if(selectedCtx === undefined) {
                 throw "Unable to get the Mars context"
             }
+            selectedCtx.context.init.isMobile = this.options.gui.isMobile;
             mizarAPI.createContext(Mizar.CONTEXT.Planet, selectedCtx.context.init);
             var self = this;
             mizarAPI.toggleToContext(mizarAPI.getPlanetContext(), {"mustBeHidden":true,"callback":function(){
@@ -752,6 +754,7 @@ define(["jquery", "underscore-min",
             $(mizarDiv).find('#loading').show();
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "curiosity" });
+            selectedCtx.context.init.isMobile = this.options.gui.isMobile;
             mizarAPI.createContext(Mizar.CONTEXT.Ground, selectedCtx.context.init);
             var self = this;
             mizarAPI.toggleToContext(mizarAPI.getGroundContext(),{"mustBeHidden":true, "callback":function() {
@@ -775,6 +778,7 @@ define(["jquery", "underscore-min",
             $(mizarDiv).find('#loading').show();
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "sun" });
+            selectedCtx.context.init.isMobile = this.options.gui.isMobile;
             mizarAPI.createContext(Mizar.CONTEXT.Planet, selectedCtx.context.init);
             var self = this;
             mizarAPI.toggleToContext(mizarAPI.getPlanetContext(),{"mustBeHidden":true, "callback":function() {
