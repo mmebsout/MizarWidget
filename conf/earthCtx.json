@@ -105,7 +105,7 @@
       "category": "NIGER",
       "type": "WMS",
       "baseUrl":"http://80.158.6.138/mapserv?map=WMS_NIGER",
-      "layers": "MEGHA_TRO_GRAY",
+      "layers": "MEGHA_TRO",
       "visible": false,
       "autoFillTimeTravel" : true,
       "background": false,
