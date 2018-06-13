@@ -75,6 +75,27 @@
       "layers": "SPOT4,SPOT5,LANDSAT2000"
     },
     {
+      "category": "INDIA",
+      "type": "WMS",
+      "baseUrl": "http://80.158.6.138/mapserv?map=WMS_INDIA",
+      "visible": false,
+      "background": false,
+      "transparent": true,
+      "format": "image/png",
+      "layers": "MoisstureIndex,INDIA_ADMIN"
+    },
+    {
+      "category": "MONT_BLANC",
+      "name" : "MONT_BLANC",
+      "type": "WMS",
+      "baseUrl":"http://80.158.6.138/mapserv?map=WMS_MONT_BLANC",
+      "layers": "Mont_Blanc_SHP",
+      "visible": false,
+      "background": false,
+      "transparent":true,
+      "format":"image/png"
+    },
+    {
       "category": "POYANG",
       "type": "WMS",
       "baseUrl": "http://80.158.22.249/mapserv?map=WMS_POYANG",
@@ -105,7 +126,24 @@
       "autoFillTimeTravel": true,
       "background": false,
       "transparent": true,
-      "format": "image/png"
+      "format": "image/png",
+      "layers": "SUBMERSION",
+      "zIndex": "11"
+    },
+    {
+      "category": "Other",
+      "type": "GeoJSON",
+      "name": "Cities",
+      "minLevel" : 5,
+      "data": {
+        "type": "crater",
+        "url" : "data/earth_resolver.json"
+      },
+      "pointMaxSize":6,
+      "visible": true,
+      "opacity": 100,
+      "pickable": true,
+      "color": "white"
     }
   ]
 }
