@@ -382,19 +382,6 @@ define(["jquery", "underscore-min",
         };
 
         /**
-         * Adds/removes position tracker GUI.
-         * @param visible
-         */
-        //TODO décrire visible
-        MizarWidgetGui.prototype.setPositionTrackerGui = function (visible) {
-            this.activatedContext.setComponentVisibility("posTracker", visible);
-        };
-
-        MizarWidgetGui.prototype.setElevationTrackerGui = function (visible) {
-            this.activatedContext.setComponentVisibility("elevTracker", visible);
-        };
-
-        /**
          * Returns the MizarGlobal object.
          * MizarGlobal is a wrapper between the GUI and the Mizar's cartographic API.
          * @return {MizarGlobal}

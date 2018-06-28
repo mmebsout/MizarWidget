@@ -23,7 +23,7 @@
     {
       "type": "WMS",
       "name": "AIA-171",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-171",
       "visible": true,
@@ -33,7 +33,7 @@
     {
       "type": "WMS",
       "name": "AIA-1700",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-1700",
       "format":"image/png",
@@ -42,7 +42,7 @@
     {
       "type": "WMS",
       "name": "AIA-193",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-193",
       "format":"image/png",
@@ -51,7 +51,7 @@
     {
       "type": "WMS",
       "name": "AIA-211",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-211",
       "format":"image/png",
@@ -60,7 +60,7 @@
     {
       "type": "WMS",
       "name": "AIA-304",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-304",
       "format":"image/png",
@@ -69,7 +69,7 @@
     {
       "type": "WMS",
       "name": "AIA-335",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-335",
       "format":"image/png",
@@ -78,7 +78,7 @@
     {
       "type": "WMS",
       "name": "AIA-94",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "AIA-94",
       "format":"image/png",
@@ -87,7 +87,7 @@
     {
       "type": "WMS",
       "name": "HMI-ic",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "HMI-ic",
       "format":"image/png",
@@ -96,7 +96,7 @@
     {
       "type": "WMS",
       "name": "HMI-magnetogram",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/synoptic/sun.map",
       "layers": "HMI-magnetogram",
       "format":"image/png",
@@ -105,9 +105,10 @@
     {
       "type": "WMS",
       "name": "WMS-Time",
-      "version": "1.1.1",
+      "version": "1.3.0",
       "baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Sun/stereoab/stereo.map",
       "layers": "SYN_195",
+      "autoFillTimeTravel" : true,
       "format":"image/png",
       "visible": false
     },

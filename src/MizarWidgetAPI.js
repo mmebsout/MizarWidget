@@ -680,17 +680,6 @@ define(["jquery", "underscore-min",
             }
         };
 
-        /**
-         * Show/hide position tracker GUI
-         * @function setPositionTrackerGui
-         * @memberof MizarWidgetAPI.prototype
-         * @param {boolean} visible
-         */
-        MizarWidgetAPI.prototype.setPositionTrackerGui = function (visible) {
-            if (this.mizarWidgetGui) {
-                this.mizarWidgetGui.setPositionTrackerGui(visible);
-            }
-        };
 
         MizarWidgetAPI.prototype.getMode = function() {
             return mizarAPI.getActivatedContext().getMode();
@@ -747,6 +736,7 @@ define(["jquery", "underscore-min",
                 });
             }
             self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
+
         };
 
         MizarWidgetAPI.prototype.createCuriosityContext = function() {

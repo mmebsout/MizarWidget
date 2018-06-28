@@ -181,13 +181,13 @@
     {
       "category": "POYANG",
       "type": "WMS",
-      "baseUrl": "http://80.158.6.138/mapserv?map=WMS_POYANG",
+      "baseUrl": "http://80.158.3.140/mapserv?map=WMS_POYANG",
       "visible": false,
       "autoFillTimeTravel" : true,
       "background": false,
       "transparent": true,
       "format": "image/png",
-      "layers": "SPOT4,SPOT5,LANDSAT2000"
+      "layers": "SPOT4,SPOT5,LANDSAT2000,PEOPLE,VEGETATION"
     },
     {
       "category": "POYANG",

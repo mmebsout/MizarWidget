@@ -150,7 +150,10 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                     AdditionalLayersView.addView(layer);
                 }
             }
-            $el.find('#backgroundLayersSelect').iconselectmenu("refresh");
+            var backLayerSelect = $el.find('#backgroundLayersSelect');
+            if(backLayerSelect != null) {
+                backLayerSelect.iconselectmenu("refresh");
+            }
         }
 
         return {
