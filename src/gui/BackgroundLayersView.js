@@ -264,7 +264,6 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
                 if (gwLayer.isVisible()) {
                     selectedLayer = gwLayer;
                     updateBackgroundOptions(gwLayer);
-                    mizarWidgetAPI.setBackgroundLayer(gwLayer.name);
                 }
                 $el.find('#backgroundLayersSelect').iconselectmenu("refresh");
                 nbBackgroundLayers++;

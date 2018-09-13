@@ -427,15 +427,9 @@ define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./Dyn
 
             // Layer visibility management
             $layerDiv.find('#visible_' + shortName).click(function () {
-                if (UtilsCore.isPlanetLayer(gwLayer)) {
-                    // Temporary use visiblity button to change mizar context to "planet"
-                    // TODO: change button,
-                    mizarWidgetAPI.toggleContext(gwLayer);
-                    //mizarWidgetAPI.toggleContext(gwLayer, configuration);
-                } else {
                     var isOn = !$(this).hasClass('ui-state-active');
                     gwLayer.setVisible(isOn);
-                }
+                
             });
         }
 

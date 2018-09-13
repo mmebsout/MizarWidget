@@ -475,9 +475,6 @@ define(["wcs", "gw/Utils/Constants"],
             isHipsCatLayer: function (obj){
                 return (obj.type == Constants.LAYER.HipsCat);
             },
-            isPlanetLayer: function (obj) {
-                return (obj.type == Constants.LAYER.Planet);
-            },
 
             /**
              * Convert votable to json from url

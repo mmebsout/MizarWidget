@@ -176,7 +176,7 @@ define(["jquery", "underscore-min",
         }
 
         /**
-         * Adds layers to sky (default) or to planet if planetLayer is defined.
+         * Adds layers to sky (default) or to planet
          * @param {array} layers to add to a globe : sky or planet
          * @private
          * @fires Mizar#backgroundSurveysReady
@@ -228,7 +228,7 @@ define(["jquery", "underscore-min",
             var isMobile = ('ontouchstart' in window || (window.DocumentTouch !== undefined && window.DocumentTouch && document instanceof DocumentTouch));
             var sitoolsBaseUrl = configuration.global.sitoolsBaseUrl ? configuration.global.sitoolsBaseUrl : "http://demonstrator.telespazio.com/sitools";
             var proxyUrl = configuration.global.proxyUrl ? configuration.global.proxyUrl : null;
-            var proxyUse = configuration.global.proxyUse == null ? False : configuration.global.proxyUse;
+            var proxyUse = configuration.global.proxyUse == null ? false : configuration.global.proxyUse;
             options = {};
             $.extend(options, configuration);
             options.global.sitoolsBaseUrl = sitoolsBaseUrl;

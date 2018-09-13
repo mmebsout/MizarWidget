@@ -46,6 +46,7 @@
       "description": "Red planet",
       "attribution": "Color background provided by <a href=\"http://www.mars.asu.edu/data/\" target=\"_blank\">Mars Dataset</a>",
       "visible": true,
+      "background":true,
       "category": "background"
     },
     {
@@ -94,7 +95,8 @@
       "baseUrl": "http://idoc-wmsmars.ias.u-psud.fr/cgi-bin/mapserv?map=/home/cnes/mars/mars.map",
       "layers": "themis_day_ir_100m",
       "format": "image/png",
-      "attribution": "Themis Day IR 100m"
+      "attribution": "Themis Day IR 100m",
+      "background":true
     },
     {
       "name": "Themis Night IR 100m",

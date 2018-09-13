@@ -305,11 +305,6 @@ define(["jquery", "underscore-min","../utils/UtilsCore",
                 $('#backgroundLayersSelect').val(layer.name).iconselectmenu("refresh");
                 //BackgroundLayersView.selectLayer(layer);
             }
-            else if(UtilsCore.isPlanetLayer(layer)) {
-                // Temporary use visiblity button to change mizar context to "planet"
-                // TODO: change button,
-                mizarWidgetAPI.toggleContext(layer);
-            }
             else {
                 var visible = layer.isVisible();
                 layer.setVisible(!visible);
@@ -391,13 +386,13 @@ define(["jquery", "underscore-min","../utils/UtilsCore",
              *    Handler on mizar mode toggle
              */
             onModeToggle: function (ctx) {
-                if (!ctx.planetLayer || (ctx.planetLayer.nameResolver != undefined && ctx.planetLayer.nameResolver.baseUrl)) {
+                //if (!ctx.planetLayer || (ctx.planetLayer.nameResolver != undefined && ctx.planetLayer.nameResolver.baseUrl)) {
                     $nameResolver.show();
                     self.setContext(ctx);
-                }
-                else {
-                    $nameResolver.hide();
-                }
+                //}
+                //else {
+                    //$nameResolver.hide();
+                //}
             },
 
             /**

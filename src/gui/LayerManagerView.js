@@ -82,7 +82,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                             isFits: true
                         };
                         var fitsData = fits.getHDU().data;
-                        mizarWidgetAPI.publish("image:add", featureData);
+                        mizarWidgetAPI.publish("image:added", featureData);
 
                         var image = mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.FitsVisu).handleFits(fitsData, featureData);
                         ImageProcessing.setImage(image);
@@ -144,16 +144,16 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
             // Add view depending on category of each layer
             for (var i = 0; i < layers.length; i++) {
                 var layer = layers[i];
-                if (layer.category === "background") {
+                if (layer.isBackground()) {
                     BackgroundLayersView.addView(layer);
                 } else {
                     AdditionalLayersView.addView(layer);
                 }
             }
-            var backLayerSelect = $el.find('#backgroundLayersSelect');
-            if(backLayerSelect != null) {
-                backLayerSelect.iconselectmenu("refresh");
-            }
+            //var backLayerSelect = $el.find('#backgroundLayersSelect');
+            //if(backLayerSelect != null) {
+            //    backLayerSelect.iconselectmenu("refresh");
+            //}
         }
 
         return {
@@ -179,7 +179,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 AdditionalLayersView.init({mizar: mizarWidgetAPI, configuration: configuration});
 
                 mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_BACKGROUND_ADDED, BackgroundLayersView.addView);
-                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_ADDITIONAL_ADDED, AdditionalLayersView.addView);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_ADDED, AdditionalLayersView.addView);
                 mizarWidgetAPI.subscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, this.toggleMode);
 
                 mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_UPDATE_STATS_ATTRIBUTES, this.updateStatsAttributes);
@@ -257,7 +257,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 $(parentElement).empty();
 
                 mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_BACKGROUND_ADDED, BackgroundLayersView.addView);
-                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_ADDITIONAL_ADDED, AdditionalLayersView.addView);
+                mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_ADDED, AdditionalLayersView.addView);
                 mizarWidgetAPI.unsubscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, this.toggleMode);
 
                 $('canvas').off('dragover', handleDragOver);
@@ -267,8 +267,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
             /**
              *    Update view depending on mizar mode
              *
-             *    @param planetLayer
-             *        Planet layer if toggled in planet mode
+             *    @param context
              */
             toggleMode: function (context) {
                 BackgroundLayersView.remove();
@@ -277,7 +276,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 AdditionalLayersView.init({mizar: mizarWidgetAPI, configuration: configuration});
                 initLayers(context);
                 mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_BACKGROUND_ADDED, BackgroundLayersView.addView);
-                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_ADDITIONAL_ADDED, AdditionalLayersView.addView);
+                mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.LAYER_ADDED, AdditionalLayersView.addView);
                 $el.accordion("option", "active", 0).accordion("refresh");
             },
 
