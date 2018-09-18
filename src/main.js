@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2012-2015 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2012-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of MIZAR.
  *
@@ -171,7 +171,7 @@ require(["jquery", "underscore-min", "./MizarWidget"], function ($, _, MizarWidg
     /**
      * Removes "C"-like comments lines from string
      * @param string
-     * @return {JSON}
+     * @returns {JSON}
      * @private
      */
     var _removeComments = function (string) {
@@ -183,10 +183,97 @@ require(["jquery", "underscore-min", "./MizarWidget"], function ($, _, MizarWidg
         return string;
     };
 
-    var uid = getUniqueId();
-    var mizarUrl = getMizarUrl();
-    var mizarWidgetConf = getUrl(mizarUrl+"/conf/mizarWidget.json?uid="+uid);
-    var widgetOptions = JSON.parse(_removeComments(mizarWidgetConf));
+    /**
+     * Returns the parameters of href
+     * @param href Url from which parameters lust be extracted
+     * @returns parameters from href 
+     */
+    var getUrlVars = function(href){
+        var reg = /[?&]+([^=&]+)=?([^&]*)/gi;
+        var map = {};
+        href.replace(reg, function(match, key, value) {
+            key = decodeURIComponent(key);
+            value = value ? decodeURIComponent(value) : true;
+            map[key] ? map[key] instanceof Array ? map[key].push(value) : map[key] = [map[key], value] :  map[key] = value;
+        });
+        return map;
+    };
+
+    /**
+     * Builds a deynamic url to avail the brwser cache the URL.
+     * The URL is build with a uuid parameter
+     * @param {url} url 
+     * @param {string} uuid 
+     */
+    var buildUrlNoCacheUrl = function(url, uuid) {
+        var delimiter = (url.indexOf("?")>=0) ? "&" : "?";
+        return url+delimiter+"uuid="+uuid;
+    }    
+
+    /**
+     * Returns the mizarWidgetConf related to MizarWidget.
+     * Loads the local configuration file
+     * (e.g http://127.0.0.1:8080/index.html?ctxurl=http%3A%2F%2F127.0.0.1%3A8080%2Fconf%2FmizarWidget.json)
+     * in the URL (using ctxurl parameter)
+     * @example
+     * {
+     * "global": {
+     *     "proxyUrl": "http://localhost:8080/?url=",
+     *     "proxyUse": false
+     * },
+     * "gui": {
+     *     ...
+     * },
+     * "ctx": [
+     * {
+     *      "name": "sky", // context name
+     *      "mode": "Sky", 
+     *      "context": "./skyCtx.json"
+     * },
+     * {
+     *      "name": "mars",
+     *      "mode": "Planet",
+     *      "context": "./marsCtx.json"
+     * },
+     * ...
+     * ],
+     * "defaultCtx": "sky"
+     * }
+     * @returns the configuration file of MizarWidget
+     */
+    var getMizarWidgetConf = function() {
+        var uuid = getUniqueId();                           
+        var mizarUrl = getMizarUrl();
+        var url = buildUrlNoCacheUrl(mizarUrl+"/conf/mizarWidget.json", uuid);
+        // retrieve the configuration file
+        var mizarWidgetConf = getUrl(url);
+        return JSON.parse(_removeComments(mizarWidgetConf));        
+    }
+
+    /**
+     * Add a new context as default in the configuration file of MizarWidget.
+     * The context is defined by the value related to ctxurl in the URL
+     * @param {Object} mizarWidgetConf 
+     */
+    var addNewCtxAsDefault = function(mizarWidgetConf) {
+        var href = window.location.search;
+        var parameters = getUrlVars(href);
+        var distantConfFileUrl = parameters.ctxurl;
+        if (distantConfFileUrl === undefined) {
+            // no context to add.
+        } else {
+            mizarWidgetConf.ctx.push({
+                "name":"userDefined",
+                "mode":"something",
+                "context":distantConfFileUrl
+            });
+            mizarWidgetConf.defaultCtx = "userDefined";
+        }
+        return mizarWidgetConf;
+    }
+
+    var widgetOptions = getMizarWidgetConf();  
+    widgetOptions = addNewCtxAsDefault(widgetOptions);
 
     var mizarWidget = new MizarWidget('mizarWidget-div', widgetOptions);
     var mizarWidgetAPI = mizarWidget.getMizarWidgetAPI();

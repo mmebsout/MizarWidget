@@ -2,13 +2,13 @@
  * MizarWidgetAPI is the wrapper between the GUI of MizarWidget and the API of mizar.
  */
 define(["jquery", "underscore-min",
-        "./utils/UtilsCore", "MizarWidgetGui",
-        "./uws/UWSManager",
-        "gw/Mizar", "gw/Utils/Constants","gw/Gui/dialog/ErrorDialog","text!templates/mizarCore.html","gui/LayerManagerView"],
+    "./utils/UtilsCore", "MizarWidgetGui",
+    "./uws/UWSManager",
+    "gw/Mizar", "gw/Utils/Constants", "gw/Gui/dialog/ErrorDialog", "text!templates/mizarCore.html", "gui/LayerManagerView"],
     function ($, _,
-              UtilsCore, MizarWidgetGui,
-              UWSManager,
-              Mizar, Constants, ErrorDialog, mizarCoreHTML,LayerManagerView) {
+        UtilsCore, MizarWidgetGui,
+        UWSManager,
+        Mizar, Constants, ErrorDialog, mizarCoreHTML, LayerManagerView) {
 
         // private variables.
         var mizarDiv;
@@ -52,7 +52,11 @@ define(["jquery", "underscore-min",
             return mizarBaseUrl;
         };
 
-        var getUrl = function(url){
+        /**
+         * Loads in a synchronous way all files.
+         * @param {url} url URL of the file to retrieve 
+         */
+        var getUrl = function (url) {
             return $.ajax({
                 type: "GET",
                 url: url,
@@ -61,6 +65,16 @@ define(["jquery", "underscore-min",
             }).responseText;
         };
 
+        /**
+         * Builds a deynamic url to avail the brwser cache the URL.
+         * The URL is build with a uuid parameter
+         * @param {url} url 
+         * @param {string} uuid 
+         */
+        var buildUrlNoCacheUrl = function(url, uuid) {
+            var delimiter = (url.indexOf("?")>=0) ? "&" : "?";
+            return url+delimiter+"uuid="+uuid;
+        }
 
         /**
          * Applies the shared parameters to options if they exist.
@@ -79,7 +93,7 @@ define(["jquery", "underscore-min",
                     $.ajax({
                         type: "GET",
                         url: options.shortener.baseUrl + '/'
-                        + sharedString,
+                            + sharedString,
                         async: false, // TODO: create callback
                         success: function (sharedConf) {
                             _mergeWithOptions(sharedConf);
@@ -171,7 +185,7 @@ define(["jquery", "underscore-min",
                 MizarWidgetAPI.setExportGui(false);
                 MizarWidgetAPI.setDistanceGui(false);
             } else {
-                throw "Unable to find mizar.mode="+mizar.mode;
+                throw "Unable to find mizar.mode=" + mizar.mode;
             }
         }
 
@@ -185,7 +199,7 @@ define(["jquery", "underscore-min",
             // Add surveys
             for (var i = 0; i < layers.length; i++) {
                 var layer = layers[i];
-                if(layer.name === "Mars") {
+                if (layer.name === "Mars") {
                     loadNoStandardPlanetProviders();
                 }
                 var gwLayer = self.addLayer(layer);
@@ -263,12 +277,13 @@ define(["jquery", "underscore-min",
 
             // Creates the user options
             userOptions.global.mizarBaseUrl = mizarBaseUrl;
+
+            // Loads all context files that are defined in mizarWidget.json
             userOptions.ctx = this._loadConfigFiles(mizarBaseUrl, userOptions.ctx);
 
             // Retrieves the div element.
             mizarDiv = (typeof div === "string") ? document.getElementById(div) : div;
             self = this;
-
 
             // Merge default options with user options
             this.options = createOptions(userOptions);
@@ -282,20 +297,20 @@ define(["jquery", "underscore-min",
             mizarAPI = new Mizar({
                 canvas: $(mizarDiv).find('#GlobWebCanvas')[0],
                 configuration: {
-                    "mizarBaseUrl":this.options.global.mizarBaseUrl,
-                    "debug":this.options.gui.debug,
-                    "isMobile":this.options.gui.isMobile,
-                    "positionTracker":this.options.gui.positionTracker,
-                    "elevationTracker":this.options.gui.elevationTracker,
-                    "registry":this.options.gui.registry,
-                    "proxyUse":this.options.global.proxyUse,
-                    "proxyUrl":this.options.global.proxyUrl
+                    "mizarBaseUrl": this.options.global.mizarBaseUrl,
+                    "debug": this.options.gui.debug,
+                    "isMobile": this.options.gui.isMobile,
+                    "positionTracker": this.options.gui.positionTracker,
+                    "elevationTracker": this.options.gui.elevationTracker,
+                    "registry": this.options.gui.registry,
+                    "proxyUse": this.options.global.proxyUse,
+                    "proxyUrl": this.options.global.proxyUrl
                 }
             });
 
             // Search the reference to the default context.
-            var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === userOptions.defaultCtx });
-            if(selectedCtx === undefined) {
+            var selectedCtx = _.find(this.options.ctx, function (obj) { return obj.name === userOptions.defaultCtx });
+            if (selectedCtx === undefined) {
                 throw "Unable to find the default context";
             } else {
                 // Gets the mode : Sky, Ground Planet
@@ -358,40 +373,40 @@ define(["jquery", "underscore-min",
                 });
 
 
-            	ErrorDialog.setIcon('#warningButton');
-            	$('#warningButton').on('click', function () {
-        	  if (ErrorDialog.isActive() === true) {
-                      ErrorDialog.hide();
-                  } else {
-                      ErrorDialog.view();
-                  }
-            	})
-   
+                ErrorDialog.setIcon('#warningButton');
+                $('#warningButton').on('click', function () {
+                    if (ErrorDialog.isActive() === true) {
+                        ErrorDialog.hide();
+                    } else {
+                        ErrorDialog.view();
+                    }
+                })
+
             }
-         };
+        };
 
 
         /**************************************************************************************************************/
 
-        MizarWidgetAPI.prototype.init = function() {
+        MizarWidgetAPI.prototype.init = function () {
             var userOptions = this.options;
-            var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === userOptions.defaultCtx });
+            var selectedCtx = _.find(this.options.ctx, function (obj) { return obj.name === userOptions.defaultCtx });
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
                 mizarAPI.addLayer(layer,
-                    function(layerID) {
+                    function (layerID) {
                         var myLayer = mizarAPI.getLayerByID(layerID);
-                        if(myLayer.hasDimension()) {
+                        if (myLayer.hasDimension()) {
                             var dimension = myLayer.getDimensions();
                             if (dimension.time) {
                                 //console.log("time from API:"+dimension.time.value);
                             }
                         }
-                        if(myLayer.type === Constants.LAYER.WCSElevation) {
-                           mizarAPI.setBaseElevationByID(layerID);
+                        if (myLayer.type === Constants.LAYER.WCSElevation) {
+                            mizarAPI.setBaseElevationByID(layerID);
                         }
                     },
-                    function(e) {
+                    function (e) {
                         console.error(e);
                     }
                 );
@@ -399,21 +414,37 @@ define(["jquery", "underscore-min",
         };
 
 
-        MizarWidgetAPI.prototype._loadConfigFiles = function(mizarUrl, configCtx){
-
+        /**
+         * Loads all configuration files from mizarWidget.json
+         * Each configuration file can be located as relative or absolute URL
+         * @param {url} mizarUrl Mizar URL
+         * @param {string[]} configCtx - List of context files. 
+         * @return the list of context objects
+         */
+        MizarWidgetAPI.prototype._loadConfigFiles = function (mizarUrl, configCtx) {
             var ctxObj = [];
-            var uid = getUniqueId();
-            for (var i=0; i<configCtx.length; i++) {
+            // generate a unique identifier to avoid the web server puts the configuration file in cache.
+            var uuid = getUniqueId();
+            for (var i = 0; i < configCtx.length; i++) {
                 var ctx = configCtx[i];
-                // generate a unique identifier to avoid the web server puts the configuration file in cache.
-                var ctxResult = getUrl(mizarUrl+"/conf/"+ctx.context+"?uid="+uid);
+                var url;
+                if (ctx.context.toLowerCase().startsWith('http')) {
+                    url = ctx.context;
+                } else {
+                    url = mizarUrl + "/conf/" + ctx.context;
+                }
+                url = buildUrlNoCacheUrl(url, uuid);
+                var ctxResult = getUrl(url);
                 ctx.context = JSON.parse(_removeComments(ctxResult));
                 ctxObj.push(ctx);
             }
             return ctxObj;
         };
 
-        MizarWidgetAPI.prototype.getMizarWidgetGui = function() {
+        /**
+         * Returns the mizarWidget GUI.
+         */
+        MizarWidgetAPI.prototype.getMizarWidgetGui = function () {
             return this.mizarWidgetGui;
         };
 
@@ -427,7 +458,7 @@ define(["jquery", "underscore-min",
             return mizarAPI.getActivatedContext();
         };
 
-        MizarWidgetAPI.prototype.getRenderContext = function() {
+        MizarWidgetAPI.prototype.getRenderContext = function () {
             return mizarAPI.getRenderContext();
         };
 
@@ -438,7 +469,7 @@ define(["jquery", "underscore-min",
          * @return {Sky} Scene
          */
         MizarWidgetAPI.prototype.getScene = function () {
-            return mizarAPI.getActivatedContext().getScene();
+            return mizarAPI.getActivatedContext()._getGlobe();
         };
 
         /**
@@ -484,11 +515,11 @@ define(["jquery", "underscore-min",
         };
 
 
-        MizarWidgetAPI.prototype.refresh = function() {
+        MizarWidgetAPI.prototype.refresh = function () {
             mizarAPI.getActivatedContext().refresh();
         };
 
-        MizarWidgetAPI.prototype.getTileManager = function() {
+        MizarWidgetAPI.prototype.getTileManager = function () {
             return mizarAPI.getActivatedContext().getTileManager();
         };
 
@@ -501,14 +532,14 @@ define(["jquery", "underscore-min",
          * @return {Layer}The created layer
          */
         MizarWidgetAPI.prototype.addLayer = function (layerDesc) {
-            if(layerDesc.coordinateSystem) {
-                layerDesc.coordinateSystem = {geoideName: layerDesc.coordinateSystem};
+            if (layerDesc.coordinateSystem) {
+                layerDesc.coordinateSystem = { geoideName: layerDesc.coordinateSystem };
             }
             return mizarAPI.addLayer(layerDesc);
         };
 
 
-        MizarWidgetAPI.prototype.getServiceByName = function(name, options) {
+        MizarWidgetAPI.prototype.getServiceByName = function (name, options) {
             return mizarAPI.getServiceByName(name, options);
         };
 
@@ -677,7 +708,7 @@ define(["jquery", "underscore-min",
         };
 
 
-        MizarWidgetAPI.prototype.getMode = function() {
+        MizarWidgetAPI.prototype.getMode = function () {
             return mizarAPI.getActivatedContext().getMode();
         };
 
@@ -693,40 +724,42 @@ define(["jquery", "underscore-min",
             this.setSwitchTo2D(true);
         };
 
-        MizarWidgetAPI.prototype.isSkyContext = function() {
+        MizarWidgetAPI.prototype.isSkyContext = function () {
             return this.getMode() === Mizar.CONTEXT.Sky;
         };
 
-        MizarWidgetAPI.prototype.isPlanetContext = function() {
+        MizarWidgetAPI.prototype.isPlanetContext = function () {
             return this.getMode() === Mizar.CONTEXT.Planet;
         };
 
-        MizarWidgetAPI.prototype.isGroundContext = function() {
+        MizarWidgetAPI.prototype.isGroundContext = function () {
             return this.getMode() === Mizar.CONTEXT.Ground;
         };
 
 
-        MizarWidgetAPI.prototype.createMarsContext = function() {
+        MizarWidgetAPI.prototype.createMarsContext = function () {
             this.unsubscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
             $(mizarDiv).find('#loading').show();
             var userOptions = this.options;
-            var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "mars" });
-            if(selectedCtx === undefined) {
+            var selectedCtx = _.find(this.options.ctx, function (obj) { return obj.name === "mars" });
+            if (selectedCtx === undefined) {
                 throw "Unable to get the Mars context"
             }
             selectedCtx.context.init.isMobile = this.options.gui.isMobile;
             mizarAPI.createContext(Mizar.CONTEXT.Planet, selectedCtx.context.init);
             var self = this;
-            mizarAPI.toggleToContext(mizarAPI.getPlanetContext(), {"mustBeHidden":true,"callback":function(){
-                initGUI(self, self.getMode());
-                self.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
-            }});
+            mizarAPI.toggleToContext(mizarAPI.getPlanetContext(), {
+                "mustBeHidden": true, "callback": function () {
+                    initGUI(self, self.getMode());
+                    self.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
+                }
+            });
             loadNoStandardPlanetProviders();
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
-                mizarAPI.addLayer(layer, function(layerID) {
+                mizarAPI.addLayer(layer, function (layerID) {
                     var myLayer = mizarAPI.getLayerByID(layerID);
-                    if(myLayer.getType() === Constants.LAYER.WCSElevation) {
+                    if (myLayer.getType() === Constants.LAYER.WCSElevation) {
                         mizarAPI.setBaseElevationByID(layerID);
                     }
                 });
@@ -735,23 +768,25 @@ define(["jquery", "underscore-min",
 
         };
 
-        MizarWidgetAPI.prototype.createCuriosityContext = function() {
+        MizarWidgetAPI.prototype.createCuriosityContext = function () {
             this.unsubscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
             $(mizarDiv).find('#loading').show();
             var userOptions = this.options;
-            var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "curiosity" });
+            var selectedCtx = _.find(this.options.ctx, function (obj) { return obj.name === "curiosity" });
             selectedCtx.context.init.isMobile = this.options.gui.isMobile;
             mizarAPI.createContext(Mizar.CONTEXT.Ground, selectedCtx.context.init);
             var self = this;
-            mizarAPI.toggleToContext(mizarAPI.getGroundContext(),{"mustBeHidden":true, "callback":function() {
-                initGUI(self, self.getMode());
-                self.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
-            }});
+            mizarAPI.toggleToContext(mizarAPI.getGroundContext(), {
+                "mustBeHidden": true, "callback": function () {
+                    initGUI(self, self.getMode());
+                    self.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
+                }
+            });
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
-                mizarAPI.addLayer(layer, function(layerID) {
+                mizarAPI.addLayer(layer, function (layerID) {
                     var myLayer = mizarAPI.getLayerByID(layerID);
-                    if(myLayer.getType() === Constants.LAYER.WCSElevation) {
+                    if (myLayer.getType() === Constants.LAYER.WCSElevation) {
                         mizarAPI.setBaseElevationByID(layerID);
                     }
                 });
@@ -759,23 +794,25 @@ define(["jquery", "underscore-min",
             self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
         };
 
-        MizarWidgetAPI.prototype.createSunContext = function() {
+        MizarWidgetAPI.prototype.createSunContext = function () {
             this.unsubscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
             $(mizarDiv).find('#loading').show();
             var userOptions = this.options;
-            var selectedCtx = _.find(this.options.ctx, function(obj) { return obj.name === "sun" });
+            var selectedCtx = _.find(this.options.ctx, function (obj) { return obj.name === "sun" });
             selectedCtx.context.init.isMobile = this.options.gui.isMobile;
             mizarAPI.createContext(Mizar.CONTEXT.Planet, selectedCtx.context.init);
             var self = this;
-            mizarAPI.toggleToContext(mizarAPI.getPlanetContext(),{"mustBeHidden":true, "callback":function() {
-                initGUI(self, self.getMode());
-                self.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
-            }});
+            mizarAPI.toggleToContext(mizarAPI.getPlanetContext(), {
+                "mustBeHidden": true, "callback": function () {
+                    initGUI(self, self.getMode());
+                    self.subscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
+                }
+            });
             for (var i = 0; i < selectedCtx.context.layers.length; i++) {
                 var layer = selectedCtx.context.layers[i];
-                mizarAPI.addLayer(layer, function(layerID) {
+                mizarAPI.addLayer(layer, function (layerID) {
                     var myLayer = mizarAPI.getLayerByID(layerID);
-                    if(myLayer.getType() === Constants.LAYER.WCSElevation) {
+                    if (myLayer.getType() === Constants.LAYER.WCSElevation) {
                         mizarAPI.setBaseElevationByID(layerID);
                     }
                 });
@@ -783,15 +820,15 @@ define(["jquery", "underscore-min",
             self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
         };
 
-        MizarWidgetAPI.prototype.toggleToSky = function() {
+        MizarWidgetAPI.prototype.toggleToSky = function () {
             $(mizarDiv).find('#loading').show();
             var ctx;
-            if(mizarAPI.getMode() === Mizar.CONTEXT.Planet) {
+            if (mizarAPI.getMode() === Mizar.CONTEXT.Planet) {
                 ctx = mizarAPI.getSkyContext();
-            } else if(mizarAPI.getMode() === Mizar.CONTEXT.Ground) {
+            } else if (mizarAPI.getMode() === Mizar.CONTEXT.Ground) {
                 ctx = mizarAPI.getPlanetContext();
             }
-            mizarAPI.toggleToContext(ctx,{mustBeDestroyed:true});
+            mizarAPI.toggleToContext(ctx, { mustBeDestroyed: true });
             self.mizarWidgetGui.setUpdatedActivatedContext(self.getContext());
         };
 
@@ -808,38 +845,38 @@ define(["jquery", "underscore-min",
                 type: Mizar.LAYER.GeoJSON,
                 pickable: true,
                 deletable: true,
-                visible:true
-            }, function(layerID) {
-                var layer =  mizarAPI.getLayerByID(layerID);
+                visible: true
+            }, function (layerID) {
+                var layer = mizarAPI.getLayerByID(layerID);
                 layer.addFeatureCollection(GeoJson);
             });
         };
 
-        MizarWidgetAPI.prototype.getLayers = function() {
+        MizarWidgetAPI.prototype.getLayers = function () {
             return mizarAPI.getLayers();
         };
 
-        MizarWidgetAPI.prototype.removeLayer = function(layerID) {
+        MizarWidgetAPI.prototype.removeLayer = function (layerID) {
             return mizarAPI.removeLayer(layerID);
         };
 
-        MizarWidgetAPI.prototype.getLayerByName = function(name) {
+        MizarWidgetAPI.prototype.getLayerByName = function (name) {
             return mizarAPI.getLayerByName(name);
         };
 
-        MizarWidgetAPI.prototype.getLayerByID = function(ID) {
+        MizarWidgetAPI.prototype.getLayerByID = function (ID) {
             return mizarAPI.getLayerByID(ID);
         };
 
-        MizarWidgetAPI.prototype.setBackgroundLayer = function(name) {
+        MizarWidgetAPI.prototype.setBackgroundLayer = function (name) {
             return mizarAPI.setBackgroundLayer(name);
         };
 
-        MizarWidgetAPI.prototype.hasSkyContext = function() {
+        MizarWidgetAPI.prototype.hasSkyContext = function () {
             return mizarAPI.getSkyContext() != null;
         };
 
-        MizarWidgetAPI.prototype.hasPlanetContext = function() {
+        MizarWidgetAPI.prototype.hasPlanetContext = function () {
             return mizarAPI.getPlanetContext() != null;
         };
 
