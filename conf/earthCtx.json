@@ -45,7 +45,7 @@
       //"layers": "BlueMarble",
       "visible": true,
       "background": true
-    },/*
+    },
     {
       "category": "Other",
       "type": "Atmosphere",
@@ -82,14 +82,12 @@
     {
       "type": "WMTS",
       "baseUrl" : "http://peps-vizo.cnes.fr:8083/mapcache/wmts",
-      //"baseUrl":"http://peps-vizo.cnes.fr:8083/mapcache/wmts",
-      //"getCapabilities":"http://gis.sinica.edu.tw/worldmap/wmts",
       "version": "1.0.0.0",
       "layers": "s2rgb_4326",
       "matrixSet":"WGS84",
       "visible": false,
       "category": "PEPS"
-    },*/
+    },
     {
       "category": "NIGER",
       "type": "WMS",

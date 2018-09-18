@@ -1,7 +1,6 @@
 {
   "global": {
-    "sitoolsBaseUrl": "http://demonstrator.telespazio.com/sitools",
-    "proxyUrl": "http://localhost:8080/?url=",
+    "proxyUrl": "http://localhost:8081/?url=",
     "proxyUse": false
   },
   "gui": {
@@ -53,5 +52,5 @@
       "context": "./sunCtx.json"
     }
   ],
-  "defaultCtx": "sky"
+  "defaultCtx": "earth"
 }
