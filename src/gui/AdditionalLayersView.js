@@ -439,7 +439,8 @@ define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./Dyn
          *    Create the Html for addtionnal layer
          */
         function createHtmlForAdditionalLayer(gwLayer, categoryId) {
-            if (typeof gwLayer === 'undefined') {
+            if (typeof gwLayer === 'undefined' || (gwLayer.getType() === mizarWidgetAPI.LAYER.Vector && gwLayer.isDraw() )) {
+                // returns when undefined or a draw such as selection, arrow to represent a distance, ... something which is not a data
                 return;
             }
             /*var shortName = UtilsCore.formatId(gwLayer.name);

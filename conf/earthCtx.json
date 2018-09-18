@@ -144,7 +144,8 @@
       "background": false,
       "transparent": true,
       "format": "image/png",
-      "layers": "Mediterranean"
+      "layers": "Mediterranean",
+      "autoFillTimeTravel" : true
     },
     {
       "category": "INDIA",

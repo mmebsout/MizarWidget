@@ -356,21 +356,17 @@ define(["jquery", "underscore-min",
                             });
                     }
                 });
-                if ((options) && (options.global) && (options.global.displayWarning === true)) {
-                    ErrorDialog.setDisplayWarning(true);
-                    ErrorDialog.setDisplayDebug(true);
-                    ErrorDialog.setIcon('#warningButton');
-                    $('#warningButton').on('click', function () {
-                        if (ErrorDialog.isActive() === true) {
-                            ErrorDialog.hide();
-                        } else {
-                            ErrorDialog.view();
-                        }
-                    })
-                } else {
-                    ErrorDialog.setDisplayWarning(false);
-                }
 
+
+            	ErrorDialog.setIcon('#warningButton');
+            	$('#warningButton').on('click', function () {
+        	  if (ErrorDialog.isActive() === true) {
+                      ErrorDialog.hide();
+                  } else {
+                      ErrorDialog.view();
+                  }
+            	})
+   
             }
          };
 
