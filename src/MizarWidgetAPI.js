@@ -264,6 +264,18 @@ define(["jquery", "underscore-min",
         };
 
         /**
+         * Update mode according to the CRS.
+         * @param {Object} ctxList 
+         */
+        var updateMode = function(ctxList) {
+            var crs;
+            for (ctx in ctxList) {
+                crs = ctxList[ctx].context.init.coordinateSystem.geoideName;
+                ctxList[ctx].mode = Mizar.CRS_TO_CONTEXT[crs];
+            }
+        }
+
+        /**
          * Entry point to manage Mizar Widget.
          * @param div Div to use for the Widget
          * @param userOptions Configuration properties for the Widget
@@ -280,6 +292,9 @@ define(["jquery", "underscore-min",
 
             // Loads all context files that are defined in mizarWidget.json
             userOptions.ctx = this._loadConfigFiles(mizarBaseUrl, userOptions.ctx);
+
+            // Update mode (Planet, Sky, Ground) according to the CRS (geoideName)
+            updateMode(userOptions.ctx);
 
             // Retrieves the div element.
             mizarDiv = (typeof div === "string") ? document.getElementById(div) : div;
