@@ -26,11 +26,11 @@ define(["jquery", "service/gui/OpenSearchService", "../service/gui/MocService", 
     function ($, OpenSearchService, MocService, XMatchService, HEALPixCutService) {
 
         var layerServiceView = '<div id="layerServiceView" title="Available services">\
-							<div id="layerServices">\
-								<ul>\
-								</ul>\
-							</div>\
-						</div>';
+							        <div id="layerServices">\
+								        <ul>\
+								        </ul>\
+							        </div>\
+						        </div>';
 
 // jQuery selectors
         var $layerServiceView;
@@ -39,7 +39,7 @@ define(["jquery", "service/gui/OpenSearchService", "../service/gui/MocService", 
         var services = [OpenSearchService, MocService, XMatchService];
 
         var serviceMapping = {
-            "OpenSearch": OpenSearchService,
+            "queryForm": OpenSearchService,
             "Moc": MocService,
             "XMatch": XMatchService,
             "HEALPixCut": HEALPixCutService
@@ -76,8 +76,8 @@ define(["jquery", "service/gui/OpenSearchService", "../service/gui/MocService", 
 			if (service == null) {
 				serviceAdded = false;
 			} else {
-				service.addLayer(layer);
-				service.addService(tabs, key);
+                service.initTab(tabs);
+				service.addService(tabs, layer);
 				serviceAdded = true;
 			} 
 			return serviceAdded;
@@ -93,8 +93,9 @@ define(["jquery", "service/gui/OpenSearchService", "../service/gui/MocService", 
 			if (service == null) {
 				serviceRemoved = false;
 			} else {
-                service.removeLayer(currentLayer);
-                service.removeService(tabs, key);
+                //service.removeLayer(currentLayer);
+                service.removeService(tabs, layer);
+                service.destroyTab();
 				serviceRemoved = true;
 			} 
 			return serviceRemoved;
@@ -104,26 +105,18 @@ define(["jquery", "service/gui/OpenSearchService", "../service/gui/MocService", 
          *    Removes services from GUI
          */
 		function removesServicesFromGUI(currentLayer, tabs) {		
-			if (currentLayer.type === "OpenSearch") {
-				removeServiceFromGUI(currentLayer, tabs, "OpenSearch");
-			} else {
-                Object.keys(currentLayer.getServices()).forEach(function (key) {
-					removeServiceFromGUI(currentLayer, tabs, key);
-                });
-			}
+            Object.keys(currentLayer.getServices()).forEach(function (key) {
+                removeServiceFromGUI(currentLayer, tabs, key);
+            });
 		}
 
         /**
          *    Creates services to GUI
          */
 		function createServicesToGUI(layer, tabs) {
-			if (layer.type === "OpenSearch") {
-				addServiceToGUI(layer, tabs, "OpenSearch");               					
-			} else {
-	            Object.keys(layer.getServices()).forEach(function (key) {
-					addServiceToGUI(layer, tabs, key);
-	            });
-			}
+            Object.keys(layer.getServices()).forEach(function (key) {
+                addServiceToGUI(layer, tabs, key);
+            });			
 		}		
 
         return {

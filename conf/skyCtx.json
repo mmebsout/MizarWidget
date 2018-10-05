@@ -36,6 +36,14 @@
       "background": true
     },
     {
+      "category": "PEPS",
+      "type": "OpenSearch",
+      "baseUrl": "https://peps.cnes.fr/resto/api/collections/S1/describe.xml",
+      "color": "yellow",
+      "opacity": 20,
+      "visible": false
+    },
+    {
       "category": "Other",
       "type": "GeoJSON",
       "name": "Constellations",

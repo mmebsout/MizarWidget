@@ -2,7 +2,6 @@
     <table>
     <tr>
     <%
-    var finalScript = "";
     cpt = -1;
     for(var i=0; i<layer.getServices().queryForm.parameters.length; i++)
     {
@@ -32,9 +31,8 @@
         <%
       } else if (parameter.type === "datetime") {
         %>
-        <input type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> class="datetimepicker" value="<%= parameter.currentValue %>"></input>
+        <input type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> class="datetimepicker" value="<%= parameter.currentValue %>" autocomplete="off"></input>
         <%
-        //finalScript += "$(\"#p_"+parameter.name+"\" ).datetimepicker({yearOffset:222,lang:'ch',timepicker:false,format:'d/m/Y',formatDate:'Y/m/d',minDate:'-1970/01/02',maxDate:'+1970/01/02'});";
       } else if (parameter.type === "number") {
         %>
         <input size="8" type="text" id="p_<%= parameter.name %>" <%= parameter.titleAttribute %> <%= parameter.patternAttribute %> name="<%= parameter.name %>" value="<%= parameter.currentValue %>">
@@ -60,29 +58,5 @@
     %>
       </tr>
     </table>
-
-    <input onclick="document.currentOpenSearchLayer['<%= layer.getID() %>'].submit()" class="submit" type="button" id="submit" value="Save parameters"/>
-    <script>
-    function apply() {
-      var res = [];
-      <%
-      for(var i=0; i<layer.getServices().queryForm.parameters.length; i++) {
-      %>
-        var p_<%= layer.getServices().queryForm.parameters[i].name %> = $("#p_<%= layer.getServices().queryForm.parameters[i].name %>");
-        if (typeof p_<%= layer.getServices().queryForm.parameters[i].name %>.length === 'number') {
-          if (p_<%= layer.getServices().queryForm.parameters[i].name %>.length>0) {
-            if ((typeof p_<%= layer.getServices().queryForm.parameters[i].name %>[0].value !== 'undefined') && (p_<%= layer.getServices().queryForm.parameters[i].name %>[0].value.length>0)) {
-              res["<%= layer.getServices().queryForm.parameters[i].name %>"] = p_<%= layer.getServices().queryForm.parameters[i].name %>[0].value;
-            }
-          }
-        }
-      <%
-      }
-      %>
-    }
-
-    $( function() {
-    //<%= finalScript %>
-    } );
-  </script>
-</form>
+    <button class="submitFormParams" id="submitFormParams">Save parameters</button>
+  </form>

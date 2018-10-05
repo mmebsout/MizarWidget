@@ -82,6 +82,10 @@ define(["jquery", "underscore-min", "../../utils/UtilsCore", "text!templates/moc
 
             /**************************************************************************************************************/
 
+            initTab: function (tabs) {
+                
+            },
+
             /**
              *    Add layer to the service
              *    TODO : remove the layers and the MOC in mizarAPI

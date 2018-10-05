@@ -35,7 +35,7 @@ define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./Dyn
         };
         var isMobile = false;
 
-// Template generating the additional layer div in sidemenu
+        // Template generating the additional layer div in sidemenu
         var additionalLayerTemplate = _.template(additionalLayerHTMLTemplate);
 
         /**************************************************************************************************************/
@@ -566,9 +566,10 @@ define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./Dyn
         /**
          *    Go to open search next page
          */
-        function nextPage(ID) {
-            if (document.currentOpenSearchLayer[ID]) {
-                document.currentOpenSearchLayer[ID].nextPage();
+        function nextPage() {
+            var layer = $(this).closest(".addLayer").data("layer");
+            if (layer !== null) {
+                layer.nextPage();
             }
         }
 
@@ -674,9 +675,8 @@ define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./Dyn
                 .on('click', '.category .downloadAsVO', downloadAsVO)
                 .on('click', '.removeWMS', removeWms)
                 .on("click", ".category .zoomTo", zoomTo)
-                .on('click', '.category .isFits', toggleFits);
-            //.on('click', '.category .osNext', nextPage);
-
+                .on('click', '.category .isFits', toggleFits)
+                .on('click', '.category .osNext', nextPage);
         }
 
         /**************************************************************************************************************/
@@ -765,8 +765,8 @@ define(["jquery", "moment", "./AdditionalLayersCore", "./PickingManager", "./Dyn
                     .off('click', '.category .downloadAsVO', downloadAsVO)
                     .off('click', '.featureService .removeWMS', removeWms)
                     .off("click", ".category .zoomTo", zoomTo)
-                    .off('click', '.category .isFits', toggleFits);
-                //.off('click', ".category .osNext", nextPage);
+                    .off('click', '.category .isFits', toggleFits)
+                    .off('click', ".category .osNext", nextPage);
 
                 // Remove all created dialogs
                 var layers = mizarWidgetAPI.getLayers();
