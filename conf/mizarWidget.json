@@ -1,7 +1,7 @@
 {
   "global": {
     "proxyUrl": "http://localhost:8081/?url=",
-    "proxyUse": true
+    "proxyUse": false
   },
   "gui": {
     "isMobile": true,
