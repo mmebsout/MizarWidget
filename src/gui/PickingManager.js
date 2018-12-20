@@ -92,7 +92,7 @@ define(["jquery", "underscore-min",
                 var pickPoint = mizarWidgetAPI.getContext().getLonLatFromPixel(event.layerX, event.layerY);
                 // Remove selected style for previous selection
                 pickingManagerCore.clearSelection();
-                var newSelection = pickingManagerCore.computePickSelection(pickPoint);
+                var newSelection = pickingManagerCore.computePickSelection(pickPoint, {eventPos: [event.layerX, event.layerY]});
 
                 if (!_.isEmpty(newSelection) && newSelection.length > 0) {
                     var navigation = mizarWidgetAPI.getNavigation();
@@ -134,7 +134,23 @@ define(["jquery", "underscore-min",
                         else {
                             var currentDistance = navigation.getDistance();
                             var targetDistance = (currentDistance < DISTANCE_MAX) ? currentDistance : DISTANCE_MAX;
-                            navigation.zoomTo(pickPoint, {distance: targetDistance, duration: DURATION_TIME, callback: showPopup});
+                            if (false) {
+                                if (pickPoint) {
+                                    navigation.zoomTo(pickPoint, {distance: targetDistance, duration: DURATION_TIME, callback: showPopup});
+                                } else {
+                                    showPopup();
+                                }
+                            } else {
+                                var zoomToPoint = pickPoint;
+                                if (!pickPoint) {
+                                    for (var selection of newSelection) {
+                                        if (selection.feature.geometry.type === "Point") {
+                                            zoomToPoint = selection.feature.geometry.coordinates;
+                                        }
+                                    }
+                                }
+                                navigation.zoomTo(zoomToPoint, {distance: targetDistance, duration: DURATION_TIME, callback: showPopup});
+                            }
                         }
                     });
                 } else {
