@@ -14,17 +14,16 @@
     "visible": false
   },
   "layers": [
-    {
+   {
       "type": "WCSElevation",
       "name": "Elevation Mont Blanc",
       "baseUrl": "http://80.158.6.138/mapserv?map=WMS_SRTM",
-      //"baseUrl": "http://80.158.6.138/mapserv?map=WMS_MONT_BLANC_ELEV",
       "coverage": "SRTM",
-      //"coverage": "MNT_Mont_Blanc",
       "version": "1.0.0",
       "minElevation": -150,
-      "scale": 10
-    },
+      "scale": 10,
+      "minLevel": 4
+   },
     /*{
       "type": "WMTS",
       "name": "TEST",
@@ -39,10 +38,7 @@
     {
       "type": "WMS",
       "name": "Blue Marble",
-      //"baseUrl": "http://localhost/cgi-bin/mapserv?map=/home/malapert/data/Earth/earth.map",
       "baseUrl":"http://80.158.6.138/mapserv?map=WMS_BLUEMARBLE",
-      //"baseUrl": "http://demonstrator.telespazio.com/wmspub",
-      //"layers": "BlueMarble",
       "visible": true,
       "background": true
     },
