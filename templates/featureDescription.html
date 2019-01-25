@@ -24,7 +24,7 @@
         if ( properties.quicklook ) {
         %>
         <span class="featureService" title="Quicklook" id='quicklook'
-              class="<%= (properties.quicklook && properties.style.fill ? 'selected' : '' ) %>">
+              class="<%= (properties.quicklook && properties.style && properties.style.fill ? 'selected' : '' ) %>">
         </span>
         <% }
         if ( services ) {

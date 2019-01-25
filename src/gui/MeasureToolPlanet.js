@@ -62,7 +62,8 @@ define(["jquery", "jquery.ui"],
                     return;
                 }
                 mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolPlanet)._handleMouseUp(event);
-                if(mizarWidgetAPI.getMizarAPI().getBaseElevation() != null) {
+                var baseElevation = mizarWidgetAPI.getMizarAPI().getBaseElevation();
+                if(baseElevation != null && baseElevation.isRequested()) {
                     $.proxy(self.displayButtonElevation(event), self);
                 }
 
