@@ -175,7 +175,7 @@ define(["jquery", "underscore-min",
             }
 
             // Hide popup and blur selection when pan/zoom or animation
-            mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_MODIFIED, function () {
+            mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_STARTED, function () {
                 pickingManagerCore.clearSelection();
                 FeaturePopup.hide();
             });
@@ -196,7 +196,7 @@ define(["jquery", "underscore-min",
             }
 
             // Hide popup and blur selection when pan/zoom or animation
-            mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_MODIFIED, function () {
+            mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_STARTED, function () {
                 pickingManagerCore.clearSelection();
                 FeaturePopup.hide();
             });
