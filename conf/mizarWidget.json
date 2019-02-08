@@ -50,6 +50,11 @@
       "name": "sun",
       "mode": "Planet",
       "context": "./sunCtx.json"
+    },
+    {
+      "name": "titan",
+      "mode": "Planet",
+      "context": "./titanCtx.json"
     }
   ],
   "defaultCtx": "earth"
