@@ -142,10 +142,11 @@ define(["jquery", "underscore-min",
                                 }
                             } else {
                                 var zoomToPoint = pickPoint;
-                                if (!pickPoint) {
+                                if (!zoomToPoint) {
                                     for (var selection of newSelection) {
                                         if (selection.feature.geometry.type === "Point") {
                                             zoomToPoint = selection.feature.geometry.coordinates;
+                                            if (zoomToPoint) break;
                                         }
                                     }
                                 }
