@@ -149,7 +149,7 @@ define(["jquery", "underscore-min",
                                         }
                                     }
                                 }
-                                navigation.zoomTo(zoomToPoint, {distance: targetDistance, duration: DURATION_TIME, callback: showPopup});
+                                navigation.zoomTo(zoomToPoint, {duration: DURATION_TIME, callback: showPopup});
                             }
                         }
                     });
