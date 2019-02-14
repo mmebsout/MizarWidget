@@ -142,14 +142,15 @@ define(["jquery", "underscore-min",
                                 }
                             } else {
                                 var zoomToPoint = pickPoint;
-                                if (!pickPoint) {
+                                if (!zoomToPoint) {
                                     for (var selection of newSelection) {
                                         if (selection.feature.geometry.type === "Point") {
                                             zoomToPoint = selection.feature.geometry.coordinates;
+                                            if (zoomToPoint) break;
                                         }
                                     }
                                 }
-                                navigation.zoomTo(zoomToPoint, {distance: targetDistance, duration: DURATION_TIME, callback: showPopup});
+                                navigation.zoomTo(zoomToPoint, {duration: DURATION_TIME, callback: showPopup});
                             }
                         }
                     });
@@ -175,7 +176,7 @@ define(["jquery", "underscore-min",
             }
 
             // Hide popup and blur selection when pan/zoom or animation
-            mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_MODIFIED, function () {
+            mizarWidgetAPI.subscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_STARTED, function () {
                 pickingManagerCore.clearSelection();
                 FeaturePopup.hide();
             });
@@ -196,7 +197,7 @@ define(["jquery", "underscore-min",
             }
 
             // Hide popup and blur selection when pan/zoom or animation
-            mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_MODIFIED, function () {
+            mizarWidgetAPI.unsubscribeCtx(mizarWidgetAPI.EVENT_MSG.NAVIGATION_STARTED, function () {
                 pickingManagerCore.clearSelection();
                 FeaturePopup.hide();
             });
