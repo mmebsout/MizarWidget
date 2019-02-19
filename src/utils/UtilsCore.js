@@ -20,8 +20,8 @@
 /**
  * Utility module : contains various functions useful for differnt modules
  */
-define(["wcs", "gw/Utils/Constants"],
-    function (wcs, Constants) {
+define(["wcs", "gw/Mizar"],
+    function (wcs, Mizar) {
 
         var mizarWidgetAPI;
         var votable2geojsonUrl;
@@ -455,25 +455,25 @@ define(["wcs", "gw/Utils/Constants"],
             // Functions used by Mizar_Gui to avoid direct dependencies to GlobWeb
 
             isHipsFitsLayer: function (obj) {
-                return (obj.type ==  Constants.LAYER.Hips && obj.fitsSupported == true);
+                return (obj.type ==  Mizar.LAYER.Hips && obj.fitsSupported == true);
             },
             isHipsLayer: function (obj) {
-                return (obj.type ==  Constants.LAYER.Hips && obj.fitsSupported == false);
+                return (obj.type ==  Mizar.LAYER.Hips && obj.fitsSupported == false);
             },
             isOpenSearchLayer: function (obj) {
-                return (obj.type == Constants.LAYER.OpenSearch);
+                return (obj.type == Mizar.LAYER.OpenSearch);
             },
             isVectorLayer: function (obj) {
-                return (obj.type == Constants.LAYER.Vector);
+                return (obj.type == Mizar.LAYER.Vector);
             },
             isGeoJsonLayer: function (obj) {
-                return (obj.type == Constants.LAYER.GeoJSON);
+                return (obj.type == Mizar.LAYER.GeoJSON);
             },
             isMocLayer: function (obj) {
-                return (obj.type == Constants.LAYER.Moc);
+                return (obj.type == Mizar.LAYER.Moc);
             },
             isHipsCatLayer: function (obj){
-                return (obj.type == Constants.LAYER.HipsCat);
+                return (obj.type == Mizar.LAYER.HipsCat);
             },
 
             /**

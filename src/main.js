@@ -55,7 +55,8 @@ require.config({
         "xmltojson": "../node_modules/xmltojson/lib/xmlToJSON.min",
         "wms-capabilities": "../node_modules/wms-capabilities/dist/wms-capabilities",
         "moment": "../node_modules/moment/min/moment.min",
-
+        "jsvotable": "../external/Mizar/node_modules/jsvotable/JsVotable.min",	    
+        "jscsv": "../external/Mizar/node_modules/jscsv/JsCsv.min",
 
         // Mizar Core requirements
         "gw": "../external/Mizar/src",

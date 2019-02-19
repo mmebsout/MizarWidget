@@ -4,11 +4,11 @@
 define(["jquery", "underscore-min",
     "./utils/UtilsCore", "MizarWidgetGui",
     "./uws/UWSManager",
-    "gw/Mizar", "gw/Utils/Constants", "gw/Gui/dialog/ErrorDialog", "text!templates/mizarCore.html", "gui/LayerManagerView"],
+    "gw/Mizar", "gw/Gui/dialog/ErrorDialog", "text!templates/mizarCore.html"],
     function ($, _,
         UtilsCore, MizarWidgetGui,
         UWSManager,
-        Mizar, Constants, ErrorDialog, mizarCoreHTML, LayerManagerView) {
+        Mizar, ErrorDialog, mizarCoreHTML) {
 
         // private variables.
         var mizarDiv;
@@ -417,7 +417,7 @@ define(["jquery", "underscore-min",
                                 //console.log("time from API:"+dimension.time.value);
                             }
                         }
-                        if (myLayer.type === Constants.LAYER.WCSElevation) {
+                        if (myLayer.type === Mizar.LAYER.WCSElevation) {
                             mizarAPI.setBaseElevationByID(layerID);
                         }
                     },
@@ -774,7 +774,7 @@ define(["jquery", "underscore-min",
                 var layer = selectedCtx.context.layers[i];
                 mizarAPI.addLayer(layer, function (layerID) {
                     var myLayer = mizarAPI.getLayerByID(layerID);
-                    if (myLayer.getType() === Constants.LAYER.WCSElevation) {
+                    if (myLayer.getType() === Mizar.LAYER.WCSElevation) {
                         mizarAPI.setBaseElevationByID(layerID);
                     }
                 });
@@ -801,7 +801,7 @@ define(["jquery", "underscore-min",
                 var layer = selectedCtx.context.layers[i];
                 mizarAPI.addLayer(layer, function (layerID) {
                     var myLayer = mizarAPI.getLayerByID(layerID);
-                    if (myLayer.getType() === Constants.LAYER.WCSElevation) {
+                    if (myLayer.getType() === Mizar.LAYER.WCSElevation) {
                         mizarAPI.setBaseElevationByID(layerID);
                     }
                 });

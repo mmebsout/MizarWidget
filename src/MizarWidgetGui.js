@@ -130,9 +130,7 @@ define(["jquery", "underscore-min",
             // Initialize SAMP component
             // TODO : Bear in mind that a website may already implement specific SAMP logics, so check that
             // current samp component doesn't break existing SAMP functionality
-            if (!this.isMobile) {
-                Samp.init(mizarWidgetAPI, mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.FitsVisu), globalOptions.options);
-            }
+            Samp.init(mizarWidgetAPI, mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.Samp), globalOptions.options);            
 
             this.addMouseEvents();
 
@@ -263,9 +261,7 @@ define(["jquery", "underscore-min",
          */
         //TODO décrire visible
         MizarWidgetGui.prototype.setSampGui = function (visible) {
-            if (!options.isMobile) {
-                this.activatedContext.setComponentVisibility("sampContainer", visible);
-            }
+            this.activatedContext.setComponentVisibility("sampContainer", visible);            
         };
 
         /**
