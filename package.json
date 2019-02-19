@@ -69,7 +69,7 @@
     "requirejs": "^2.3.2",
     "requirejs-plugins": "^1.0.2",
     "string": "^3.3.3",
-    "underscore": "1.6.0",
+    "underscore": "^1.6.0",
     "wms-capabilities": "^0.3.4",
     "xmltojson": "^1.1.0"
   },

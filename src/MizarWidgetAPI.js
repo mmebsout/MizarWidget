@@ -11,7 +11,6 @@ define(["jquery", "underscore-min",
         Mizar, ErrorDialog, mizarCoreHTML) {
 
         // private variables.
-        var mizarDiv;
         var options;
         var mizarAPI;
         var self;
@@ -253,8 +252,8 @@ define(["jquery", "underscore-min",
         }
 
         function RenderingGlobeFinished() {
-            $(mizarDiv).find('#loading').hide();
-            $(mizarDiv).find('#splash').hide();
+            $(self.div).find('#loading').hide();
+            $(self.div).find('#splash').hide();
         }
 
         var getUniqueId = function (prefix) {
@@ -284,6 +283,8 @@ define(["jquery", "underscore-min",
          */
         var MizarWidgetAPI = function (div, userOptions, callbackInitMain) {
 
+            this.div = '#'+div;
+
             // Retrieves the Mizar's URL
             var mizarBaseUrl = getMizarUrl();
 
@@ -297,7 +298,6 @@ define(["jquery", "underscore-min",
             updateMode(userOptions.ctx);
 
             // Retrieves the div element.
-            mizarDiv = (typeof div === "string") ? document.getElementById(div) : div;
             self = this;
 
             // Merge default options with user options
@@ -305,12 +305,12 @@ define(["jquery", "underscore-min",
 
             // Create mizar core HTML
             var mizarContent = _.template(mizarCoreHTML, {});
-            $(mizarContent).appendTo(mizarDiv);
+            $(this.div).append(mizarContent);
             _applySharedParameters(options);
 
             // Call Mizar
             mizarAPI = new Mizar({
-                canvas: $(mizarDiv).find('#GlobWebCanvas')[0],
+                canvas: $(this.div).find('#GlobWebCanvas')[0],
                 configuration: {
                     "mizarBaseUrl": this.options.global.mizarBaseUrl,
                     "debug": this.options.gui.debug,
@@ -336,7 +336,7 @@ define(["jquery", "underscore-min",
                 mizarAPI.createContext(this.mode, selectedCtx.context.init);
 
                 // Create the API on which the GUI is used
-                this.mizarWidgetGui = new MizarWidgetGui(mizarDiv, {
+                this.mizarWidgetGui = new MizarWidgetGui(this.div, {
                     mizarWidgetAPI: this,
                     options: this.options
                 });
@@ -754,7 +754,7 @@ define(["jquery", "underscore-min",
 
         MizarWidgetAPI.prototype.createMarsContext = function () {
             this.unsubscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
-            $(mizarDiv).find('#loading').show();
+            $(this.div).find('#loading').show();
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function (obj) { return obj.name === "mars" });
             if (selectedCtx === undefined) {
@@ -785,7 +785,7 @@ define(["jquery", "underscore-min",
 
         MizarWidgetAPI.prototype.createCuriosityContext = function () {
             this.unsubscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
-            $(mizarDiv).find('#loading').show();
+            $(this.div).find('#loading').show();
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function (obj) { return obj.name === "curiosity" });
             selectedCtx.context.init.isMobile = this.options.gui.isMobile;
@@ -811,7 +811,7 @@ define(["jquery", "underscore-min",
 
         MizarWidgetAPI.prototype.createSunContext = function () {
             this.unsubscribeCtx(Mizar.EVENT_MSG.BASE_LAYERS_READY, RenderingGlobeFinished);
-            $(mizarDiv).find('#loading').show();
+            $(this.div).find('#loading').show();
             var userOptions = this.options;
             var selectedCtx = _.find(this.options.ctx, function (obj) { return obj.name === "sun" });
             selectedCtx.context.init.isMobile = this.options.gui.isMobile;
@@ -836,7 +836,7 @@ define(["jquery", "underscore-min",
         };
 
         MizarWidgetAPI.prototype.toggleToSky = function () {
-            $(mizarDiv).find('#loading').show();
+            $(this.div).find('#loading').show();
             var ctx;
             if (mizarAPI.getMode() === Mizar.CONTEXT.Planet) {
                 ctx = mizarAPI.getSkyContext();

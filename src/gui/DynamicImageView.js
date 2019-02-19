@@ -51,9 +51,10 @@ define(['jquery', "underscore-min", "./Histogram", "uws/UWSManager", "uws/Animat
             // Create dialog
             var self = this;
 
-            var imageViewContent = _.template(dynamicImageViewHTML, {id: this.id});
+            var imageViewContent = _.template(dynamicImageViewHTML);
             this.$element = $('#' + element);
-            this.$element.html(imageViewContent);
+            this.$element.html(imageViewContent({id: this.id}));
+
 
             // Initialize contrast buttonset
             this.$element.find('.contrast').buttonset().find('input')

@@ -32,7 +32,7 @@ require.config({
         "jquery-mousewheel": "../node_modules/jquery-mousewheel/jquery.mousewheel",
         "php-date-formatter":"../node_modules/php-date-formatter/js/php-date-formatter.min",
         "jquery.once": "../external/jquery-once/jquery.once.min",
-        "underscore-min": "../external/underscore/underscore",
+        "underscore-min": "../node_modules/underscore/underscore-min",
         "jszip": "../external/jszip/jszip.min",
         "saveAs": "../external/fileSaver/FileSaver.min",
         "jquery.nicescroll.min": "../external/jquery.nicescroll/dist/jquery.nicescroll.min",
