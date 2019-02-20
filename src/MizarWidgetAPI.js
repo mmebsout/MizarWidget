@@ -423,9 +423,18 @@ define(["jquery", "underscore-min",
                     },
                     function (e) {
                         console.error(e);
+                        var layerDescription = e.layerDescription;
+                        if(layerDescription.background) {
+                            $(self.div).find('#loading').hide();
+                            $(self.div).find('#splash').hide();
+                            $(self.div).find("canvas").hide();
+                            $(self.div).find("#navigationDiv").hide();
+                            $(self.div).find('#webGLContextLost').show();                            
+                        }                        
                     }
                 );
             }
+
         };
 
 
