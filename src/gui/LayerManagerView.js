@@ -236,13 +236,13 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                     votable2geojsonBaseUrl = configuration.votable2geojson.baseUrl;
                 }
             },
-            updateStatsAttributes: function(options) {
-                if (typeof options.nb_loaded !== "undefined") {
-                    $(".labelLoaded_"+options.shortName)[0].innerText = "loaded : "+ options.nb_loaded;
-                }
-                if (typeof options.nb_total !== "undefined") {
-                    $(".labelTotal_"+options.shortName)[0].innerText = "total : ~ "+ options.nb_total;
-                }
+            updateStatsAttributes: function(options) {                
+                // if (typeof options.nb_loaded !== "undefined") {
+                //     $(".labelLoaded_"+options.shortName)[0].innerText = "loaded : "+ options.nb_loaded;
+                // }
+                // if (typeof options.nb_total !== "undefined") {
+                //     $(".labelTotal_"+options.shortName)[0].innerText = "total : ~ "+ options.nb_total;
+                // }
                 if (typeof options.page !== "undefined") {
                     $(".labelPage_"+options.shortName)[0].innerText = "Page "+options.page;
                 }
