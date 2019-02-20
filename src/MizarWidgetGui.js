@@ -53,11 +53,8 @@ define(["jquery", "underscore-min",
         "./gui/PickingManager", "./gui/FeaturePopup",
         "./gui/IFrame",
         "./gui/MollweideViewer", "./gui/ImageViewer",
-        "./gui/AdditionalLayersView", "./gui/ImageManager",
         "./gui/MeasureToolSky", "./gui/MeasureToolPlanet", "./gui/DistanceNavigationView",
         "./gui/SwitchTo2D", "./gui/ExportTool",
-        "gui/dialog/AboutDialog",
-        "gui/dialog/ErrorDialog",
 
         // services
         "service/Share", "service/Samp",
@@ -74,10 +71,8 @@ define(["jquery", "underscore-min",
               PickingManager, FeaturePopup,
               IFrame,
               MollweideViewer, ImageViewer,
-              AdditionalLayersView, ImageManager,
               MeasureToolSky, MeasureToolPlanet,DistanceNavigationView,
               SwitchTo2D, ExportTool,
-              AboutDialog, ErrorDialog,
               Share, Samp, UtilsCore) {
 
         /**

@@ -52,9 +52,9 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
         function handleDrop(evt) {
             evt.stopPropagation();
             evt.preventDefault();
+            $.event.props.push('dataTransfer');
 
             var files = evt.dataTransfer.files; // FileList object.
-
 
             // Files is a FileList of File objects.
             loadLayersFromFITSFile(files);
@@ -128,8 +128,15 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
         function handleDragOver(evt) {
             evt.stopPropagation();
             evt.preventDefault();
-            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
         }
+
+        /**
+         *    Drag enter event
+         */
+        function handleDragEnter(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+        }        
 
         /**************************************************************************************************************/
 
@@ -204,6 +211,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
 
                 // Setup the drag & drop listeners.
                 $('canvas').on('dragover', handleDragOver);
+                $('canvas').on('dragenter', handleDragEnter);
                 $('canvas').on('drop', handleDrop);
 
                 // Layer manager invoker onclick animations
@@ -261,6 +269,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 mizarWidgetAPI.unsubscribeMizar(mizarWidgetAPI.EVENT_MSG.MIZAR_MODE_TOGGLE, this.toggleMode);
 
                 $('canvas').off('dragover', handleDragOver);
+                $('canvas').off('dragenter', handleDragEnter);
                 $('canvas').off('drop', handleDrop);
             },
 

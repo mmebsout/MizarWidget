@@ -22,7 +22,7 @@
  * Tool designed to select areas on planet
  */
 
-define(["jquery", "underscore-min", "./PickingManager", "loadmask"],
+define(["jquery", "underscore-min", "./PickingManager"],
     function ($, _, PickingManager) {
 
 

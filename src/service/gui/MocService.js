@@ -21,8 +21,8 @@
 /**
  * Moc display & Moc xMatch services
  */
-define(["jquery", "underscore-min", "../../utils/UtilsCore", "text!templates/mocServiceItem.html"],
-    function ($, _, UtilsCore, mocServiceHTMLTemplate) {
+define(["jquery", "underscore-min", "text!templates/mocServiceItem.html"],
+    function ($, _, mocServiceHTMLTemplate) {
 
         // Template generating the services html
         var mocServiceTemplate = _.template(mocServiceHTMLTemplate);

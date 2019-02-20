@@ -21,8 +21,8 @@
 /**
  * Share url module : creating url with current navigation properties
  */
-define(["jquery", "service/ShareCore", "gui/dialog/ErrorDialog"],
-    function ($, ShareCore, ErrorDialog) {
+define(["jquery", "service/ShareCore"],
+    function ($, ShareCore) {
 
         /**
          * Init share mode

@@ -1,5 +1,5 @@
 {
-  "name": "MizarWidget",
+  "name": "mizarwidget",
   "version": "1.0.0",
   "description": "API of geographical and astronomical display and navigation (Widget)",
   "main": "./build/generated/MizarWidget.min.js",
@@ -18,11 +18,16 @@
     "jshint": "jshint -c ./.jshintrc  src/*",
     "start": "http-server -d -o",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node node_modules/requirejs/bin/r.js -o build/buildMizarWidget.js"
+    "build": "node node_modules/requirejs/bin/r.js -o build/buildMizarWidget.js",
+    "license": "license-checker --production --relativeLicensePath | awk 'NR > 5'",
+    "build:prod": "r.js -o build/buildMizarWidget.js && uglifyjs --compress --mangle -o MizarWidget.min.js2 MizarWidget.min.js && mv MizarWidget.min.js2 MizarWidget.min.js",
+    "build:dev": "r.js -o build/buildMizarWidget.js",
+    "build:css": "r.js -o cssIn=css/style.css out=css/style.min.css"
+
   },
   "repository": {
     "type": "git",
-    "url": "ToCreateOnGitHub"
+    "url": "https://github.com/MizarWeb/MizarWidget"
   },
   "keywords": [
     "astronomy",
@@ -35,6 +40,10 @@
     {
       "name": "Jean-Christophe Malapert",
       "email": "jean-christophe.malapert@cnes.fr"
+    },
+    {
+      "name": "Charly Mourglia",
+      "email": "charly.mourglia@diginext.fr"
     },
     {
       "name": "Fabien Lavignotte (TPZ & Diginext)"
@@ -59,25 +68,29 @@
   "license": "GPL-3.0",
   "dependencies": {
     "http-server": "^0.11.1",
-    "jquery": "1.11.1",
+    "jquery": "^2.2.4",
     "jquery-datetimepicker": "^2.5.16",
     "jquery-mousewheel": "^3.1.13",
+    "jquery-once": "^2.2.1",
     "jquery-ui-dist": "^1.12.1",
     "jquery-ui-timepicker-addon": "^1.6.3",
+    "jquery.nicescroll": "^3.7.6",
+    "microplugin": "0.0.3",
     "moment": "^2.22.2",
     "php-date-formatter": "^1.3.4",
     "requirejs": "^2.3.2",
     "requirejs-plugins": "^1.0.2",
+    "selectize": "^0.12.6",
+    "sifter": "^0.5.3",
     "string": "^3.3.3",
-    "underscore": "^1.9.1",
-    "wms-capabilities": "^0.3.4",
-    "xmltojson": "^1.1.0"
+    "underscore": "^1.9.1"
   },
   "devDependencies": {
     "ink-docstrap": "^1.3.0",
+    "license-checker": "^8.0.3",
     "jsdoc": "^3.4.3",
     "jshint": "^2.9.4",
     "jslint": "^0.10.3",
-    "uglify": "^0.1.5"
+    "uglify-es": "github:mishoo/UglifyJS2#harmony"
   }
 }
