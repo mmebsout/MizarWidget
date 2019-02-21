@@ -185,22 +185,6 @@ require(["jquery", "underscore-min", "./MizarWidget"], function ($, _, MizarWidg
     };
 
     /**
-     * Returns the parameters of href
-     * @param href Url from which parameters lust be extracted
-     * @returns parameters from href 
-     */
-    var getUrlVars = function(href){
-        var reg = /[?&]+([^=&]+)=?([^&]*)/gi;
-        var map = {};
-        href.replace(reg, function(match, key, value) {
-            key = decodeURIComponent(key);
-            value = value ? decodeURIComponent(value) : true;
-            map[key] ? map[key] instanceof Array ? map[key].push(value) : map[key] = [map[key], value] :  map[key] = value;
-        });
-        return map;
-    };
-
-    /**
      * Builds a deynamic url to avail the brwser cache the URL.
      * The URL is build with a uuid parameter
      * @param {url} url 
@@ -251,30 +235,7 @@ require(["jquery", "underscore-min", "./MizarWidget"], function ($, _, MizarWidg
         return JSON.parse(_removeComments(mizarWidgetConf));        
     }
 
-    /**
-     * Add a new context as default in the configuration file of MizarWidget.
-     * The context is defined by the value related to ctxurl in the URL
-     * @param {Object} mizarWidgetConf 
-     */
-    var addNewCtxAsDefault = function(mizarWidgetConf) {
-        var href = window.location.search;
-        var parameters = getUrlVars(href);
-        var distantConfFileUrl = parameters.ctxurl;
-        if (distantConfFileUrl === undefined) {
-            // no context to add.
-        } else {
-            mizarWidgetConf.ctx.push({
-                "name":"userDefined",
-                "mode":"something",
-                "context":distantConfFileUrl
-            });
-            mizarWidgetConf.defaultCtx = "userDefined";
-        }
-        return mizarWidgetConf;
-    }
-
     var widgetOptions = getMizarWidgetConf();  
-    widgetOptions = addNewCtxAsDefault(widgetOptions);
 
     var mizarWidget = new MizarWidget('mizarWidget-div', widgetOptions);
     var mizarWidgetAPI = mizarWidget.getMizarWidgetAPI();

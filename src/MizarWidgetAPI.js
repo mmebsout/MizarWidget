@@ -275,13 +275,111 @@ define(["jquery", "underscore-min",
         }
 
         /**
+         * Returns the parameters of href
+         * @param href Url from which parameters lust be extracted
+         * @returns parameters from href 
+         */
+        var getUrlVars = function(href){
+            var reg = /[?&]+([^=&]+)=?([^&]*)/gi;
+            var map = {};
+            href.replace(reg, function(match, key, value) {
+                key = decodeURIComponent(key);
+                value = value ? decodeURIComponent(value) : true;
+                map[key] ? map[key] instanceof Array ? map[key].push(value) : map[key] = [map[key], value] :  map[key] = value;
+            });
+            return map;
+        };        
+
+        /**
+         * Add a new context as default in the configuration file of MizarWidget.
+         * The context is defined by the value related to ctxurl in the URL
+         * @param {Object} mizarWidgetConf 
+         */
+        var addNewCtxAsDefault = function(mizarWidgetConf) {
+            var href = window.location.search;
+            var parameters = getUrlVars(href);
+            var distantConfFileUrl = parameters.ctxurl;
+            if (distantConfFileUrl === undefined) {
+                // no context to add.
+            } else {
+                mizarWidgetConf.ctx.push({
+                    "name":"userDefined",
+                    "mode":"something",
+                    "context":distantConfFileUrl
+                });
+                mizarWidgetConf.defaultCtx = "userDefined";
+            }
+            return mizarWidgetConf;
+        }        
+
+        /**
          * Entry point to manage Mizar Widget.
          * @param div Div to use for the Widget
          * @param userOptions Configuration properties for the Widget
          * @param callbackInitMain Callback function
          * @constructor
+         * @example
+         * {
+         * "global": {
+         *      "proxyUrl": "http://localhost:8081/?url=",
+         *      "proxyUse": false
+         * },
+         * "gui": {
+         *      "isMobile": true,
+         *      "positionTracker": {
+         *          "position": "bottom"
+         *      },
+         * "elevationTracker": {
+         *      "position": "bottom"
+         * },
+         * "stats": {
+         *      "visible": true
+         * },
+         * "debug": true,
+         * "registry": {
+         *      "hips" :"http://aladin.unistra.fr/hips/globalhipslist?fmt=json&hips_frame=equatorial&hips_frame=galactic"
+         * },
+         * "shortener": "${sitoolsBaseUrl}/shortener"
+         * },
+         * "ctx": [
+         *     {
+         *      "name": "sky",
+         *      "mode": "Sky",
+         *      "context": "./skyCtx.json"
+         *     },
+         *     {
+         *       "name": "mars",
+         *       "mode": "Planet",
+         *       "context": "./marsCtx.json"
+         *     },
+         *     {
+         *       "name": "earth",
+         *       "mode": "Planet",
+         *       "context": "./earthCtx.json"
+         *     },
+         *     {
+         *       "name": "curiosity",
+         *       "mode": "Ground",
+         *       "context": "./curiosityCtx.json"
+         *     },
+         *     {
+         *       "name": "sun",
+         *       "mode": "Planet",
+         *       "context": "./sunCtx.json"
+         *     },
+         *     {
+         *       "name": "titan",
+         *       "mode": "Planet",
+         *       "context": "./titanCtx.json"
+         *     }
+         *   ],
+         *   "defaultCtx": "earth"
+         * }                
+         * http://127.0.0.1:8080/dist/?ctxurl=http://127.0.0.1:8080/dist/conf/titanCtx.json
          */
         var MizarWidgetAPI = function (div, userOptions, callbackInitMain) {
+
+            userOptions = addNewCtxAsDefault(userOptions);
 
             this.div = '#'+div;
 
