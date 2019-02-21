@@ -411,12 +411,6 @@ define(["jquery", "underscore-min",
                 mizarAPI.addLayer(layer,
                     function (layerID) {
                         var myLayer = mizarAPI.getLayerByID(layerID);
-                        if (myLayer.hasDimension()) {
-                            var dimension = myLayer.getDimensions();
-                            if (dimension.time) {
-                                //console.log("time from API:"+dimension.time.value);
-                            }
-                        }
                         if (myLayer.type === Mizar.LAYER.WCSElevation) {
                             mizarAPI.setBaseElevationByID(layerID);
                         }

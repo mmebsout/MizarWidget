@@ -1,0 +1,147 @@
+{
+  "init": {
+    "continuousRendering": true,
+    "coordinateSystem": {
+      "geoideName": "Equatorial"
+    },
+    "navigation": {
+      "initTarget": [
+        85.2500,
+        -2.4608
+      ],
+      "initFov": 20,
+      "inertia": true,
+      "minFov": 0.001,
+      "zoomFactor": 0,
+      "mouse": {
+        "zoomOnDblClick": true
+      }
+    },
+    "nameResolver": {
+      "zoomFov": 2,
+      "jsObject": "gw/NameResolver/CDSNameResolver"
+    },
+    "reverseNameResolver": {
+      "jsObject": "gw/ReverseNameResolver/CDSReverseNameResolver",
+      "baseUrl": "http://alasky.u-strasbg.fr/cgi/simbad-flat/simbad-quick.py?Ident={coordinates}&SR={radius}"
+    }
+  },
+  "layers":[
+    {
+      "type": "Hips",
+      "name": "DSS",
+      "baseUrl": "http://alasky.unistra.fr/DSS/DSSColor",
+      "description": "DSS Color",
+      "visible": true,
+      "background": true
+    },
+    {
+      "category": "Other",
+      "type": "GeoJSON",
+      "name": "Constellations",
+      "icon": "css/images/constellation_icon.png",
+      "attribution": "Constellation coming from <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><object width='24' height='16' data=\"css/images/cds.svg\" type=\"image/svg+xml\"></object></a>",
+      "description": "Constellation shapes from VizieR Catalogue",
+      "data": {
+        "type": "constellation",
+        "nameUrl": "data/ConstellationNames.tsv",
+        "catalogueUrl": "data/bound_20.dat"
+      },
+      "visible": false,
+      "pickable": false,
+      "color": "rgb(8, 59, 167)",
+      "dataType": "Point"
+    },
+    {
+      "category": "Other",
+      "type": "GeoJSON",
+      "name": "Brighten stars",
+      "icon": "css/images/star_icon.png",
+      "attribution": "The most brighten stars coming from <a href=\"http://cdsweb.u-strasbg.fr/index-fr.gml\" target=\"_blank\"><object width='24' height='16' data=\"css/images/cds.svg\" type=\"image/svg+xml\"></object></a>",
+      "description": "The most brighten stars from VizieR Catalogue",
+      "data": {
+        "type": "star",
+        "nameUrl": "data/Names.tsv",
+        "catalogueUrl": "data/Catalogue.tsv"
+      },
+      "visible": true,
+      "opacity": 100,
+      "pickable": false,
+      "color": "white",
+      "dataType": "Point"
+    },
+    /**
+     * Coordinate grids
+     */
+    {
+      "category": "Coordinate systems",
+      "type": "CoordinateGrid",
+      "name": "Equatorial grid",
+      "visible": false,
+      "coordinateSystem": {"geoideName":"Equatorial"},
+      "color": "white",
+      "latFormat": "DMS",
+      "longFormat": "HMS"
+    },
+    {
+      "category": "Coordinate systems",
+      "type": "CoordinateGrid",
+      "name": "Galactic grid",
+      "visible": false,
+      "coordinateSystem": {"geoideName":"Galactic"},
+      "color": "red",
+      "latFormat": "Deg",
+      "longFormat": "Deg"
+    },
+    /**
+     *    Alasky healpix sources
+     *
+     *    Plugin: Proxy Healpix Image cache
+     *    urlClient: http://alasky.u-strasbg.fr or http://healpix.ias.u-psud.fr/
+     */
+    {
+      "type": "Hips",
+      "name": "IRIS",
+      "baseUrl": "http://alasky.unistra.fr/IRISColor",
+      "description": "Iris Color",
+      "icon": "css/images/star_icon.png",
+      "visible": false,
+      "background": true,
+      "category": "JC"
+    },
+    {
+      "type": "Hips",
+      "name": "Planck_R2",
+      "baseUrl": "http://alasky.unistra.fr/PLANCK/R2/LFI_SkyMap_030_1024_R2.01",
+      "description": "Planck R2",
+      "icon": "css/images/star_icon.png",
+      "visible": false,
+      "background": true
+    },
+    /**
+     *    Healpix grid
+     */
+    {
+      "category": "Other",
+      "type": "HipsGrid",
+      "name": "hips grid",
+      "outline": true
+    },
+    /**
+     *      Built-in planets provider
+     */
+    {
+      "category": "Solar system",
+      "type": "GeoJSON",
+      "name": "Planets",
+      "description": "Planets",
+      "data": {
+        "type": "planets"
+      },
+      "visible": true,
+      "opacity": 100,
+      "pickable": true
+    }
+
+  ]
+}

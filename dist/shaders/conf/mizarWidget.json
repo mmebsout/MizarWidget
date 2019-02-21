@@ -1,0 +1,61 @@
+{
+  "global": {
+    "proxyUrl": "http://localhost:8081/?url=",
+    "proxyUse": false
+  },
+  "gui": {
+    "isMobile": true,
+    "positionTracker": {
+      "position": "bottom"
+    },
+    "elevationTracker": {
+      "position": "bottom"
+    },
+    "stats": {
+      "visible": true
+    },
+    "debug": true,
+    "registry": {
+      "hips" :"http://aladin.unistra.fr/hips/globalhipslist?fmt=json&hips_frame=equatorial&hips_frame=galactic"
+    },
+    "shortener": "${sitoolsBaseUrl}/shortener"
+  },
+  "ctx": [
+    {
+      "name": "sky",
+      "mode": "Sky",
+      "context": "./skyCtx.json"
+    },
+    {
+      "name": "mars",
+      "mode": "Planet",
+      "context": "./marsCtx.json"
+    },
+    {
+      "name": "moon",
+      "mode": "Planet",
+      "context": "./moonCtx.json"
+    },
+    {
+      "name": "earth",
+      "mode": "Planet",
+      "context": "./earthCtx.json"
+    },
+    {
+      "name": "curiosity",
+      "mode": "Ground",
+      "context": "./curiosityCtx.json"
+    },
+    {
+      "name": "sun",
+      "mode": "Planet",
+      "context": "./sunCtx.json"
+    },
+    {
+      "name": "titan",
+      "mode": "Planet",
+      "context": "./titanCtx.json"
+    }
+  ],
+  "defaultCtx": "earth"
+}
