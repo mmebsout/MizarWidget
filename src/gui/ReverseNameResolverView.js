@@ -277,7 +277,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 mizarWidgetAPI.getRenderContext().canvas.addEventListener("mouseup", _handleMouseUp);
 
                 if (isMobile) {
-                    mizarWidgetAPI.getRenderContext().canvas.addEventListener("touchstart", _handleMouseDown);
+                    mizarWidgetAPI.getRenderContext().canvas.addEventListener("touchstart", _handleMouseDown, { passive: true });
                     mizarWidgetAPI.getRenderContext().canvas.addEventListener("touchend", _handleMouseUp);
                 }
 

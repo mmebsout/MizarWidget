@@ -17,7 +17,7 @@
 						1250,
 						3240
 					],
-					"iconUrl": "./data/Eiffel-Tower-PNG-Image.png"
+					"iconUrl": "http://127.0.0.1:8081/dist/data/Eiffel-Tower-PNG-Image.png"
 				},
 				"name": "Eiffel Tower",
 				"title": "Eiffel Tower",

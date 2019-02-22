@@ -61,8 +61,8 @@ define(["jquery", "underscore-min", "jquery.ui"],
 
             if (options.isMobile) {
                 self.renderContext.canvas.addEventListener("touchend", $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseUp, this));
-                self.renderContext.canvas.addEventListener("touchmove", $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseMove, this));
-                self.renderContext.canvas.addEventListener("touchstart", $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseDown, this));
+                self.renderContext.canvas.addEventListener("touchmove", $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseMove, this), { passive: true });
+                self.renderContext.canvas.addEventListener("touchstart", $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseDown, this), { passive: true });
             }
             $('#measureSkyInvoker').on('click', function () {
                 self.toggle();
