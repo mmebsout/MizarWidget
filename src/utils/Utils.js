@@ -33,6 +33,30 @@ define(function () {
         sub.prototype.constructor = sub;
     };
 
+    /**
+     * Checks if "passive" is supported by.
+     * @function isPassiveSupported
+     * @return {Boolean} true when "passive" mode is supported otherwise false
+     */
+    Utils.isPassiveSupported = function() {
+        var passiveSupported = false;
+
+        try {
+            var options = Object.defineProperty({}, "passive", {
+                get: function() {
+                    passiveSupported = true;
+                    return passiveSupported;
+                }
+            });
+
+            window.addEventListener("test", options, options);
+            window.removeEventListener("test", options, options);
+        } catch (err) {
+            passiveSupported = false;
+        }
+        return passiveSupported;
+    };    
+
     return Utils;
 
 });

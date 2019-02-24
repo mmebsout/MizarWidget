@@ -26,8 +26,8 @@
 			"geometry": {
 				"type": "Point",
 				"coordinates": [
-					2.294694,
-					48.858093
+					0.0,
+					0.0
 				],
 				"crs": {
 				    "type": "name",

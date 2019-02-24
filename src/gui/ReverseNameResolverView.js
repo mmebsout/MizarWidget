@@ -21,10 +21,10 @@
 /**
  * Reverse name resolver view using ReverseNameResolver services
  */
-define(["jquery", "underscore-min", "../utils/UtilsCore",
+define(["jquery", "underscore-min", "../utils/UtilsCore", "../utils/Utils",
         "./IFrame", "./dialog/ErrorDialog",
         "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "jquery.ui"],
-    function ($, _, UtilsCore,
+    function ($, _, UtilsCore, Utils,
               IFrame, ErrorDialog, 
               featureDescriptionHTMLTemplate, descriptionTableHTMLTemplate) {
 
@@ -277,7 +277,12 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 mizarWidgetAPI.getRenderContext().canvas.addEventListener("mouseup", _handleMouseUp);
 
                 if (isMobile) {
-                    mizarWidgetAPI.getRenderContext().canvas.addEventListener("touchstart", _handleMouseDown, { passive: true });
+                    var passiveSupported = Utils.isPassiveSupported();
+                    mizarWidgetAPI.getRenderContext().canvas.addEventListener(
+                        "touchstart", 
+                        _handleMouseDown, 
+                        passiveSupported ? { passive: true } : false
+                    );
                     mizarWidgetAPI.getRenderContext().canvas.addEventListener("touchend", _handleMouseUp);
                 }
 

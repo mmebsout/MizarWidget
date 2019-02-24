@@ -965,6 +965,9 @@ define(["jquery", "underscore-min",
             }, function (layerID) {
                 var layer = mizarAPI.getLayerByID(layerID);
                 layer.addFeatureCollection(GeoJson);
+            }, function(err) {
+                ErrorDialog.open(Mizar.LEVEL.ERROR,"Drag n drop failed","Cannot display the file "+name+": "+err);
+                ErrorDialog.view();
             });
         };
 

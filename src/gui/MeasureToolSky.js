@@ -22,8 +22,8 @@
  * Tool designed to measure the distance between two points
  */
 
-define(["jquery", "underscore-min", "jquery.ui"],
-    function ($, _) {
+define(["jquery", "underscore-min", "../utils/Utils", "jquery.ui"],
+    function ($, _, Utils) {
 
         var mizarWidgetAPI, self;
 
@@ -55,14 +55,35 @@ define(["jquery", "underscore-min", "jquery.ui"],
 
             self = this;
 
-            self.renderContext.canvas.addEventListener("mousedown", $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseDown, this));
-            self.renderContext.canvas.addEventListener("mouseup", $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseUp, this));
-            self.renderContext.canvas.addEventListener("mousemove", $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseMove, this));
+            self.renderContext.canvas.addEventListener(
+                "mousedown", 
+                $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseDown, this)
+            );
+            self.renderContext.canvas.addEventListener(
+                "mouseup", 
+                $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseUp, this)
+            );
+            self.renderContext.canvas.addEventListener(
+                "mousemove", 
+                $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseMove, this)
+            );
 
             if (options.isMobile) {
-                self.renderContext.canvas.addEventListener("touchend", $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseUp, this));
-                self.renderContext.canvas.addEventListener("touchmove", $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseMove, this), { passive: true });
-                self.renderContext.canvas.addEventListener("touchstart", $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseDown, this), { passive: true });
+                var passiveSupported = Utils.isPassiveSupported();
+                self.renderContext.canvas.addEventListener(
+                    "touchend", 
+                    $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseUp, this)
+                );
+                self.renderContext.canvas.addEventListener(
+                    "touchmove", 
+                    $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseMove, this), 
+                    passiveSupported ? { passive: true } : false
+                );
+                self.renderContext.canvas.addEventListener(
+                    "touchstart", 
+                    $.proxy(mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.MeasureToolSky)._handleMouseDown, this), 
+                    passiveSupported ? { passive: true } : false
+                );
             }
             $('#measureSkyInvoker').on('click', function () {
                 self.toggle();
