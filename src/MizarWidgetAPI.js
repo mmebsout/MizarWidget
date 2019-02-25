@@ -956,6 +956,7 @@ define(["jquery", "underscore-min",
          * Add layer by drag n drop
          */
         MizarWidgetAPI.prototype.addLayerByDragNDrop = function (name, GeoJson) {
+            var self = this;
             mizarAPI.addLayer({
                 name: name,
                 type: Mizar.LAYER.GeoJSON,
@@ -965,6 +966,7 @@ define(["jquery", "underscore-min",
             }, function (layerID) {
                 var layer = mizarAPI.getLayerByID(layerID);
                 layer.addFeatureCollection(GeoJson);
+                layer.publish(Mizar.EVENT_MSG.LAYER_VISIBILITY_CHANGED, layer);
             }, function(err) {
                 ErrorDialog.open(Mizar.LEVEL.ERROR,"Drag n drop failed","Cannot display the file "+name+": "+err);
                 ErrorDialog.view();

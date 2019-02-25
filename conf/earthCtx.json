@@ -21,7 +21,7 @@
       "coverage": "SRTM",
       "version": "1.0.0",
       "minElevation": -150,
-      "scale": 10,
+      "scale": 1,
       "minLevel": 4
    },
     {

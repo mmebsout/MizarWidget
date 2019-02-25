@@ -1,0 +1,35 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"properties": {
+				"style": {
+					"fillColor": [
+						1,
+						1,
+						1,
+						1
+					],
+					"opacity": 1,
+					"useMeterSize": true,
+					"meterSize": [
+						125,
+						324
+					],
+					"iconUrl": "http://127.0.0.1:8080/dist/data/Eiffel-Tower-PNG-Image.png"
+				},
+				"name": "Eiffel Tower",
+				"title": "Eiffel Tower",
+				"description": "The Eiffel tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and build the tower"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					2.294694,
+					48.858093
+				]
+			}
+		}
+	]
+}
