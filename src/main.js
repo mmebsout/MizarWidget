@@ -51,7 +51,7 @@ require.config({
         "flot.axislabels": "../external/flot/jquery.flot.axislabels",
         "loadmask": "../external/Mizar/external/loadmask/jquery.loadmask",
         "text": "../node_modules/requirejs-plugins/lib/text",
-        "string": "../node_modules/string/dist/string.min",
+        "string": "../external/Mizar/node_modules/string/dist/string.min",
         "xmltojson": "../external/Mizar/node_modules/xmltojson/lib/xmlToJSON.min",
         "wms-capabilities": "../external/Mizar/node_modules/wms-capabilities/dist/wms-capabilities",
         "moment": "../node_modules/moment/min/moment.min",

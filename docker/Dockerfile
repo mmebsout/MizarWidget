@@ -28,17 +28,22 @@ EXPOSE 80
 # Install nginx to serve static files - END
 
 # Install Mizar
-RUN mkdir -p /var/www/html/demo && env
+RUN mkdir -p /var/www/html/tmp && env
 
 # change directory
-WORKDIR /var/www/html/demo
+WORKDIR /var/www/html/tmp
 
 RUN git clone https://github.com/MizarWeb/MizarWidget \
  && cd MizarWidget \
  && git submodule init \
  && git submodule update \
- && npm install \
  && cd external/Mizar \
- && npm install
+ && npm install \
+ && cd ../.. \
+ && npm install \
+ && npm run build:dist \
+ && mv dist/ ../../ \
+ && cd ../.. \
+ && rm -rf tmp/
 
 ENTRYPOINT ["nginx"]

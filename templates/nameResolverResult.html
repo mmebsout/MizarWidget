@@ -7,7 +7,7 @@
             <em>Type:</em> <%= properties.layerType %><br/>
             <em>Name:</em> <%= properties.name %><br/>
             <% if(properties.description) { %>
-                <span title="<%= properties.description %>"><em>Description:</em><% var String=require('string');  print (String(properties.description).truncate(50).s) %></span><br/>
+                <span title="<%= properties.description %>"><em>Description:</em><%= truncateDescription %></span><br/>
             <% } %>
         </div>
         <button class="show_or_hide"><span>Show</span></button>

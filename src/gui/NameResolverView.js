@@ -22,9 +22,8 @@
  * Name resolver module : search object name and zoom to them
  */
 define(["jquery", "underscore-min","../utils/UtilsCore",
-        "text!templates/nameResolverResult.html", "jquery.ui", "jquery.once","string"],
-    function ($, _, UtilsCore,
-              nameResolverResultHTMLTemplate) {
+        "text!templates/nameResolverResult.html", "string", "jquery.ui", "jquery.once"],
+    function ($, _, UtilsCore, nameResolverResultHTMLTemplate, String) {
 
         var nameResolverHTML = '<form id="searchForm">\
 				<fieldset>\
@@ -121,6 +120,7 @@ define(["jquery", "underscore-min","../utils/UtilsCore",
                         output += nameResolverResultTemplate({
                             first : firstLayer,
                             properties: response.features[i].properties,
+                            truncateDescription : String(response.features[i].properties.description).truncate(50).s,
                             lon: 0,
                             lat: 0,
                             type: mizarWidgetAPI.getCrs().getType(),
@@ -132,6 +132,7 @@ define(["jquery", "underscore-min","../utils/UtilsCore",
                         output += nameResolverResultTemplate({
                             first: firstObject,
                             properties: response.features[i].properties,
+                            truncateDescription : String(response.features[i].properties.description).truncate(50).s,
                             lon: astro[0],
                             lat: astro[1],
                             type: mizarWidgetAPI.getCrs().getType(),
