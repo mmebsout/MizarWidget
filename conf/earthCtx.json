@@ -65,15 +65,6 @@
       "visible": false
     },
     {
-      "type": "WMTS",
-      "baseUrl" : "http://peps-vizo.cnes.fr:8083/mapcache/wmts",
-      "version": "1.0.0.0",
-      "layers": "s2rgb_4326",
-      "matrixSet":"WGS84",
-      "visible": false,
-      "category": "PEPS"
-    },
-    {
       "category": "NIGER",
       "type": "WMS",
       "baseUrl":"http://80.158.6.138/mapserv?map=WMS_NIGER",
