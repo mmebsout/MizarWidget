@@ -112,34 +112,31 @@ define(["jquery", "underscore-min","../utils/UtilsCore",
                 // Fill search result field
                 var output = "";
                 var layers = false;
-                var firstLayer = true;
                 var firstObject = true;
                 for (var i = 0; i < response.features.length; i++) {
+                    var longitude;
+                    var latitude;
+                    var description = (response.features[i].properties.description == null) ? "" : response.features[i].properties.description;
                     if(response.features[i].properties.type == "layer") {
                         layers = true;
-                        output += nameResolverResultTemplate({
-                            first : firstLayer,
-                            properties: response.features[i].properties,
-                            truncateDescription : String(response.features[i].properties.description).truncate(50).s,
-                            lon: 0,
-                            lat: 0,
-                            type: mizarWidgetAPI.getCrs().getType(),
-                            index : i
-                        });
-                        firstLayer = false;
+                        longitude = 0;
+                        latitude = 0;
                     } else {
                         var astro = mizarWidgetAPI.getCrs().formatCoordinates([response.features[i].geometry.coordinates[0], response.features[i].geometry.coordinates[1]]);
-                        output += nameResolverResultTemplate({
-                            first: firstObject,
-                            properties: response.features[i].properties,
-                            truncateDescription : String(response.features[i].properties.description).truncate(50).s,
-                            lon: astro[0],
-                            lat: astro[1],
-                            type: mizarWidgetAPI.getCrs().getType(),
-                            index : i
-                        });
+                        longitude = astro[0];
+                        latitude = astro[1];
                         firstObject = false;
                     }
+                    output += nameResolverResultTemplate({
+                        first: firstObject,
+                        properties: response.features[i].properties,
+                        truncateDescription : String(description).truncate(50).s,
+                        lon: longitude,
+                        lat: latitude,
+                        type: mizarWidgetAPI.getCrs().getType(),
+                        index : i
+                    });
+
                 }
 
                 // Show it
