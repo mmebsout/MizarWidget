@@ -93,7 +93,7 @@ define(["jquery", "underscore-min", "../utils/UtilsCore",
                 }
                 else {
                     reader.onloadend = function (e) {
-                        if (this.result.search('<?xml') > 0) {
+                        if (this.result.search('<\\?xml') >= 0) {
                             // Handle xml votable
                             UtilsCore.convertVotable2JsonFromXML(this.result, function (response) {
                                 var gwLayer = mizarWidgetAPI.addLayerByDragNDrop(name, response);
