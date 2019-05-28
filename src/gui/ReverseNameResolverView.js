@@ -21,10 +21,10 @@
 /**
  * Reverse name resolver view using ReverseNameResolver services
  */
-define(["jquery", "underscore-min", "../utils/UtilsCore", "../utils/Utils",
+define(["jquery", "underscore-min", "../utils/Utils",
         "./IFrame", "./dialog/ErrorDialog",
         "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "jquery.ui"],
-    function ($, _, UtilsCore, Utils,
+    function ($, _, Utils,
               IFrame, ErrorDialog, 
               featureDescriptionHTMLTemplate, descriptionTableHTMLTemplate) {
 
@@ -38,19 +38,14 @@ define(["jquery", "underscore-min", "../utils/UtilsCore", "../utils/Utils",
         var mouseXStart;
         var mouseYStart;
 
-// Template generating the detailed description of choosen feature
+        // Template generating the detailed description of choosen feature
         var featureDescriptionTemplate = _.template(featureDescriptionHTMLTemplate);
 
-// Template generating the table of properties of choosen feature
+        // Template generating the table of properties of choosen feature
         var descriptionTableTemplate = _.template(descriptionTableHTMLTemplate);
 
         var reverseNameResolverHTML =
             '<div id="reverseNameResolver" class="contentBox ui-widget-content" style="display: none;">\
-                <div id="reverseSearchField">\
-                    <input type="submit" value="Find Object Name" />\
-                    <div id="coordinatesInfo"></div>\
-                    <div id="healpixInfo"></div>\
-                </div>\
                 <div id="reverseSearchResult"></div>\
                 <div class="closeBtn">\
                     <span class="defaultImg"></span>\
@@ -67,7 +62,6 @@ define(["jquery", "underscore-min", "../utils/UtilsCore", "../utils/Utils",
          *    Registers the position of the mouse and time of click
          */
         function _handleMouseDown(event) {
-            //$reverseNameResolver.fadeOut();
             timeStart = new Date();
 
             if (event.type.search("touch") >= 0) {
@@ -112,30 +106,14 @@ define(["jquery", "underscore-min", "../utils/UtilsCore", "../utils/Utils",
         function _onCoordinatePicked(event) {
             var padding = 15;
             var mHeight = window.innerHeight - event.clientY - padding * 2;
-            $('#reverseSearchField').css('max-height', mHeight);
             $('#reverseSearchResult').css('max-height', mHeight);
-            $('#reverseSearchResult').css("display", "none");
+            $('#reverseNameResolver').css("display", "none");
 
-            var astro = mizarWidgetAPI.getCrs().formatCoordinates([geoPick[0], geoPick[1]]);
+            mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.ReverseNameResolver).sendRequest(geoPick, {
+                success: showFeature,
+                error: showError
+            });
 
-            if (mizarWidgetAPI.getCrs().getGeoideName() === mizarWidgetAPI.CRS.Equatorial) {
-                $("#coordinatesInfo").html("<em>Right ascension:</em><br/>&nbsp;&nbsp;&nbsp;&nbsp;" + astro[0] +
-                    "<br/><em>Declination :</em><br/>&nbsp;&nbsp;&nbsp;&nbsp;" + astro[1]);
-            } else if (mizarWidgetAPI.getCrs().getGeoideName() == mizarWidgetAPI.CRS.Galactic) {
-                $("#coordinatesInfo").html("<em>Longitude:</em><br/>&nbsp;&nbsp;&nbsp;&nbsp;" + astro[0] +
-                    "<br/><em>Latitude:</em><br/>&nbsp;&nbsp;&nbsp;&nbsp;" + astro[1]);
-            } else {
-                $("#coordinatesInfo").html("<em>Longitude:</em><br/>&nbsp;&nbsp;&nbsp;&nbsp;" + geoPick[0] +
-                    "<br/><em>Latitude:</em><br/>&nbsp;&nbsp;&nbsp;&nbsp;" + geoPick[1]);
-            }
-
-            // Use debug mode only for HEALPix tiling
-            if (mizarWidgetAPI.options.gui.debug && mizarWidgetAPI.getTileManager().tiling.findInsideTile) {
-                var selectedTile = mizarWidgetAPI.getTileManager().getVisibleTile(geoPick[0], geoPick[1]);
-                $('#reverseSearchField #healpixInfo').html('<em>Healpix index/order: </em>&nbsp;&nbsp;&nbsp;&nbsp;' + selectedTile.pixelIndex + '/' + selectedTile.order);
-            }
-
-            $('#reverseSearchField').css("display", "block");
             $reverseNameResolver.css({
                 position: 'absolute',
                 left: event.clientX + 'px',
@@ -158,14 +136,9 @@ define(["jquery", "underscore-min", "../utils/UtilsCore", "../utils/Utils",
                 descriptionTableTemplate: descriptionTableTemplate
             });
             var title = ( feature.properties.title ) ? feature.properties.title : feature.properties.identifier;
-            output = '<div class="title">' + title + '</div><div class="credit">Found in CDS database</div>' + output;
-            $('#reverseSearchResult')
-                .html(output)
-                .find('#sendViewport').button();
-            $('#reverseSearchField').fadeOut(300, function () {
-                $('#reverseSearchResult').fadeIn(300);
-            });
-            $('#reverseSearchField input[type="submit"]').removeAttr('disabled');
+            output = '<div class="title">' + title + '</div><div class="credit">Found in '+response.copyright+' database</div>' + output;
+            $('#reverseSearchResult').html(output);
+            
         }
 
         /**************************************************************************************************************/
@@ -192,7 +165,6 @@ define(["jquery", "underscore-min", "../utils/UtilsCore", "../utils/Utils",
                         break;
                 }
             }
-            $('#reverseSearchField input[type="submit"]').removeAttr('disabled');
         }
 
         /**************************************************************************************************************/
@@ -228,20 +200,25 @@ define(["jquery", "underscore-min", "../utils/UtilsCore", "../utils/Utils",
                     mizarWidgetAPI = m;
                     isMobile = mizarWidgetAPI.getMizarWidgetGui().isMobile;
 
-                    $reverseNameResolver = $(reverseNameResolverHTML).appendTo('body');
+                    $reverseNameResolver = $(reverseNameResolverHTML).appendTo('body');                   
+                    
+                    // Show/hide subsection properties
+                    $reverseNameResolver.on("click", '.section', function () {
 
-                    $reverseNameResolver.find("input[type=submit]")
-                        .button()
-                        .click(function (event) {
-                            event.preventDefault();
-
-                            $('#reverseSearchField input[type="submit"]').attr('disabled', 'disabled');
-
-                            mizarWidgetAPI.getServiceByName(mizarWidgetAPI.SERVICE.ReverseNameResolver).sendRequest(geoPick, {
-                                success: showFeature,
-                                error: showError
-                            });
+                        $reverseNameResolver.find('.featureProperties').getNiceScroll().hide();
+                        // TODO slideToggle works with div -> add div to the tab generation
+                        $(this).siblings('table').fadeToggle("slow", "linear", function () {
+                            $reverseNameResolver.find('.featureProperties').getNiceScroll().show();
+                            $reverseNameResolver.find('.featureProperties').getNiceScroll().resize();
                         });
+                        /*slideToggle(300)*/
+                        if ($(this).siblings('#arrow').is('.arrow-right')) {
+                            $(this).siblings('#arrow').removeClass('arrow-right').addClass('arrow-bottom');
+                        }
+                        else {
+                            $(this).siblings('#arrow').removeClass('arrow-bottom').addClass('arrow-right');
+                        }
+                    });
 
                     // External link event
                     $reverseNameResolver.on("click", '.propertiesTable a', _showIFrame);

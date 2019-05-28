@@ -164,7 +164,7 @@ define(["jquery", "underscore-min",
                 MizarWidgetAPI.setSampGui(false);
                 MizarWidgetAPI.setShortenerUrlGui(false);
                 MizarWidgetAPI.setMollweideMapGui(false);
-                MizarWidgetAPI.setReverseNameResolverGui(false);
+                MizarWidgetAPI.setReverseNameResolverGui(true);
                 MizarWidgetAPI.setNameResolverGui(true);
                 MizarWidgetAPI.setCategoryGui(true);
                 MizarWidgetAPI.setImageViewerGui(true);

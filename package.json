@@ -24,7 +24,6 @@
     "build:dev": "r.js -o build/buildMizarWidget.js",
     "build:css": "r.js -o cssIn=css/style.css out=css/style.min.css",
     "build:dist": "npm run build:css && npm run license && npm run build:prod && rm -rf dist && mkdir -p dist/css && cp MizarWidget.min.js dist/ && cp -r external/Mizar/shaders dist/ && cp -r conf dist/ && cp -r data dist/ && cp build/index.html dist/ && cp -r css/images dist/css/ && cp css/style.min.css dist/css/ && cp favicon.ico dist/ && cp LICENSE dist/ && cp -r licenses-3rd dist/"
-
   },
   "repository": {
     "type": "git",

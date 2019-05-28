@@ -11,25 +11,31 @@
       "jsObject": "gw/NameResolver/DictionaryNameResolver",
       "baseUrl": "data/earth_resolver.json"
     },
-    "visible": false
+    "reverseNameResolver": {
+      "jsObject": "gw/ReverseNameResolver/WMSFeatureInfoReverseNameResolver",
+      "baseUrl": "Not_defined"
+    }
   },
   "layers": [
-   {
-      "type": "WCSElevation",
-      "name": "Elevation Mont Blanc",
-      "baseUrl": "http://80.158.6.138/mapserv?map=WMS_SRTM",
-      "coverage": "SRTM",
-      "version": "1.0.0",
-      "minElevation": -150,
-      "scale": 1,
-      "minLevel": 4
-   },
     {
       "type": "WMS",
-      "name": "Blue Marble",
-      "baseUrl":"http://80.158.6.138/mapserv?map=WMS_BLUEMARBLE",
+      "name": "MEGATHRO",
+      "baseUrl":"http://localhost:8080/",
       "visible": true,
-      "background": true
+      "background": true,
+      "transparent": true,
+      "layers": "UC3-MT1_L4-TAPEER-BRAIN-1-5-BC",
+      "autoFillTimeTravel" : true,
+      "cache":{}
+    },
+    {
+      "type": "WMS",
+      "baseUrl":"http://localhost:8080/",
+      "visible": true,
+      "background": false,
+      "transparent": true,
+      "autoFillTimeTravel" : true,
+      "cache":{}
     },
     {
       "category": "Other",
@@ -41,155 +47,6 @@
       "sunBrightness" : 15.0,
       "name": "Atmosphere",
       "visible": false
-    },
-    {
-      "category": "Other",
-      "type": "TileWireframe",
-      "name": "Coordinates Grid",
-      "outline": true,
-      "visible": true
-    },
-    {
-      "category": "PEPS",
-      "type": "OpenSearch",
-      "baseUrl": "https://peps.cnes.fr/resto/api/collections/S1/describe.xml",
-      "color": "yellow",
-      "opacity": 20,
-      "visible": false
-    },
-    {
-      "category": "PEPS",
-      "type": "OpenSearch",
-      "baseUrl":"https://peps.cnes.fr/resto/api/collections/S2ST/describe.xml",
-      "color": "blue",
-      "visible": false
-    },
-    {
-      "category": "NIGER",
-      "type": "WMS",
-      "baseUrl":"http://80.158.6.138/mapserv?map=WMS_NIGER",
-      "layers": "NIGER_SCENE",
-      "visible": false,
-      "autoFillTimeTravel" : true,
-      "background": false,
-      "transparent":true,
-      "format":"image/png"
-    },
-    {
-      "category": "NIGER",
-      "type": "WMS",
-      "baseUrl":"http://80.158.6.138/mapserv?map=WMS_NIGER",
-      "layers": "MEGHA_TRO",
-      "visible": false,
-      "autoFillTimeTravel" : true,
-      "background": false,
-      "transparent":true,
-      "format":"image/png"
-    },
-    {
-      "category": "PALAVAS",
-      "type": "WMS",
-      //"baseUrl":"http://localhost/cgi-bin/mapserv?map=/home/malapert/Documents/ScoData/palavas/palavas.map",
-      "baseUrl":"http://80.158.6.138/mapserv?map=WMS_PALAVAS",
-      "layers": "DEM_PALAVAS",
-      "visible": false,
-      "autoFillTimeTravel" : true,
-      "background": false,
-      "transparent":true,
-      "format":"image/png",
-      "zIndex":11
-    },
-    {
-      "category": "PALAVAS",
-      "type": "WMS",
-      "baseUrl":"http://80.158.6.138/mapserv?map=WMS_PALAVAS",
-      "layers": "S2_PALAVAS",
-      "visible": false,
-      "autoFillTimeTravel" : true,
-      "background": false,
-      "transparent":true,
-      "format":"image/png"
-    },
-    {
-      "category": "PALAVAS",
-      "type": "WMS",
-      "baseUrl": "http://80.158.6.138/mapserv?map=WMS_MEDIT",
-      "visible": false,
-      "background": false,
-      "transparent": true,
-      "format": "image/png",
-      "layers": "Mediterranean",
-      "autoFillTimeTravel" : true
-    },
-    {
-      "category": "INDIA",
-      "type": "WMS",
-      "baseUrl": "http://80.158.6.138/mapserv?map=WMS_INDIA",
-      "visible": false,
-      "background": false,
-      "transparent": true,
-      "format": "image/png",
-      "layers": "MoisstureIndex,INDIA_ADMIN"
-    },
-    {
-      "category": "MONT_BLANC",
-      "name" : "MONT_BLANC",
-      "type": "WMS",
-      "baseUrl":"http://80.158.6.138/mapserv?map=WMS_MONT_BLANC",
-      "layers": "Mont_Blanc_SHP",
-      "visible": false,
-      "background": false,
-      "transparent":true,
-      "format":"image/png"
-    },
-    {
-      "category": "MONT_BLANC",
-      "type": "WMS",
-      "baseUrl":"http://80.158.6.138/mapserv?map=WMS_MONT_BLANC",
-      "layers": "Mont_Blanc_dh",
-      "visible": false,
-      "background": false,
-      "transparent":true,
-      "format":"image/png",
-      "zIndex":11
-    },
-    {
-      "category": "POYANG",
-      "type": "WMS",
-      "baseUrl": "http://80.158.3.140/mapserv?map=WMS_POYANG",
-      "visible": false,
-      "autoFillTimeTravel" : true,
-      "background": false,
-      "transparent": true,
-      "format": "image/png",
-      "layers": "SPOT4,SPOT5,LANDSAT2000,PEOPLE,VEGETATION"
-    },
-    {
-      "category": "POYANG",
-      "type": "WMS",
-      "baseUrl": "http://80.158.6.138/mapserv?map=WMS_POYANG",
-      "visible": false,
-      "autoFillTimeTravel": true,
-      "background": false,
-      "transparent": true,
-      "format": "image/png",
-      "layers": "SUBMERSION",
-      "zIndex": "11"
-    },
-    {
-      "category": "Other",
-      "type": "GeoJSON",
-      "name": "Cities",
-      "minLevel" : 5,
-      "data": {
-        "type": "crater",
-        "url" : "data/earth_resolver.json"
-      },
-      "pointMaxSize":6,
-      "visible": true,
-      "opacity": 100,
-      "pickable": true,
-      "color": "white"
     }
   ]
 }
