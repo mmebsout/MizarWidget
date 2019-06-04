@@ -23,7 +23,7 @@
 /*			Common				*/
 /********************************/
 
-#featureList.selected, #quicklook.selected, #quicklookWms.selected, #quicklookFits.selected, #healpix.selected, #solarObjects.selected, #dynamicImageView.selected
+#featureList.selected, #quicklook.selected, #quicklookWms.selected, #datacube.selected, #quicklookFits.selected, #healpix.selected, #solarObjects.selected, #dynamicImageView.selected
 {
 	box-shadow: inset 0px 0px 3px 1px #F8A102;
 	border-radius: 8px;
@@ -239,6 +239,11 @@
 #solarObjects
 {
 	background-image: url(images/solarObjectsService.png);
+}
+
+#datacube
+{
+	background-image: url(images/datacube.png);
 }
 
 /* Send image by samp */

@@ -62,8 +62,14 @@
             <span title="Image processing" id="dynamicImageView" class='dynamicAvailable'/>
         <%}%>
 
-        <a href="<%= services ? services.download.url : '' %>" target="_self"><span class="featureService" id="downloadImage" title="Download"/></a>
-
+        <a href="<%= services ? services.download.url : '' %>" target="_blank"><span class="featureService" id="downloadImage" title="Download"/></a>
+        <%
+        if (services.datacube) { %>
+<!--             <a href="../DataCube/index.html" target="_self"><span class="featureService" id="datacube" title="Datacube"/></a>
+ -->            <span class="featureService" id="datacube" title="Datacube"/>
+        <%
+        }
+        if ( mizarWidgetAPI.getContext().getComponentVisibility("sampContainer") ) { %>
         <% if ( mizarWidgetAPI.getContext().getComponentVisibility("sampContainer") ) { %>
             <span class="featureService" title="Export image by SAMP" id="sendImage"></span>
         <% } %>

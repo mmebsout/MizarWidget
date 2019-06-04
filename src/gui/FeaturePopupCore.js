@@ -21,8 +21,8 @@
 /**
  * FeaturePopup module
  */
-define(["jquery", "underscore-min", "text!templates/featureList.html", "text!templates/featureDescription.html", "text!templates/descriptionTable.html"],
-    function ($, _, featureListHTMLTemplate, featureDescriptionHTMLTemplate, descriptionTableHTMLTemplate) {
+define(["jquery", "underscore-min", "text!templates/featureList.html", "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "text!templates/datacube.html"],
+    function ($, _, featureListHTMLTemplate, featureDescriptionHTMLTemplate, descriptionTableHTMLTemplate, dataCubeHTMLTemplate) {
 
         var mizarWidgetAPI;
         var featureListHTML = '';
@@ -30,6 +30,7 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
         var imageManager = null;
         var configuration;
         var $selectedFeatureDiv;
+        var $selectedDatacubeDiv;
         var $leftDiv;
         var $rightDiv;
         var isMobile;
@@ -43,6 +44,22 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
         // Template generating the table of properties of choosen feature
         var descriptionTableTemplate = _.template(descriptionTableHTMLTemplate);
 
+        // Template generating the table of DataCube
+        var dataCubeTemplate = _.template(dataCubeHTMLTemplate);
+
+        /**********************************************************************************************/
+
+        /**
+         *    Insert HTML code of DataCube
+         */
+        function createHTMLDataCubeDiv(datacube) {
+            var output = dataCubeTemplate({
+                dataCubeTemplate: dataCubeTemplate,
+                propertiesDataCube : datacube
+            });         
+
+            $selectedDatacubeDiv.html(output);
+        }
 
         /**********************************************************************************************/
 
@@ -60,7 +77,8 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
                 descriptionTableTemplate: descriptionTableTemplate,
                 hasServiceRunning : layer.hasServicesRunningOnRecord(feature.id),
                 mizarWidgetAPI : mizarWidgetAPI,
-                isMobile: isMobile
+                isMobile: isMobile,
+                dataCube : feature.properties.services.datacube
             });
 
 
@@ -130,6 +148,16 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
                 left: mousex + 'px',
                 top: mousey + 'px'
             });
+
+            var widthScreen = window.screen.availWidth-150 + 'px';
+            var heightScreen = window.screen.availHeight-20 + 'px'
+            $('#selectedDatacubeDiv').css({
+                position: 'absolute',
+                left: 20 + 'px',
+                top: 40 + 'px',
+                width: 1500 + 'px',
+                height: heightScreen + 'px'
+            });            
         }
 
         /**********************************************************************************************/
@@ -253,6 +281,21 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
                 }
             });
         }
+
+        /**********************************************************************************************/
+
+        /**
+         * Show or Hide DataCube
+         */
+        function showOrHideDataCube() {
+            var selectedData = pickingManager.getSelectedData();
+            //console.log(selectedData.feature.properties.services.datacube);
+            createHTMLDataCubeDiv(selectedData.feature.properties.services.datacube);
+            $(this).fadeIn(300, function () {
+                $selectedDatacubeDiv.show();
+            });          
+        }
+
 
         /**********************************************************************************************/
 
@@ -502,7 +545,7 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
         /**********************************************************************************************/
 
         return {
-            init: function (m, selectFeatDiv, pm, im, conf) {
+            init: function (m, selectFeatDiv, pm, im, conf, selectDataCubeDiv) {
                 mizarWidgetAPI = m;
                 pickingManager = pm;
                 imageManager = im;

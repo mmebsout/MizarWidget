@@ -1,0 +1,30 @@
+<script>
+	$("#selectedDatacubeDiv .closeBtn").click(function(){
+		history.pushState(null, '', location.origin);
+	});
+</script>
+<div id="element_body" style="background: #f1f1f1;overflow-y:scroll;height:700px">
+	<div id="element">
+			<% var appDataCube = propertiesDataCube.appDataCube; 
+			var appSpectre = propertiesDataCube.appSpectre;
+			var appHistogramm = propertiesDataCube.appHistogramm;
+			var appDescription = propertiesDataCube.appDescription;
+			var appFile = propertiesDataCube.appFile;
+			var appDataPath = propertiesDataCube.appDataPath;
+			console.log(propertiesDataCube);
+			%>
+			<app-root appDataCube="<%= (appDataCube ? true : false ) %>"
+					appSpectre="<%=(appSpectre ? true : false ) %>"
+					appHistogramm="<%=(appHistogramm ? true : false ) %>"
+					appDescription="<%=(appDescription ? true : false ) %>"
+					appFile="<%=((appFile!='')? appFile : '' ) %>"
+					appDataPath="<%=((appDataPath!='') ? appDataPath : '' ) %>"
+			></app-root>
+	</div>
+</div>
+<div class="closeBtn">
+	<span class="defaultImg"></span>
+	<span style="opacity: 0" class="hoverImg"></span>
+</div>
+<div class="arrow-right"></div>
+<script src="templates/datacube/libs/cubeExplorer.full.min.js" ></script>

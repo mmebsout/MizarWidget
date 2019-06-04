@@ -72,8 +72,8 @@
 
 .addLayer > label
 {
-	position: relative;
-	cursor: pointer;
+	position: relative !important;
+	cursor: pointer !important;
 }
 
 .addFitsView+label
