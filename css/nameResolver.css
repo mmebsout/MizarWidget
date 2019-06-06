@@ -27,6 +27,7 @@ div.searchInputDiv {
     box-shadow: 0 0 6px #FF9E52, inset 0 1px 2px rgba(0, 0, 0, 0.08);
     background: #E8EDF1;
     padding-left: 30px;
+    box-sizing: initial;
 }
 
 div.searchInputDiv.focus {
@@ -50,7 +51,7 @@ div.searchInputDiv.focus {
 /*** Submit/clear buttons ***/
 #searchForm fieldset > input {
     position: absolute;
-    top: 12px;
+    top: 6px;
     border: 0;
     width: 20px;
     height: 20px;
@@ -62,7 +63,7 @@ div.searchInputDiv.focus {
 input#searchSubmit {
     display: block;
     background: url(../css/images/searchSubmit-icon.png) no-repeat;
-    left: 18px;
+    left: 9px;
 }
 
 /*** Clear button ***/

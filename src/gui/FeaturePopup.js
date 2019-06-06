@@ -40,9 +40,20 @@ define(["jquery", "./FeaturePopupCore", "./IFrame", "./ImageProcessing", "servic
 					<span style="opacity: 0" class="hoverImg"></span>\
 				</div>\
 				<div class="arrow-left"></div>\
-			</div>';
+            </div>';
+            
+        var selectedDatacubeDiv = '<div id="selectedDatacubeDiv" class="contentBox ui-widget-content" style="display: none">\
+                <div id="leftDiv"></div>\
+                <div id="rightDiv"></div>\
+                <div class="closeBtn">\
+                    <span class="defaultImg"></span>\
+                    <span style="opacity: 0" class="hoverImg"></span>\
+                </div>\
+                <div class="arrow-right"></div>\
+            </div>';            
 
         var $selectedFeatureDiv;
+        var $selectedDatacubeDiv;
         var $leftDiv;
         var $rightDiv;
 
@@ -72,10 +83,14 @@ define(["jquery", "./FeaturePopupCore", "./IFrame", "./ImageProcessing", "servic
                 configuration = conf;
 
                 $selectedFeatureDiv = $(selectedFeatureDiv).appendTo('body');
+                $selectedDatacubeDiv = $(selectedDatacubeDiv).appendTo('body');
+
                 $leftDiv = $('#leftDiv');
                 $rightDiv = $('#rightDiv');
 
-                FeaturePopupCore.init(mizarWidgetAPI, $selectedFeatureDiv, pm, im, conf);
+                //FeaturePopupCore.init(mizarWidgetAPI, $selectedFeatureDiv, pm, im, conf);
+                //TODO : check argument for FeaturePopupCore.init
+                FeaturePopupCore.init(mizarWidgetAPI, $selectedFeatureDiv, pm, im, conf, $selectedDatacubeDiv);
 
                 // Initialize image processing popup
                 ImageProcessing.init({
@@ -105,6 +120,9 @@ define(["jquery", "./FeaturePopupCore", "./IFrame", "./ImageProcessing", "servic
 
                 // Show/hide HEALPix service
                 $selectedFeatureDiv.on("click", '#healpix', FeaturePopupCore.showOrHideHEALPixService);
+
+                // Show/hide DataCube
+                $selectedFeatureDiv.on("click", '#datacube', FeaturePopupCore.showOrHideDataCube);
 
                 // Arrow scroll events
                 $selectedFeatureDiv.on("mousedown", '#scroll-arrow-down.clickable', function () {
