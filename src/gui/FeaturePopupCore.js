@@ -21,7 +21,7 @@
 /**
  * FeaturePopup module
  */
-define(["jquery", "underscore-min", "text!templates/featureList.html", "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "text!templates/datacube.html"],
+define(["jquery", "underscore-min", "text!templates/featureList.html", "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "text!templates/dataCube.html"],
     function ($, _, featureListHTMLTemplate, featureDescriptionHTMLTemplate, descriptionTableHTMLTemplate, dataCubeHTMLTemplate) {
 
         var mizarWidgetAPI;
@@ -78,7 +78,7 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
                 hasServiceRunning : layer.hasServicesRunningOnRecord(feature.id),
                 mizarWidgetAPI : mizarWidgetAPI,
                 isMobile: isMobile,
-                dataCube : feature.properties.services.datacube
+                dataCube : (feature.properties.services && feature.properties.services.datacube) ? feature.properties.services.datacube : null
             });
 
 
@@ -553,6 +553,7 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
                 isMobile = conf.isMobile;
 
                 $selectedFeatureDiv = selectFeatDiv;
+                $selectedDatacubeDiv = selectDataCubeDiv;
                 $leftDiv = $('#leftDiv');
                 $rightDiv = $('#rightDiv');
             },
@@ -563,6 +564,7 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
             buildProperties: buildProperties,
             showOrHideQuicklook: showOrHideQuicklook,
             showOrHideQuicklookWms: showOrHideQuicklookWms,
+            showOrHideDataCube: showOrHideDataCube,
             showOrHideQuicklookFits: showOrHideQuicklookFits,
             sendImageBySamp: sendImageBySamp,
             showOrHideHEALPixService: showOrHideHEALPixService,

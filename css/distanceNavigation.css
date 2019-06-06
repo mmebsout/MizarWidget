@@ -17,6 +17,9 @@
     padding: 5px 5px 5px 5px;
     border: solid 1px orange;
     font-weight: bold;
+    content: initial !important;
+    box-sizing: initial !important;
+    line-height: initial !important;     
 }
 input#distanceButtom {
     position: absolute;
