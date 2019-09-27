@@ -19,21 +19,11 @@
   "layers": [
     {
       "type": "WMS",
-      "name": "MEGATHRO",
-      "baseUrl":"http://localhost:8080/",
+      "baseUrl":"https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?",
       "visible": true,
       "background": true,
       "transparent": true,
-      "layers": "UC3-MT1_L4-TAPEER-BRAIN-1-5-BC",
-      "autoFillTimeTravel" : true,
-      "cache":{}
-    },
-    {
-      "type": "WMS",
-      "baseUrl":"http://localhost:8080/",
-      "visible": true,
-      "background": false,
-      "transparent": true,
+      "layers": "GEBCO_LATEST",
       "autoFillTimeTravel" : true,
       "cache":{}
     },
