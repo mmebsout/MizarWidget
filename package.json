@@ -19,7 +19,7 @@
     "start": "http-server -d -o",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node node_modules/requirejs/bin/r.js -o build/buildMizarWidget.js",
-    "license": "mkdir -p licenses-3rd/npm && npm licenses-3rd/npm && license-checker --production --relativeLicensePath | awk 'NR > 5' > licenses-3rd/npm/LICENSES",
+    "license": "mkdir -p licenses-3rd/npm && license-checker --production --relativeLicensePath | awk 'NR > 5' > licenses-3rd/npm/LICENSES",
     "build:prod": "r.js -o build/buildMizarWidget.js && uglifyjs --compress --mangle -o MizarWidget.min.js2 MizarWidget.min.js && mv MizarWidget.min.js2 MizarWidget.min.js",
     "build:dev": "r.js -o build/buildMizarWidget.js",
     "build:css": "r.js -o cssIn=css/style.css out=css/style.min.css",
