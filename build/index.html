@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no"/>   
     <link rel="stylesheet" href="css/style.min.css"/>
     <script type="text/javascript" src="./MizarWidget.min.js"></script>
+    <script type="text/javascript" src="./underscore-min.js"></script>
 </head>
 
 <body>
@@ -14,69 +15,127 @@
 	<div id="mizarWidget-div"></div>
 	<div id="fps"></div>
 
-	<script type="text/javascript">
-      var widgetOptions = {
-        "global": {
-          "proxyUrl": "http://localhost:8081/?url=",
-          "proxyUse": false
-        },
-        "gui": {
-          "isMobile": true,
-          "positionTracker": {
-            "position": "bottom"
-          },
-          "elevationTracker": {
-            "position": "bottom"
-          },
-          "stats": {
-            "visible": true
-          },
-          "debug": true,
-          "registry": {
-            "hips" :"http://aladin.unistra.fr/hips/globalhipslist?fmt=json&hips_frame=equatorial&hips_frame=galactic"
-          },
-          "shortener": "${sitoolsBaseUrl}/shortener"
-        },
-        "ctx": [
-          {
-            "name": "sky",
-            "mode": "Sky",
-            "context": "./skyCtx.json"
-          },
-          {
-            "name": "mars",
-            "mode": "Planet",
-            "context": "./marsCtx.json"
-          },
-          {
-            "name": "moon",
-            "mode": "Planet",
-            "context": "./moonCtx.json"
-          },
-          {
-            "name": "earth",
-            "mode": "Planet",
-            "context": "./earthCtx.json"
-          },
-          {
-            "name": "curiosity",
-            "mode": "Ground",
-            "context": "./curiosityCtx.json"
-          },
-          {
-            "name": "sun",
-            "mode": "Planet",
-            "context": "./sunCtx.json"
-          },
-          {
-            "name": "titan",
-            "mode": "Planet",
-            "context": "./titanCtx.json"
-          }
-        ],
-        "defaultCtx": "titan"
-    } 
+  <script type="text/javascript">
+  
+      /**
+     * Returns the mizar URL.
+     * @return {String}
+     * @private
+     */
+     var getMizarUrl = function () {
+        /**
+         *    Store the mizar base urlferf
+         *    Used to access to images(Compass, Mollweide, Target icon for name resolver)
+         *    Also used to define "star" icon for point data on-fly
+         *    NB: Not the best solution of my life.... TODO: think how to improve it..
+         */
+        // Search throught all the loaded scripts for minified version
+        var scripts = document.getElementsByTagName('script');
+        var mizarSrc = _.find(scripts, function (script) {
+            return script.src.indexOf("MizarWidget.min") !== -1;
+        });
 
+        // Depending on its presence decide if Mizar is used on prod or on dev
+        var mizarBaseUrl;
+        if (mizarSrc) {
+            // Prod
+            // Extract mizar's url
+            mizarBaseUrl = mizarSrc.src.split('/').slice(0, -1).join('/') + '/';
+        }
+        else {
+            // Dev
+            // Basically use the relative path from index page
+            mizarSrc = _.find(scripts, function (script) {
+                return script.src.indexOf("MizarWidgetAPI") !== -1;
+            });
+            mizarBaseUrl = mizarSrc.src.split('/').slice(0, -1).join('/') + '/../';
+        }
+        return mizarBaseUrl;
+    };
+
+    var getUniqueId = function (prefix) {
+        var d = new Date().getTime();
+        d += (parseInt(Math.random() * 100)).toString();
+        return d;
+    };
+
+    var getUrl = function(url){
+        return $.ajax({
+            type: "GET",
+            url: url,
+            cache: false,
+            async: false
+        }).responseText;
+    };
+
+    /**
+     * Removes "C"-like comments lines from string
+     * @param string
+     * @returns {JSON}
+     * @private
+     */
+    var _removeComments = function (string) {
+        var starCommentRe = new RegExp("/\\\*(.|[\r\n])*?\\\*/", "g");
+        var slashCommentRe = new RegExp("[^:]//.*[\r\n]", "g");
+        string = string.replace(slashCommentRe, "");
+        string = string.replace(starCommentRe, "");
+
+        return string;
+    };
+
+    /**
+     * Builds a deynamic url to avail the brwser cache the URL.
+     * The URL is build with a uuid parameter
+     * @param {url} url 
+     * @param {string} uuid 
+     */
+    var buildUrlNoCacheUrl = function(url, uuid) {
+        var delimiter = (url.indexOf("?")>=0) ? "&" : "?";
+        return url+delimiter+"uuid="+uuid;
+    }    
+
+    /**
+     * Returns the mizarWidgetConf related to MizarWidget.
+     * Loads the local configuration file
+     * (e.g http://127.0.0.1:8080/index.html?ctxurl=http%3A%2F%2F127.0.0.1%3A8080%2Fconf%2FmizarWidget.json)
+     * in the URL (using ctxurl parameter)
+     * @example
+     * {
+     * "global": {
+     *     "proxyUrl": "http://localhost:8080/?url=",
+     *     "proxyUse": false
+     * },
+     * "gui": {
+     *     ...
+     * },
+     * "ctx": [
+     * {
+     *      "name": "sky", // context name
+     *      "mode": "Sky", 
+     *      "context": "./skyCtx.json"
+     * },
+     * {
+     *      "name": "mars",
+     *      "mode": "Planet",
+     *      "context": "./marsCtx.json"
+     * },
+     * ...
+     * ],
+     * "defaultCtx": "sky"
+     * }
+     * @returns the configuration file of MizarWidget
+     */
+    var getMizarWidgetConf = function() {
+        var uuid = getUniqueId();                           
+        var mizarUrl = getMizarUrl();
+        var url = buildUrlNoCacheUrl(mizarUrl+"/conf/mizarWidget.json", uuid);
+        // retrieve the configuration file
+        var mizarWidgetConf = getUrl(url);
+        return JSON.parse(_removeComments(mizarWidgetConf));        
+    }
+ 
+    var widgetOptions = getMizarWidgetConf(); 
+    
     var mizarWidget = new MizarWidget('mizarWidget-div', widgetOptions);
     var mizarWidgetAPI = mizarWidget.getMizarWidgetAPI();
     mizarWidgetAPI.init();		

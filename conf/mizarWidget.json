@@ -16,7 +16,7 @@
     },
     "debug": true,
     "registry": {
-      "hips" :"http://alasky.unistra.fr/MocServer/query?expr=(hips_frame%3Dequatorial+||+hips_frame%3D!*)+%26%26+dataproduct_type!%3Dcube+%26%26+hips_service_url%3D*&get=record&fmt=json"
+      "hips" :"http://aladin.unistra.fr/hips/globalhipslist?fmt=json&hips_frame=equatorial&hips_frame=galactic"
     },
     "shortener": "${sitoolsBaseUrl}/shortener"
   },

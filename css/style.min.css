@@ -69,8 +69,8 @@
 }
 .addLayer > label
 {
-	position: relative;
-	cursor: pointer;
+	position: relative !important;
+	cursor: pointer !important;
 }
 .addFitsView+label
 {
@@ -165,6 +165,7 @@ div.searchInputDiv {
     box-shadow: 0 0 6px #FF9E52, inset 0 1px 2px rgba(0, 0, 0, 0.08);
     background: #E8EDF1;
     padding-left: 30px;
+    box-sizing: initial;
 }
 div.searchInputDiv.focus {
     box-shadow: 0 0 6px #FF9E52, inset 0 1px 2px rgba(0, 0, 0, 0.08);
@@ -182,7 +183,7 @@ div.searchInputDiv.focus {
 }
 #searchForm fieldset > input {
     position: absolute;
-    top: 12px;
+    top: 6px;
     border: 0;
     width: 20px;
     height: 20px;
@@ -192,7 +193,7 @@ div.searchInputDiv.focus {
 input#searchSubmit {
     display: block;
     background: url(../css/images/searchSubmit-icon.png) no-repeat;
-    left: 18px;
+    left: 9px;
 }
 input#searchClear {
     background: url(../css/images/searchClear-icon.png) no-repeat;
@@ -295,7 +296,7 @@ input#searchClear {
 	left: -11px;
 	top: 90px;
 }
-#featureList.selected, #quicklook.selected, #quicklookWms.selected, #quicklookFits.selected, #healpix.selected, #solarObjects.selected, #dynamicImageView.selected
+#featureList.selected, #quicklook.selected, #quicklookWms.selected, #datacube.selected, #quicklookFits.selected, #healpix.selected, #solarObjects.selected, #dynamicImageView.selected
 {
 	box-shadow: inset 0px 0px 3px 1px #F8A102;
 	border-radius: 8px;
@@ -462,6 +463,10 @@ input#searchClear {
 #solarObjects
 {
 	background-image: url(images/solarObjectsService.png);
+}
+#datacube
+{
+	background-image: url(images/datacube.png);
 }
 #sendImage
 {
@@ -1202,6 +1207,9 @@ input#searchClear {
     padding: 5px 5px 5px 5px;
     border: solid 1px orange;
     font-weight: bold;
+    content: initial !important;
+    box-sizing: initial !important;
+    line-height: initial !important;     
 }
 input#distanceButtom {
     position: absolute;
@@ -1719,10 +1727,10 @@ em {
     color: #6BCAFF;
 }
 body {
-    background: rgb(0, 0, 0);
-    padding: 0px;
-    margin: 0px;
-    overflow: hidden;
+    background: rgb(0, 0, 0) !important;
+    padding: 0px !important;
+    margin: 0px !important;
+    overflow: hidden !important;
 }
 .crsBox {
     border: 1px solid orange;
@@ -1771,11 +1779,12 @@ body {
     font-weight: bold;
 }
 .contentBox {
-    box-shadow: 0 0 6px #FF9E52, inset 0 1px 2px rgba(0, 0, 0, 0.08);
-    border: solid 1px orange;
-    border-radius: 10px;
-    background-color: black;
-    z-index: 2;
+    box-shadow: 0 0 6px #FF9E52, inset 0 1px 2px rgba(0, 0, 0, 0.08) !important;
+    border: solid 1px orange !important;
+    border-radius: 10px !important;
+    background-color: black !important;
+    z-index: 2 !important;
+    color : #fff !important;
 }
 #fov {
     text-align: center;
@@ -2129,4 +2138,30 @@ input::-moz-placeholder {
     content: "";
     display: table;
     clear: both;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 1px solid #666 !important;
+    background: #555 url(images/ui-bg_glass_20_555555_1x400.png) 50% 50% repeat-x !important;
+    font-weight: bold !important;
+    color: #eee !important;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    border: 1px solid #ffaf0f !important;
+    background: #f58400 url(images/ui-bg_inset-soft_30_f58400_1x100.png) 50% 50% repeat-x !important;
+    font-weight: bold !important;
+    color: rgb(219, 197, 197) !important;
+}
+.ui-accordion .ui-accordion-header.ui-state-active {
+    border-radius: inherit !important;
+}
+html, body {
+    line-height: unset !important;
+    font-family: unset !important;
+}
+button, input, optgroup, select, textarea {
+    font-size: small !important;    
+}
+article .accordionMetaData h3.active, article .accordionMetaData h3:hover {
+    transition: all ease-out .3s;
+    background-color: rgba(102, 135, 157, 0.8);
 }

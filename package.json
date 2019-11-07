@@ -23,7 +23,7 @@
     "build:prod": "r.js -o build/buildMizarWidget.js && uglifyjs --compress --mangle -o MizarWidget.min.js2 MizarWidget.min.js && mv MizarWidget.min.js2 MizarWidget.min.js",
     "build:dev": "r.js -o build/buildMizarWidget.js",
     "build:css": "r.js -o cssIn=css/style.css out=css/style.min.css",
-    "build:dist": "npm run build:css && npm run license && npm run build:prod && rm -rf dist && mkdir -p dist/css && cp MizarWidget.min.js dist/ && cp -r external/Mizar/shaders dist/ && cp -r conf dist/ && cp -r data dist/ && cp build/index.html dist/ && cp -r css/images dist/css/ && cp css/style.min.css dist/css/ && cp favicon.ico dist/ && cp LICENSE dist/ && cp -r licenses-3rd dist/",
+    "build:dist": "npm run build:css && npm run license && npm run build:prod && rm -rf dist && mkdir -p dist/css && cp MizarWidget.min.js dist/ && cp -r external/Mizar/shaders dist/ && cp -r conf dist/ && cp -r data dist/ && cp build/index.html dist/ && cp -r css/images dist/css/ && cp css/style.min.css dist/css/ && cp favicon.ico dist/ && cp LICENSE dist/ && cp -r licenses-3rd dist/ && cp node_modules/underscore/underscore-min.js dist/",
     "build:datacube": "npm install MizarWeb/DataCube#master && cd node_modules/DataCube && npm install && npm run build-mizar && cd ../../ && mkdir templates/datacube && cp -r node_modules/DataCube/dist/* templates/datacube/"
   },
   "repository": {
