@@ -1,49 +1,55 @@
-FROM node:8.7.0-wheezy
+##########################
 
-# Tells to apt-get we're not interactive
-ENV DEBIAN_FRONTEND=noninteractive
+# MizarWidget for docker #
 
-	# Configure npm by allowing root to use npm
-RUN echo "unsafe-perm=true" > ~/.npmrc
-# \
-	# Use REGARDS registry
-# && npm config set strict-ssl false \
-# && npm config set registry "https://172.26.46.158:8443/repository/NPM-proxy/"
+##########################
 
-#ENV NO_PROXY=172.26.46.158
+FROM debian:latest
+LABEL maintainer="Jean-Christophe  Malapert <jean-christophe.malapert@cnes.fr>"
 
-# Install nginx to serve static files - BEGIN
-RUN echo "deb http://nginx.org/packages/debian/ wheezy nginx" >> /etc/apt/sources.list.d/nginx.list
-RUN apt-key adv --fetch-keys "http://nginx.org/keys/nginx_signing.key"
+# MizarWidget runtime distribution filename.
+ARG BUILD_DATE
+ARG BUILD_VERSION=master
 
-RUN apt-get update && apt-get -y dist-upgrade
-RUN apt-get -y install nginx openssl ca-certificates
+# Proxy runtime
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
 
-RUN rm -rf /etc/nginx/conf.d/*
+ENV http_proxy=$HTTP_PROXY
+ENV https_proxy=$HTTPS_PROXY
 
-ADD nginx.conf /etc/nginx/nginx.conf
-ADD mizar.nginx.conf /etc/nginx/conf.d/default.conf
+# Labels (based on http://label-schema.org/rc1/)
+LABEL \
+        org.label-schema.schema-version="1.0" \
+        org.label-schema.build-date=$BUILD_DATE \
+        org.label-schema.name="mizarwidget" \
+       	org.label-schema.description="MizarWidget is a client to display planetary/sky data on a virtual globe" \       
+        org.label-schema.url="https://github.com/MizarWeb/MizarWidget" \
+        org.label-schema.vcs-url="https://github.com/MizarWeb/MizarWidget" \
+        org.label-schema.vcs-ref=master \
+        org.label-schema.vendor="CNES" \
+        org.label-schema.version=$BUILD_VERSION \
+        org.label-schema.docker.cmd="docker run -p 80:80 mizar" \
+        mizarwidget_version=${BUILD_VERSION}
 
+WORKDIR /tmp
+
+USER root
+
+# Install the application.
+COPY scripts/ /tmp/
+COPY README.md /tmp/
+RUN \
+	chmod +x /tmp/build.sh && \
+        /tmp/build.sh
+
+# Expose the Http server on 80
 EXPOSE 80
-# Install nginx to serve static files - END
 
-# Install Mizar
-RUN mkdir -p /var/www/html/tmp && env
+# Mount conf files
+VOLUME ["/opt/mizar/conf"]
 
-# change directory
-WORKDIR /var/www/html/tmp
 
-RUN git clone https://github.com/MizarWeb/MizarWidget \
- && cd MizarWidget \
- && git submodule init \
- && git submodule update \
- && cd external/Mizar \
- && npm install \
- && cd ../.. \
- && npm install \
- && npm run build:dist \
- && mv dist/ ../../ \
- && cd ../.. \
- && rm -rf tmp/
-
+# Start the fcgi and web servers.
 ENTRYPOINT ["nginx"]
+

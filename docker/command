@@ -1,1 +1,0 @@
-sudo docker exec -it 6617cf8a6f93 /bin/bash
