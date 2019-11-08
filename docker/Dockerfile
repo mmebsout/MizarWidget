@@ -37,8 +37,8 @@ WORKDIR /tmp
 USER root
 
 # Install the application.
-COPY scripts/ /tmp/
-COPY README.md /tmp/
+COPY docker/scripts/ /tmp/
+COPY docker/README.md /tmp/
 RUN \
 	chmod +x /tmp/build.sh && \
         /tmp/build.sh
