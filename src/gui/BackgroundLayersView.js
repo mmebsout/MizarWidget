@@ -89,7 +89,7 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
             });
         }
 
-        function createExportSampButton() {
+        function createExportSampButton() {
             $el.find('.exportLayer').button({
                 text: false,
                 icons: {
@@ -204,7 +204,7 @@ define(["jquery", "underscore-min","./DynamicImageView", "./PickingManager", "./
             }
         }
 
-        function selectBackgroundItem() {
+        function selectBackgroundItem() {
             $el.find('#backgroundLayersSelect').iconselectmenu({
                 select: function (event, ui) {
                     var index = ui.item.index;
