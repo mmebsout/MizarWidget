@@ -69,6 +69,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "DataCube": "github:MizarWeb/DataCube#master",
+    "grunt": "^1.0.4",
     "http-server": "^0.11.1",
     "jquery": "^2.2.4",
     "jquery-datetimepicker": "^2.5.16",
