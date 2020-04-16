@@ -21,8 +21,8 @@
 /**
  * FeaturePopup module
  */
-define(["jquery", "underscore-min", "text!templates/featureList.html", "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "text!templates/dataCube.html"],
-    function ($, _, featureListHTMLTemplate, featureDescriptionHTMLTemplate, descriptionTableHTMLTemplate, dataCubeHTMLTemplate) {
+define(["jquery", "underscore-min", "text!templates/featureList.html", "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "text!templates/dataCube.html", "templates/datacube/libs/cubeExplorer.full.min"],
+    function ($, _, featureListHTMLTemplate, featureDescriptionHTMLTemplate, descriptionTableHTMLTemplate, dataCubeHTMLTemplate, _dataCubeWidget) {
 
         var mizarWidgetAPI;
         var featureListHTML = '';
@@ -50,15 +50,11 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
         /**********************************************************************************************/
 
         /**
-         *    Insert HTML code of DataCube
+         *    Activate DataCube Plugin
          */
         function createHTMLDataCubeDiv(datacube) {
             var output = dataCubeTemplate({
-                dataCubeTemplate: dataCubeTemplate,
-                propertiesDataCube : datacube
-            });         
-
-            $selectedDatacubeDiv.html(output);
+            $(selectedDatacubeDiv).dataCubeWidget(datacube);
         }
 
         /**********************************************************************************************/
