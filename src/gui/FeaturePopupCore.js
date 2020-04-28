@@ -21,8 +21,8 @@
 /**
  * FeaturePopup module
  */
-define(["jquery", "underscore-min", "text!templates/featureList.html", "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "text!templates/dataCube.html"],
-    function ($, _, featureListHTMLTemplate, featureDescriptionHTMLTemplate, descriptionTableHTMLTemplate, dataCubeHTMLTemplate) {
+define(["jquery", "underscore-min", "text!templates/featureList.html", "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "text!templates/dataCube.html", "jquery.ui"],
+    function ($, _, featureListHTMLTemplate, featureDescriptionHTMLTemplate, descriptionTableHTMLTemplate, dataCubeHTMLTemplate, _ui) {
 
         var mizarWidgetAPI;
         var featureListHTML = '';
@@ -149,14 +149,35 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
                 top: mousey + 'px'
             });
 
-            var widthScreen = window.screen.availWidth-150 + 'px';
-            var heightScreen = window.screen.availHeight-20 + 'px'
-            $('#selectedDatacubeDiv').css({
-                position: 'absolute',
-                left: 20 + 'px',
-                top: 40 + 'px',
-                width: 1500 + 'px',
-                height: heightScreen + 'px'
+            var widthScreen = window.screen.availWidth - 20 ;
+            var dialogWidth = (widthScreen < 1500) ? widthScreen : 1500 ;
+            var heightScreen = window.screen.availHeight - 20;
+            var dialogHeight = (heightScreen < 900 ) ? heightScreen : 900 ;
+            $('#selectedDatacubeDiv').dialog({
+                autoOpen :false, 
+                height : dialogHeight,
+                width : dialogWidth,
+                maxHeight: heightScreen ,
+                maxWidth: widthScreen ,
+                close : function(event, ui){history.pushState(null, '', location.origin);},
+                resizeStop : function(event, ui){
+                    var datacubeDiv = $('#selectedDatacubeDiv');
+                    // Fix unidentified problem that increase space between datacubeDiv and 
+                    // the edges of the dialog box on resize. 
+                    var titlebar = datacubeDiv.siblings(".ui-dialog-titlebar").first();
+                    var height = ui.size.height - titlebar.height() - parseInt(titlebar.css('padding-top')) - parseInt(titlebar.css('padding-bottom'));
+                    datacubeDiv.css({'width': ui.size.width , 'height': height}); 
+                    //fix width of child that inherits width from datacubeDiv but has a scrollbar to fit in.
+                    if((ui.originalSize.width - ui.size.width) != 0 ){
+                            datacubeDiv.find("#element_body").first().css('width', ui.size.width -  $.position.scrollbarWidth() );
+                        }
+                    },
+                open: function (event, ui) {
+                    $('#selectedDatacubeDiv').css({
+                        'overflow': 'hidden',
+                        'padding' : '0 0 0 0',
+                    }); 
+                }
             });            
         }
 
@@ -292,7 +313,7 @@ define(["jquery", "underscore-min", "text!templates/featureList.html", "text!tem
             //console.log(selectedData.feature.properties.services.datacube);
             createHTMLDataCubeDiv(selectedData.feature.properties.services.datacube);
             $(this).fadeIn(300, function () {
-                $selectedDatacubeDiv.show();
+                $selectedDatacubeDiv.dialog("open");
             });          
         }
 

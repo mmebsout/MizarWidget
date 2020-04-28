@@ -42,15 +42,7 @@ define(["jquery", "./FeaturePopupCore", "./IFrame", "./ImageProcessing", "servic
 				<div class="arrow-left"></div>\
             </div>';
             
-        var selectedDatacubeDiv = '<div id="selectedDatacubeDiv" class="contentBox ui-widget-content" style="display: none">\
-                <div id="leftDiv"></div>\
-                <div id="rightDiv"></div>\
-                <div class="closeBtn">\
-                    <span class="defaultImg"></span>\
-                    <span style="opacity: 0" class="hoverImg"></span>\
-                </div>\
-                <div class="arrow-right"></div>\
-            </div>';            
+        var selectedDatacubeDiv = '<div id="selectedDatacubeDiv" title="CNES-DATACUBE"></div>';            
 
         var $selectedFeatureDiv;
         var $selectedDatacubeDiv;
