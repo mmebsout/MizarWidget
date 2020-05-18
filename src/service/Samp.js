@@ -21,7 +21,7 @@
 /**
  * Samp module : performing communication between applications using SAMP protocol
  */
-define(["jquery", "underscore-min", "samp", "jquery.ui"],
+define(["jquery", "underscore", "samp", "jquery.ui"],
     function ($, _) {
         var mizarWidgetAPI;
         var imageManager;

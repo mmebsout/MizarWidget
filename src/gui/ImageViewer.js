@@ -18,7 +18,7 @@
  ******************************************************************************/
 /*global define: false */
 
-define(["require", "jquery", "underscore-min","../utils/UtilsCore",
+define(["require", "jquery", "underscore","../utils/UtilsCore",
         "./PickingManager", "./ImageManager", "./ImageProcessing", "./SimpleProgressBar", "service/Samp", "./dialog/ErrorDialog",
         "text!templates/imageViewer.html", "text!templates/imageViewerLayerItem.html", "text!templates/imageViewerImageItem.html", "jquery.ui"],
     function (require, $, _, UtilsCore,

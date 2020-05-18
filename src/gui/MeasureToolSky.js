@@ -22,7 +22,7 @@
  * Tool designed to measure the distance between two points
  */
 
-define(["jquery", "underscore-min", "../utils/Utils", "jquery.ui"],
+define(["jquery", "underscore", "../utils/Utils", "jquery.ui"],
     function ($, _, Utils) {
 
         var mizarWidgetAPI, self;

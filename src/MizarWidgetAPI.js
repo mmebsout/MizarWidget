@@ -1,7 +1,7 @@
 /**
  * MizarWidgetAPI is the wrapper between the GUI of MizarWidget and the API of mizar.
  */
-define(["jquery", "underscore-min",
+define(["jquery", "underscore",
     "./utils/UtilsCore", "MizarWidgetGui",
     "./uws/UWSManager",
     "gw/Mizar", "gw/Gui/dialog/ErrorDialog", "text!templates/mizarCore.html"],

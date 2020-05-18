@@ -21,7 +21,7 @@
 /**
  * Moc display & Moc xMatch services
  */
-define(["jquery", "./UWSManager", "service/Samp", "gui/dialog/ErrorDialog", "../utils/UtilsCore", "underscore-min", "text!templates/healpixCutService.html", "text!templates/cutResultItem.html", "jquery.ui"],
+define(["jquery", "./UWSManager", "service/Samp", "gui/dialog/ErrorDialog", "../utils/UtilsCore", "underscore", "text!templates/healpixCutService.html", "text!templates/cutResultItem.html", "jquery.ui"],
     function ($, UWSManager, Samp, ErrorDialog, UtilsCore, _, healpixCutServiceHTMLTemplate, healpixCutServiceItemHTMLTemplate) {
 
         var mizarWidgetAPI;

@@ -21,7 +21,7 @@
 /**
  * PickingManager module
  */
-define(["jquery", "underscore-min",
+define(["jquery", "underscore",
         "./FeaturePopup", "./ImageManager", "./CutOutViewFactory"],
     function ($, _,
               FeaturePopup, ImageManager, CutOutViewFactory) {

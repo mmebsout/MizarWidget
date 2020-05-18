@@ -21,7 +21,7 @@
 /**
  * FeaturePopup module
  */
-define(["jquery", "underscore-min", "text!templates/featureList.html", "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "text!templates/dataCube.html", "jquery.ui"],
+define(["jquery", "underscore", "text!templates/featureList.html", "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "text!templates/dataCube.html", "jquery.ui"],
     function ($, _, featureListHTMLTemplate, featureDescriptionHTMLTemplate, descriptionTableHTMLTemplate, dataCubeHTMLTemplate, _ui) {
 
         var mizarWidgetAPI;

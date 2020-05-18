@@ -19,7 +19,7 @@
 
 /*global define: false */
 
-define(["jquery", "uws/UWSManager", "service/Samp", "uws/AnimatedButton", "./dialog/ErrorDialog", "underscore-min", "text!templates/cutOut.html", "text!templates/cutResultItem.html", "jquery.ui"],
+define(["jquery", "uws/UWSManager", "service/Samp", "uws/AnimatedButton", "./dialog/ErrorDialog", "underscore", "text!templates/cutOut.html", "text!templates/cutResultItem.html", "jquery.ui"],
     function ($, UWSManager, Samp, AnimatedButton, ErrorDialog, _, cutOutHTMLTemplate, cutResultHTMLTemplate) {
 
 // Template generating UWS services div
