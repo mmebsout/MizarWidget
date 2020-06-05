@@ -1,5 +1,5 @@
 
-<div id="element_body" style="background: #f1f1f1;overflow-y:scroll;height:inherit">
+<div id="element_body">
 	<div id="element" >
 			<% var appDataCube = propertiesDataCube.appDataCube; 
 			var appSpectre = propertiesDataCube.appSpectre;
@@ -19,3 +19,11 @@
 	</div>
 </div>
 <script src="templates/datacube/libs/cubeExplorer.full.min.js" ></script>
+<style>
+	#element_body {
+		background: #f1f1f1;overflow-y:scroll;height:inherit
+	}
+	html.datacube-menu #element_body {
+		overflow: hidden;
+	}
+</style>
