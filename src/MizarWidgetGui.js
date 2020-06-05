@@ -45,7 +45,7 @@
  */
 //TODO Faire MollweideViewer pour la Terre
 //TODO faire switch 2D/3D pour le ciel
-define(["jquery", "underscore-min",
+define(["jquery", "underscore",
 
         // Gui
         "./gui/LayerManagerView", "./gui/BackgroundLayersView",

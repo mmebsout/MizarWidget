@@ -18,7 +18,7 @@
  ******************************************************************************/
 /*global define: false */
 
-define(['jquery', "underscore-min", "./Histogram", "uws/UWSManager", "uws/AnimatedButton", "./dialog/ErrorDialog", "text!templates/dynamicImageView.html", "jquery.ui"],
+define(['jquery', "underscore", "./Histogram", "uws/UWSManager", "uws/AnimatedButton", "./dialog/ErrorDialog", "text!templates/dynamicImageView.html", "jquery.ui"],
     function ($, _, Histogram, UWSManager, AnimatedButton, ErrorDialog, dynamicImageViewHTML) {
 
         /**************************************************************************************************************/

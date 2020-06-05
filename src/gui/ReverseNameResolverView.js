@@ -21,7 +21,7 @@
 /**
  * Reverse name resolver view using ReverseNameResolver services
  */
-define(["jquery", "underscore-min", "../utils/Utils",
+define(["jquery", "underscore", "../utils/Utils",
         "./IFrame", "./dialog/ErrorDialog",
         "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "jquery.ui"],
     function ($, _, Utils,

@@ -21,7 +21,7 @@
 /**
  * FeaturePopup module
  */
-define(["jquery", "./FeaturePopupCore", "./IFrame", "./ImageProcessing", "service/Samp", "underscore-min", "text!templates/featureList.html", "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "jquery.nicescroll.min", "jquery.ui"],
+define(["jquery", "./FeaturePopupCore", "./IFrame", "./ImageProcessing", "service/Samp", "underscore", "text!templates/featureList.html", "text!templates/featureDescription.html", "text!templates/descriptionTable.html", "jquery.nicescroll.min", "jquery.ui"],
     function ($, FeaturePopupCore, IFrame, ImageProcessing, Samp, _, featureListHTMLTemplate, featureDescriptionHTMLTemplate, descriptionTableHTMLTemplate) {
 
         var featureListHTML = '';

@@ -22,7 +22,7 @@
  * AdditionalLayersView module
  * @class AdditionalLayersCore
  */
-define(["jquery", "underscore-min", "./dialog/ErrorDialog", "../utils/UtilsCore"],
+define(["jquery", "underscore", "./dialog/ErrorDialog", "../utils/UtilsCore"],
     function ($, _, ErrorDialog, UtilsCore) {
 
         var mizarWidgetAPI;

@@ -32,7 +32,7 @@ require.config({
         "jquery-mousewheel": "../node_modules/jquery-mousewheel/jquery.mousewheel",
         "php-date-formatter":"../node_modules/php-date-formatter/js/php-date-formatter.min",
         "jquery.once": "../node_modules/jquery-once/jquery.once.min",
-        "underscore-min": "../node_modules/underscore/underscore-min",
+        "underscore": "../node_modules/underscore/underscore-min",
         "jszip": "../external/Mizar/node_modules/jszip/dist/jszip.min",
         "saveAs": "../external/fileSaver/FileSaver.min",
         "jquery.nicescroll.min": "../node_modules/jquery.nicescroll/dist/jquery.nicescroll.min",
@@ -85,13 +85,7 @@ require.config({
             deps: ['jquery.ui'],
             exports: 'jQuery'
         },
-        'underscore-min': {
-            deps: ['jquery'],
-            exports: '_',
-            init: function () {
-                return _.noConflict();
-            }
-        },
+    
         'jquery.nicescroll.min': {
             deps: ['jquery'],
             exports: ''
@@ -116,7 +110,7 @@ require.config({
 /**
  * Mizar widget Global main
  */
-require(["jquery", "underscore-min", "./MizarWidget"], function ($, _, MizarWidget) {
+require(["jquery", "underscore", "./MizarWidget"], function ($, _, MizarWidget) {
 
     /**
      * Returns the mizar URL.

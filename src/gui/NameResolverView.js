@@ -21,7 +21,7 @@
 /**
  * Name resolver module : search object name and zoom to them
  */
-define(["jquery", "underscore-min","../utils/UtilsCore",
+define(["jquery", "underscore","../utils/UtilsCore",
         "text!templates/nameResolverResult.html", "string", "jquery.ui", "jquery.once"],
     function ($, _, UtilsCore, nameResolverResultHTMLTemplate, String) {
 

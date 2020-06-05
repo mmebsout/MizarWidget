@@ -21,7 +21,7 @@
 /**
  * FeaturePopup module
  */
-define(["jquery", "underscore-min", "text!templates/openSearchParamList.html"],
+define(["jquery", "underscore", "text!templates/openSearchParamList.html"],
     function ($, _, openSearchParamList) {
 
         var mizarWidgetAPI;

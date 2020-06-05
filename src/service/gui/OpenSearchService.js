@@ -21,7 +21,7 @@
 /**
  * OpenSearch service
  */
-define(["jquery", "underscore-min", "moment","text!templates/openSearchService.html", "text!templates/openSearchForm.html", "jquery.ui", "jquery.datetimepicker", "php-date-formatter"],
+define(["jquery", "underscore", "moment","text!templates/openSearchService.html", "text!templates/openSearchForm.html", "jquery.ui", "jquery.datetimepicker", "php-date-formatter"],
     function ($, _, moment, openSearchServiceHTMLTemplate, openSearchFormHTMLTemplate) {
 
         // Template generating the open search service div
