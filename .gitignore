@@ -3,3 +3,5 @@ node_modules
 api_doc/*
 templates/datacube
 MizarWidget.min.js
+
+installdatacube.sh
